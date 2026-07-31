@@ -12,3 +12,4 @@ secrets/
 aurora.pause
 *.m4a
 extensions/vidiq-download/
+downloaded_files/
