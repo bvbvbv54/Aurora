@@ -295,6 +295,12 @@ def perform_human_search(
         normalized = " ".join(text.split())
         if normalized.startswith("..."):
             normalized = f"{query} {normalized.lstrip('. ')}".strip()
+        normalized = re.sub(
+            r"\b([a-z0-9]+)(?:\s+\1\b)+",
+            r"\1",
+            normalized,
+            flags=re.IGNORECASE,
+        )
         return normalized
 
     suggestion_texts = tuple(
