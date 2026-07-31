@@ -28,6 +28,12 @@ try {
     $env:OPENROUTER_API_KEY = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
     Set-Location -LiteralPath $project
     New-Item -ItemType Directory -Force -Path (Split-Path $logPath) | Out-Null
+    if ((Test-Path -LiteralPath $logPath) -and (Get-Item $logPath).Length -gt 0) {
+        $archive = Join-Path $StorageRoot (
+            "reports\deep-session-{0}.log" -f (Get-Date -Format "yyyyMMdd-HHmmss")
+        )
+        Move-Item -LiteralPath $logPath -Destination $archive
+    }
     @{
         started_at = (Get-Date).ToUniversalTime().ToString("o")
         text_model = $Model

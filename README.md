@@ -1,5 +1,7 @@
 # AURORA
 
+![AURORA — evidence-first YouTube opportunity research](docs/aurora-banner.svg)
+
 [![Tests](https://github.com/bvbvbv54/Aurora/actions/workflows/aurora.yml/badge.svg)](https://github.com/bvbvbv54/Aurora/actions/workflows/aurora.yml)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![YouTube Research](https://img.shields.io/badge/YouTube-keyword%20research-FF0000?logo=youtube)](https://github.com/bvbvbv54/Aurora)
