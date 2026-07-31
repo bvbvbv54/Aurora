@@ -48,7 +48,17 @@ def test_structured_low_rpm_keeps_widespread_and_niche_screen_recordable_apps():
             ]
         }
     )
-    assert parse_ai_candidates(text, "method1") == ["CapCut Mobile", "NicheNote"]
+    candidates = parse_ai_candidates(text, "method1")
+    assert [candidate["name"] for candidate in candidates] == [
+        "CapCut Mobile",
+        "NicheNote",
+    ]
+    assert all("pain_point" in candidate for candidate in candidates)
+    assert all("mobile_action" in candidate for candidate in candidates)
+    assert all(
+        candidate.get("category") in ("low_rpm", "high_rpm", "fix")
+        for candidate in candidates
+    )
 
 
 def test_structured_high_rpm_accepts_only_specific_commercial_mobile_query():
@@ -75,3 +85,31 @@ def test_structured_high_rpm_accepts_only_specific_commercial_mobile_query():
 
 def test_markdown_fragments_are_not_candidates():
     assert parse_ai_candidates("**Products**: One\n- **Pain Point**: fees", "method3") == []
+
+
+def test_overpopular_apps_filtered():
+    raw = """{"items": [
+        {"name": "CapCut", "category": "low_rpm", "platform": "android",
+         "pain_point": "video export failing", "mobile_action": "export video now",
+         "popularity_tier": "wide"},
+        {"name": "Notion", "category": "low_rpm", "platform": "ios",
+         "pain_point": "database not syncing", "mobile_action": "sync database now",
+         "popularity_tier": "tier-2"}
+    ]}"""
+    candidates = parse_ai_candidates(raw, method="method1")
+    names = [candidate["name"] for candidate in candidates]
+    assert "CapCut" not in names
+    assert "Notion" in names
+
+
+def test_category_and_context_preserved_not_hardcoded():
+    raw = """{"items": [
+        {"name": "Stripe", "category": "high_rpm", "platform": "ios",
+         "pain_point": "payment failing on checkout",
+         "mobile_action": "retry payment from phone",
+         "popularity_tier": "tier-2"}
+    ]}"""
+    candidate = parse_ai_candidates(raw, method="method1")[0]
+    assert candidate["category"] == "high_rpm"
+    assert candidate["pain_point"] == "payment failing on checkout"
+    assert candidate["mobile_action"] == "retry payment from phone"

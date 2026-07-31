@@ -17,7 +17,9 @@ class SeedKeyword(Base):
     source_method: Mapped[str] = mapped_column(String(32), default="method1")
     category: Mapped[str] = mapped_column(String(64), default="low_rpm_software")
     generated_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
-    llm_prompt_version: Mapped[str] = mapped_column(String(32), default="v1")
+    llm_prompt_version: Mapped[str] = mapped_column(String(32), default="v2")
+    pain_point: Mapped[str | None] = mapped_column(String, nullable=True)
+    mobile_action: Mapped[str | None] = mapped_column(String, nullable=True)
     status: Mapped[str] = mapped_column(String(20), default="pending", index=True)
 
 

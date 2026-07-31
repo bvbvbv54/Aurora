@@ -9,8 +9,26 @@ def test_repository_roundtrip(tmp_path):
     assert len(rows) == 2
     assert repo.metrics()["keywords"] == 2
     assert repo.next_pending(1)[0].keyword == "one"
+    assert repo.next_pending(1)[0].llm_prompt_version == "v2"
     repo.set_seed_status(rows[0].id, "analyzed")
     assert repo.metrics()["analyzed"] == 1
+
+
+def test_seed_context_and_migration_columns_are_preserved(tmp_path):
+    repo = Repository(f"sqlite:///{tmp_path / 'context.db'}")
+    repo.initialize()
+    seed = repo.add_seeds(
+        ["Stripe payment failing fix"],
+        "method1",
+        "high_rpm",
+        pain_point="payment failing on checkout",
+        mobile_action="retry payment from phone",
+    )[0]
+    loaded = repo.next_pending(1)[0]
+    assert loaded.id == seed.id
+    assert loaded.pain_point == "payment failing on checkout"
+    assert loaded.mobile_action == "retry payment from phone"
+    assert loaded.llm_prompt_version == "v2"
 
 
 def test_recursive_lineage_balanced_queue_and_evaluation(tmp_path):

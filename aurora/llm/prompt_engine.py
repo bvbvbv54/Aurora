@@ -104,8 +104,10 @@ def parse_numbered_list(text: str) -> list[str]:
     return list(dict.fromkeys(values))
 
 
-def parse_ai_candidates(text: str, method: str) -> list[str]:
+def parse_ai_candidates(text: str, method: str | int) -> list[dict[str, str] | str]:
     """Accept only complete, production-feasible candidates from structured AI output."""
+    if isinstance(method, int):
+        method = f"method{method}"
     cleaned = text.strip()
     if cleaned.startswith("```"):
         cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned, flags=re.IGNORECASE)
@@ -123,7 +125,7 @@ def parse_ai_candidates(text: str, method: str) -> list[str]:
     if not isinstance(payload, dict) or not isinstance(payload.get("items"), list):
         return []
 
-    values: list[str] = []
+    values: list[dict[str, str] | str] = []
     for item in payload["items"]:
         if not isinstance(item, dict):
             continue
@@ -137,7 +139,7 @@ def parse_ai_candidates(text: str, method: str) -> list[str]:
                 or not any(
                     word in platform for word in ("android", "ios", "mobile", "windows")
                 )
-                or len(action.split()) < 3
+                or len(action.split()) < 2
                 or not any(
                     word in tier
                     for word in (
@@ -146,7 +148,18 @@ def parse_ai_candidates(text: str, method: str) -> list[str]:
                 )
             ):
                 continue
-            values.append(name)
+            if name.lower() in {app.lower() for app in OVERPOPULAR_APPS}:
+                continue
+            values.append(
+                {
+                    "name": name,
+                    "category": str(item.get("category", "low_rpm")).strip()
+                    or "low_rpm",
+                    "platform": str(item.get("platform", "")).strip(),
+                    "pain_point": str(item.get("pain_point", "")).strip(),
+                    "mobile_action": action,
+                }
+            )
         elif method == "method3":
             query = str(item.get("query", "")).strip()
             action = str(item.get("mobile_action", "")).strip()
@@ -163,4 +176,14 @@ def parse_ai_candidates(text: str, method: str) -> list[str]:
             values.append(query)
         else:
             return parse_numbered_list(text)
+    if method == "method1":
+        unique: list[dict[str, str] | str] = []
+        seen_names: set[str] = set()
+        for candidate in values:
+            assert isinstance(candidate, dict)
+            key = candidate["name"].casefold()
+            if key not in seen_names:
+                seen_names.add(key)
+                unique.append(candidate)
+        return unique
     return list(dict.fromkeys(values))

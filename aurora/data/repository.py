@@ -24,9 +24,21 @@ class Repository:
         self.engine = create_engine(url)
         self.sessions = sessionmaker(self.engine, expire_on_commit=False)
 
+    @property
+    def db_path(self) -> str:
+        """Return the SQLite database path used by lightweight discovery modules."""
+        database = self.engine.url.database
+        if not database:
+            raise ValueError("Repository database URL has no filesystem path")
+        return database
+
     def initialize(self) -> None:
         Base.metadata.create_all(self.engine)
         migrations = {
+            "seed_keywords": {
+                "pain_point": "TEXT NULL",
+                "mobile_action": "TEXT NULL",
+            },
             "serp_results": {
                 "subscriber_collection_status": (
                     "VARCHAR(32) NOT NULL DEFAULT 'legacy_missing'"
@@ -67,14 +79,29 @@ class Repository:
                             )
                         )
 
-    def add_seeds(self, keywords: Iterable[str], method: str, category: str) -> list[SeedKeyword]:
+    def add_seeds(
+        self,
+        keywords: Iterable[str],
+        method: str,
+        category: str = "low_rpm",
+        pain_point: str | None = None,
+        mobile_action: str | None = None,
+        llm_prompt_version: str = "v2",
+    ) -> list[SeedKeyword]:
         cleaned = list(dict.fromkeys(k.strip() for k in keywords if k.strip()))
         with self.sessions.begin() as session:
             existing = set(
                 session.scalars(select(SeedKeyword.keyword).where(SeedKeyword.keyword.in_(cleaned)))
             )
             rows = [
-                SeedKeyword(keyword=k, source_method=method, category=category)
+                SeedKeyword(
+                    keyword=k,
+                    source_method=method,
+                    category=category,
+                    pain_point=pain_point or None,
+                    mobile_action=mobile_action or None,
+                    llm_prompt_version=llm_prompt_version,
+                )
                 for k in cleaned
                 if k not in existing
             ]
@@ -89,8 +116,18 @@ class Repository:
         parent_seed_id: int,
         depth: int,
         origin: str,
+        pain_point: str | None = None,
+        mobile_action: str | None = None,
+        llm_prompt_version: str = "v2",
     ) -> list[SeedKeyword]:
-        rows = self.add_seeds(keywords, method, category)
+        rows = self.add_seeds(
+            keywords,
+            method,
+            category,
+            pain_point=pain_point,
+            mobile_action=mobile_action,
+            llm_prompt_version=llm_prompt_version,
+        )
         if not rows:
             return []
         with self.sessions.begin() as session:

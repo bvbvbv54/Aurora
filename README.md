@@ -41,6 +41,25 @@ flowchart LR
 Every displayed counter comes from the live SQLite database or GitHub API. Incomplete
 records are quarantined and requeued; they are not converted into invented zeroes.
 
+### Evidence discovery foundation
+
+Method-1 AI candidates retain their category, platform, pain point, and mobile action.
+Aurora expands those fields into problem-grounded searches instead of generic tutorial,
+`when`, `which`, `where`, or unfinished `vs` templates. New seeds are tagged with prompt
+version `v2`, while existing `v1` records remain comparable in SQLite.
+
+The `aurora.discovery` package adds three opt-in foundations alongside the browser pipeline:
+
+- `YouTubeHarvester` collects real title, view, and subscriber evidence through YouTube
+  Data API v3 when `YOUTUBE_API_KEY` is configured.
+- `TopicGraph` persists explored, unexplored, and emerging problem nodes in `topic_nodes`.
+- `OpportunityScorer` ranks harvested clusters by evidence depth, demand gap, RPM signal,
+  relative volume, and long-tail specificity.
+
+The current browser Opportunity Score remains the final Goldmine/GEMmine decision engine;
+the discovery scorer supplies additional evidence and does not use VidIQ competition or
+keyword-volume metrics. See [`docs/ITERATION_2_ROADMAP.md`](docs/ITERATION_2_ROADMAP.md).
+
 The browser layer uses declared browser settings and stops a session when a CAPTCHA,
 challenge page, or unusual-traffic response is detected. It does not alter fingerprint
 surfaces, defeat challenges, or reuse challenge tokens.
@@ -49,7 +68,7 @@ surfaces, defeat challenges, or reuse challenge tokens.
 
 ```powershell
 py -3.11 -m venv .venv
-.\.venv\Scripts\python -m pip install -e ".[browser,llm,dev]"
+.\.venv\Scripts\python -m pip install -e ".[browser,llm,discovery,dev]"
 .\.venv\Scripts\aurora --config config.yaml init-db
 .\.venv\Scripts\aurora --config config.yaml seed --method method1 "APP"
 .\.venv\Scripts\aurora --config config.yaml research --max-keywords 25 --regions US,CA

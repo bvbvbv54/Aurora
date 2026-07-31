@@ -229,13 +229,31 @@ def main(argv: list[str] | None = None) -> int:
             prompt,
             provider_config,
         )
-        keywords = parse_ai_candidates(output, args.method)
-        if not keywords:
+        candidates = parse_ai_candidates(output, args.method)
+        if not candidates:
             raise RuntimeError("AI response contained no schema-valid candidates")
         if args.method == "method1":
-            keywords = [query for app in keywords for query in expand_method_one_seed(app)]
-        categories = {"method1": "low_rpm", "method2": "fix", "method3": "high_rpm"}
-        repository.add_seeds(keywords, args.method, categories[args.method])
+            keywords: list[str] = []
+            for candidate in candidates:
+                assert isinstance(candidate, dict)
+                seeds = expand_method_one_seed(
+                    candidate["name"],
+                    pain_point=candidate.get("pain_point", ""),
+                    mobile_action=candidate.get("mobile_action", ""),
+                )
+                keywords.extend(seeds)
+                repository.add_seeds(
+                    seeds,
+                    method="method1",
+                    category=candidate.get("category", "low_rpm"),
+                    pain_point=candidate.get("pain_point", ""),
+                    mobile_action=candidate.get("mobile_action", ""),
+                    llm_prompt_version="v2",
+                )
+        else:
+            keywords = [str(candidate) for candidate in candidates]
+            categories = {"method2": "fix", "method3": "high_rpm"}
+            repository.add_seeds(keywords, args.method, categories[args.method])
         print(json.dumps(keywords, indent=2))
     elif args.command == "run-once":
         recovered = repository.recover_processing()

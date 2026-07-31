@@ -1,28 +1,64 @@
 from aurora.methods.strategies import (
     expand_method_one_seed,
+    pain_point_followups,
     recursive_suggestions,
     specific_mobile_followups,
     starting_search_query,
 )
 
 
-def test_method_one_expands_interrogatives_and_fix_family():
-    queries = expand_method_one_seed("APP")
-    assert queries == [
-        "how to APP",
-        "APP how to",
-        "why APP",
-        "what APP",
-        "when APP",
-        "who uses APP",
-        "where APP",
-        "which APP",
-        "APP vs",
-        "how much does APP",
-        "fix APP",
-        "fix APP crashing",
-        "APP not working",
-    ]
+def test_pain_point_queries_appear_first():
+    queries = expand_method_one_seed(
+        "TradingView", pain_point="chart not moving after close"
+    )
+    assert queries[0].startswith("TradingView chart not moving")
+    assert "chart not moving" in queries[1]
+
+
+def test_pain_point_generates_platform_variants():
+    queries = expand_method_one_seed(
+        "Discord", pain_point="audio cutting out during calls"
+    )
+    assert any("android" in query for query in queries)
+    assert any("iphone" in query for query in queries)
+
+
+def test_mobile_action_queries_generated():
+    queries = expand_method_one_seed(
+        "TradingView", mobile_action="adjust chart zoom on phone"
+    )
+    assert any("adjust chart zoom" in query for query in queries)
+
+
+def test_retired_templates_absent():
+    for name in ["Discord", "Stripe", "Notion"]:
+        for query in expand_method_one_seed(name):
+            assert not query.startswith(("when ", "which ", "where "))
+            assert " vs" not in query
+            assert query not in (f"how to {name}", f"how to use {name}")
+
+
+def test_problem_specific_fallbacks_are_bounded_and_unique():
+    queries = expand_method_one_seed(
+        "Stripe",
+        pain_point="subscription billing not showing on dashboard",
+        mobile_action="manage recurring payments on iphone",
+    )
+    assert len(queries) <= 13
+    assert len({query.lower() for query in queries}) == len(queries)
+    fallback = expand_method_one_seed("Slack")
+    assert all("tutorial" not in query.lower() for query in fallback)
+    assert any("fix" in query.lower() for query in fallback)
+
+
+def test_backward_compatible_and_pain_point_followups():
+    assert all(isinstance(query, str) for query in expand_method_one_seed("Photoshop"))
+    results = pain_point_followups("TradingView", "chart not moving after close")
+    assert len(results) == 7
+    assert all("TradingView" in result for result in results)
+    assert all("chart not moving" in result for result in results)
+    assert pain_point_followups("Discord", "bad") == []
+    assert pain_point_followups("Discord", "") == []
 
 
 def test_recursive_suggestions_keep_multiple_specific_branches():

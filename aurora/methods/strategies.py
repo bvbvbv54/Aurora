@@ -21,22 +21,77 @@ METHODS = {
 }
 
 
-def expand_method_one_seed(app_name: str) -> list[str]:
-    app = app_name.strip()
+def expand_method_one_seed(
+    app_name: str,
+    pain_point: str = "",
+    mobile_action: str = "",
+) -> list[str]:
+    """Build a bounded, problem-specific query family for a method-1 app seed."""
+    name = app_name.strip()
+    pp = pain_point.strip()
+    ma = mobile_action.strip()
+    queries: list[str] = []
+
+    if pp and len(pp.split()) >= 2:
+        pp_core = re.sub(r"\s+fix$", "", pp, flags=re.IGNORECASE).strip()
+        pp_short = " ".join(pp_core.split()[:4])
+        queries += [
+            f"{name} {pp_short} fix",
+            f"how to fix {pp_core} in {name}",
+            f"{name} {pp_short} on android",
+            f"{name} {pp_short} on iphone",
+            f"why is {name} {pp_short}",
+            f"fix {name} {pp_short}",
+            f"{name} {pp_short} after update",
+        ]
+
+    if ma and len(ma.split()) >= 2:
+        ma_short = " ".join(ma.split()[:4])
+        queries += [
+            f"how to {ma} in {name}",
+            f"{ma_short} {name} on iphone",
+            f"{ma_short} {name} step by step",
+            f"{ma_short} {name} on android",
+        ]
+
+    queries += [
+        f"{name} not working fix",
+        f"{name} keeps crashing fix",
+        f"{name} not loading on android",
+        f"{name} error fix",
+        f"{name} login not working fix",
+        f"{name} notifications not working",
+        f"how to setup {name} on iphone",
+        f"how to reset {name}",
+    ]
+
+    seen: set[str] = set()
+    result: list[str] = []
+    for query in queries:
+        key = query.lower().strip()
+        if key not in seen:
+            seen.add(key)
+            result.append(query)
+        if len(result) == 13:
+            break
+    return result
+
+
+def pain_point_followups(app_name: str, pain_point: str) -> list[str]:
+    """Generate problem-space follow-ups for later goldmine-path integration."""
+    pp = pain_point.strip()
+    if not pp or len(pp.split()) < 2:
+        return []
+    name = app_name.strip()
+    pp_short = " ".join(pp.split()[:3])
     return [
-        f"how to {app}",
-        f"{app} how to",
-        f"why {app}",
-        f"what {app}",
-        f"when {app}",
-        f"who uses {app}",
-        f"where {app}",
-        f"which {app}",
-        f"{app} vs",
-        f"how much does {app}",
-        f"fix {app}",
-        f"fix {app} crashing",
-        f"{app} not working",
+        f"{name} {pp_short} 2025",
+        f"{name} {pp_short} keeps happening",
+        f"{name} {pp_short} after update",
+        f"why does {name} {pp_short}",
+        f"{name} {pp_short} android fix",
+        f"{name} {pp_short} iphone fix",
+        f"{name} {pp_short} not responding",
     ]
 
 

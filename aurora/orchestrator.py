@@ -41,6 +41,8 @@ from aurora.data.models import (
     SerpResult,
     VideoInspectionRecord,
 )
+from aurora.discovery.opportunity_scorer import OpportunityScorer
+from aurora.discovery.topic_graph import TopicGraph
 from aurora.llm.prompt_engine import build_prompt, parse_ai_candidates
 from aurora.llm.providers import (
     AIProviderConfig,
@@ -101,6 +103,8 @@ class ResearchRunner:
         self.session_processed = 0
         self.metric_incomplete = False
         self.ai_credit_exhausted = False
+        self._topic_graph = TopicGraph(db_path=self.repository.db_path)
+        self._opp_scorer = OpportunityScorer()
 
     def run_once(self) -> list[dict]:
         self.last_processed_seed_id = None
@@ -140,6 +144,21 @@ class ResearchRunner:
     def run_loop(self) -> list[dict]:
         opportunities: list[dict] = []
         completed = 0
+        pending_seeds = self.repository.next_pending_balanced(
+            self.options.low_rpm_share,
+            self.options.high_rpm_share,
+            cycle_index=self.session_processed,
+        )
+        if pending_seeds:
+            first_niche = pending_seeds[0].keyword.split()[0]
+            summary = self._topic_graph.summary(first_niche)
+            log.info(
+                "TopicGraph summary for '%s': explored=%d unexplored=%d emerging=%d",
+                first_niche,
+                summary["explored"],
+                summary["unexplored"],
+                summary["emerging"],
+            )
         while completed < self.options.max_keywords:
             if self.options.pause_file.exists():
                 log.info("pause file detected at %s; loop stopped between keywords", self.options.pause_file)
@@ -197,17 +216,33 @@ class ResearchRunner:
             else:
                 log.warning("AI-guided expansion skipped after transient error: %s", exc)
             return False
-        values = parse_ai_candidates(output, method)
-        if not values:
+        candidates = parse_ai_candidates(output, method)
+        if not candidates:
             log.warning("AI-guided %s expansion rejected: no schema-valid candidates", method)
             return False
         if method == "method1":
-            values = [query for app in values for query in expand_method_one_seed(app)]
-            category = "low_rpm"
+            added_count = 0
+            for candidate in candidates:
+                assert isinstance(candidate, dict)
+                values = expand_method_one_seed(
+                    candidate["name"],
+                    pain_point=candidate.get("pain_point", ""),
+                    mobile_action=candidate.get("mobile_action", ""),
+                )
+                added_count += len(
+                    self.repository.add_seeds(
+                        values,
+                        method,
+                        candidate.get("category", "low_rpm"),
+                        pain_point=candidate.get("pain_point", ""),
+                        mobile_action=candidate.get("mobile_action", ""),
+                        llm_prompt_version="v2",
+                    )
+                )
         else:
-            category = "high_rpm"
-        added = self.repository.add_seeds(values, method, category)
-        log.info("AI-guided %s expansion queued %s seed(s)", method, len(added))
+            values = [str(candidate) for candidate in candidates]
+            added_count = len(self.repository.add_seeds(values, method, "high_rpm"))
+        log.info("AI-guided %s expansion queued %s seed(s)", method, added_count)
         return True
 
     def _research(self, seed) -> list[dict]:
@@ -250,6 +285,9 @@ class ResearchRunner:
                     seed.id,
                     depth + 1,
                     "youtube_autocomplete",
+                    pain_point=seed.pain_point,
+                    mobile_action=seed.mobile_action,
+                    llm_prompt_version=seed.llm_prompt_version or "v2",
                 )
                 log.info(
                     "recursive autocomplete: queued %s/%s branches at depth %s",
@@ -514,6 +552,9 @@ class ResearchRunner:
                     seed.id,
                     depth + 1,
                     "specific_serp_title",
+                    pain_point=seed.pain_point,
+                    mobile_action=seed.mobile_action,
+                    llm_prompt_version=seed.llm_prompt_version or "v2",
                 )
                 if added:
                     log.info(
@@ -773,6 +814,9 @@ class ResearchRunner:
                             seed.id,
                             depth + 1,
                             "vidiq_matching_terms",
+                            pain_point=seed.pain_point,
+                            mobile_action=seed.mobile_action,
+                            llm_prompt_version=seed.llm_prompt_version or "v2",
                         )
                     self.repository.add_recursive_seeds(
                         specific_mobile_followups(keyword),
@@ -781,6 +825,20 @@ class ResearchRunner:
                         seed.id,
                         depth + 1,
                         "specific_mobile_followup",
+                        pain_point=seed.pain_point,
+                        mobile_action=seed.mobile_action,
+                        llm_prompt_version=seed.llm_prompt_version or "v2",
+                    )
+                if seed.pain_point:
+                    app_name = seed.keyword.split()[0] if seed.keyword else ""
+                    self._topic_graph.mark_emerging(
+                        niche=app_name,
+                        label=seed.pain_point[:50],
+                    )
+                    log.info(
+                        "TopicGraph: marked '%s / %s' as emerging",
+                        app_name,
+                        seed.pain_point[:50],
                     )
                 opportunities.append(item)
             return opportunities
