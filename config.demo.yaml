@@ -1,0 +1,25 @@
+﻿youtube:
+  base_url: "https://www.youtube.com"
+  max_results_per_serp: 24
+  searches_per_session_max: 4
+  subscriber_enrichment_limit: 24
+browser:
+  headed: true
+  locale: "en-US"
+  timezone: "America/New_York"
+  extension_dirs: ["./extensions/vidiq"]
+  user_data_dir: "./browser_profiles/aurora-demo"
+vidiq:
+  required: true
+  timeout_seconds: 12
+research:
+  min_wait_between_keywords_seconds: 2
+  max_wait_between_keywords_seconds: 4
+scoring:
+  goldmine_threshold_low_rpm: 60
+  goldmine_threshold_high_rpm: 50
+  goldmine_threshold_fix: 50
+database:
+  url: "sqlite:///aurora_demo.db"
+output:
+  directory: "./reports/demo"

@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.db
+reports/
+browser_profiles/
+verification/
+*.egg-info/
+secrets/
+aurora.pause
+*.m4a
+extensions/vidiq-download/

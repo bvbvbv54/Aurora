@@ -1,0 +1,45 @@
+youtube:
+  base_url: "https://www.youtube.com"
+  max_results_per_serp: 40
+  searches_per_session_max: 15
+  subscriber_enrichment_limit: 40
+llm:
+  provider: "openai"
+  model: "gpt-4o"
+  api_key_env: "OPENAI_API_KEY"
+  # Gemini: provider "gemini", model "gemini-3.6-flash", env "GEMINI_API_KEY"
+  # OpenRouter: provider "openrouter", model "anthropic/claude-sonnet-4",
+  # env "OPENROUTER_API_KEY", base_url "https://openrouter.ai/api/v1"
+  temperature: 0.4
+  max_tokens: 3000
+browser:
+  headed: true
+  locale: "en-US"
+  timezone: "America/New_York"
+  extension_dirs: ["./extensions/vidiq"]
+  user_data_dir: "./browser_profiles"
+vidiq:
+  required: true
+  timeout_seconds: 20
+research:
+  low_rpm_share: 60
+  high_rpm_share: 40
+  audience_regions: "US,CA"
+  mobile_only: true
+  max_video_minutes: 10
+  max_suggestions_per_keyword: 6
+  min_wait_between_keywords_seconds: 30
+  max_wait_between_keywords_seconds: 120
+  min_reading_time_seconds: 15
+  max_reading_time_seconds: 45
+  cooldown_minutes: 5
+  cooldown_max_minutes: 15
+  max_recursion_depth: 3
+scoring:
+  goldmine_threshold_low_rpm: 60
+  goldmine_threshold_high_rpm: 50
+  goldmine_threshold_fix: 50
+database:
+  url: "sqlite:///aurora.db"
+output:
+  directory: "./reports"

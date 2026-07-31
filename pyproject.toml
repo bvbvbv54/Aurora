@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aurora-keyword-research"
+version = "0.1.0"
+description = "Paced browser-based YouTube keyword research and scoring pipeline"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0.1",
+  "SQLAlchemy>=2.0.30",
+]
+
+[project.optional-dependencies]
+browser = ["seleniumbase>=4.39.0", "Pillow>=10.4.0"]
+llm = ["openai>=1.40.0"]
+dev = ["pytest>=8.2.0", "ruff>=0.5.0"]
+
+[project.scripts]
+aurora = "aurora.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["aurora*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"aurora/core/serp_analyzer.py" = ["BLE001", "S112"]
+"aurora/core/browser_manager.py" = ["BLE001", "S110", "S112"]

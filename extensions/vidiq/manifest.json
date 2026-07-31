@@ -1,0 +1,304 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "name": "vidIQ Vision for YouTube",
+  "version": "3.209.0",
+  "description": "Uncover the secrets to success behind your favorite YouTube videos.",
+  "manifest_version": 3,
+  "default_locale": "en",
+  "homepage_url": "https://vidiq.com/",
+  "options_page": "options.html",
+  "icons": {
+    "48": "images/vidiq-badge.png",
+    "128": "images/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "oauth2": {
+    "client_id": "928183395842-ig3govj9ifu752sb956mp3kbecivb8a3.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "profile",
+      "email"
+    ]
+  },
+  "permissions": [
+    "cookies",
+    "clipboardWrite",
+    "storage",
+    "background",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.youtube.com/*",
+        "*://studio.youtube.com/*"
+      ],
+      "exclude_matches": [
+        "*://www.youtube.com/subscribe_embed*"
+      ],
+      "css": [
+        "bundle.css"
+      ],
+      "js": [
+        "bundle.bundle.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://www.tiktok.com/*"
+      ],
+      "js": [
+        "tiktok.bundle.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://www.tiktok.com/*"
+      ],
+      "js": [
+        "tiktokDocumentStart.bundle.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://www.instagram.com/*"
+      ],
+      "css": [
+        "instagram.css"
+      ],
+      "js": [
+        "instagram.bundle.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://claude.ai/*"
+      ],
+      "js": [
+        "claude.bundle.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://chatgpt.com/*"
+      ],
+      "js": [
+        "chatgptAuthBridge.bundle.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "*://chatgpt.com/*"
+      ],
+      "css": [
+        "chatgpt.css"
+      ],
+      "js": [
+        "chatgpt.bundle.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://gemini.google.com/*"
+      ],
+      "js": [
+        "gemini.bundle.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://www.youtube.com/embed/*"
+      ],
+      "all_frames": true,
+      "js": [
+        "getIframeVideoStill.bundle.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://app.vidiq.com/*",
+        "*://vidiq.com/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "extensionLogin.bundle.js",
+        "webappMessaging.bundle.js"
+      ],
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "*://enterprise.vidiq.com/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "webappMessaging.bundle.js"
+      ],
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "*://studio.youtube.com/*"
+      ],
+      "all_frames": true,
+      "js": [
+        "fetchDOMContent.bundle.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "bridge.html",
+        "bridge.bundle.js",
+        "billing-popup.html",
+        "billingPopup.bundle.js",
+        "options.html",
+        "options.js",
+        "firefox-consent.html",
+        "getWindowData.bundle.js",
+        "pageRequest.bundle.js",
+        "getVideoLanguage.bundle.js",
+        "tiktokFetchHandler.bundle.js",
+        "_locales/en/messages.json",
+        "fonts/Inter-Bold.ttf",
+        "fonts/Inter-ExtraLight.ttf",
+        "fonts/Inter-Light.ttf",
+        "fonts/Inter-Medium.ttf",
+        "fonts/Inter-Regular.ttf",
+        "fonts/Inter-SemiBold.ttf",
+        "fonts/Inter-Thin.ttf",
+        "fonts/Satoshi-Variable.ttf",
+        "fonts/Satoshi-Variable.woff",
+        "fonts/Satoshi-Variable.woff2",
+        "images/youtube/yt_icon_red_digital.png",
+        "images/youtube/yt_icon_white_digital.png",
+        "images/youtube/yt_icon_almostblack_digital.png",
+        "images/puzzle.png",
+        "images/globe.png",
+        "images/cloud.png",
+        "images/people.png",
+        "images/icon128_stroke.png",
+        "images/search.png",
+        "images/close.png",
+        "images/tags.png",
+        "images/vidiq.svg",
+        "images/vidiq_dark.svg",
+        "images/gold-medal.svg",
+        "images/vidiq-rounded-icon.svg",
+        "images/clouds.svg",
+        "images/reorder.png",
+        "images/loader.gif",
+        "images/downArrow.png",
+        "images/upArrow.png",
+        "images/flags.png",
+        "images/phone.png",
+        "images/desktop.png",
+        "images/present_top.png",
+        "images/present_bottom.png",
+        "images/tablet.png",
+        "images/arrow.png",
+        "images/arrow-right.svg",
+        "images/big_loader.gif",
+        "images/popupArrowRight.png",
+        "images/loginCollapse.png",
+        "images/icon128.png",
+        "images/glyphicons-halflings-white.png",
+        "images/paperclip.gif",
+        "images/button_loading.gif",
+        "images/paperclip_white.gif",
+        "images/badge-basic.png",
+        "images/badge-pro.png",
+        "images/badge-boost.png",
+        "images/badge-max.png",
+        "images/badge-ent.png",
+        "images/upgrade-historical.jpg",
+        "images/upgrade-search.jpg",
+        "images/upgrade-embed.jpg",
+        "images/upgrade-btod.jpg",
+        "images/upgrade-optim.jpg",
+        "images/upsell-search-dark.jpg",
+        "images/upsell-search-light.jpg",
+        "images/upsell-social-stats.png",
+        "images/icon-twitter.png",
+        "images/icon-annotation-anchored.png",
+        "images/icon-annotation-popup.png",
+        "images/icon-annotation-title.png",
+        "images/icon-annotation-highlight.png",
+        "images/icon-annotation-label.png",
+        "images/competition-tab-teaser.jpg",
+        "images/pin-icon.svg",
+        "images/icon-monitor-vidiq.png",
+        "images/icon-monitor-music.png",
+        "images/icon-monitor-gaming.png",
+        "images/engagement-badges.png",
+        "images/stat-creator-suggested.png",
+        "images/stat-organic-views.png",
+        "images/stat-referrers.png",
+        "images/default-channel-icon.png",
+        "images/rocket-icon.svg",
+        "images/target-icon.svg",
+        "images/views-achievements.svg",
+        "images/subs-achievements.svg",
+        "images/uploads-achievements.svg",
+        "images/likes-achievements.svg",
+        "images/comments-achievements.svg",
+        "images/hours-watched-achievements.svg",
+        "images/top-icon.svg",
+        "images/top-likes.svg",
+        "images/top-subs.svg",
+        "images/top-view.svg",
+        "images/top-upload.svg",
+        "images/top-comments.svg",
+        "images/top-watched.svg",
+        "images/best-time-to-post-teaser.jpg",
+        "images/upload-spot-icon.svg",
+        "images/rounded-triangle.svg",
+        "images/menu-icon.svg",
+        "images/x-close-btn.svg",
+        "images/x-plus-btn.svg",
+        "images/important-icon.svg",
+        "images/close-x.svg",
+        "images/checkmark-icon.png",
+        "images/checklist-false.svg",
+        "images/checklist-true.svg",
+        "images/checklist-go.svg",
+        "images/video-preview-teaser.png",
+        "images/vidiq-nyan-cat.gif",
+        "images/vidiq-circle-icon.png",
+        "images/vidiq-badge.png",
+        "images/pin-extension-infographic.svg",
+        "images/chevron-down.svg",
+        "images/upsell-coaching-lite.png",
+        "images/loader-black.gif",
+        "images/loader-white.gif",
+        "images/rocket-logo.png",
+        "images/ChicPattern.svg",
+        "images/thumbnail-upsell-1.png",
+        "images/thumbnail-upsell-2.png",
+        "images/thumbnail-upsell-3.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCCmCY3EoZyLPHmK4MyvummcMBdhj15od4P1qkkiQIk1t595jW4NUrwu81OIKFs4dW5x4v1LYVqihkBMotoQu1n0tY9HWi1ZYgGeoZeLd7gxDp8G8VqKz5B7x+rGyYc+V2InPcxw44v92Yoz17ZeV209RsAYXIm4m07wroBlUfwgQIDAQAB"
+}

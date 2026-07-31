@@ -1,0 +1,5182 @@
+{
+    "appDesc": {
+        "message": "どのようなビデオは、ウイルスを移動し、より多くのビューを得るためにあなたのビデオを最適化する発見! \n\n〜と メトリックyoutube の分析を超えて、vidIQ ビジョンは、任意の youtubeのビデオのための包括的な最適化レポートカードを提供しています-あなたのブラウザ上で右!\n\nかどうか はコンテンツ作成者、マーケティングマネージャーや YouTubeの民間人、あなたは間違いなく疑問に思った:\\\n\n-関連するビデオはどのように関連しているのですか? \n-はどのように動画が検索でランク付けされますか?\n-はどこから来るのですか? \n-良い YouTube の SEO のようソーシャルメディアは、オーディエンスの開発に適合?\n\nWe は、動画のパフォーマンス、加入者のエンゲージメント、およびプロモーションの機会を劇的に向上させることができる回答と最適化データを提供します。 \n\n拡張子が含まれています: \\ n\nvidIQ スコア-我々は、すべてのランクYouTubeのビデオは、独自のクロスプラットフォームのアルゴリズムによると、それに関連するビデオ、検索、推奨ビデオ、および多くのプロモーションの可能性を予測するための最適化スコアを割り当てます。\n\n速度-時間あたりのビューで測定、速度機能を使用すると、どのように迅速にビューが加速している見て、バイラルのトラクションを獲得している YouTube の動画を識別することができます-リアルタイムで! \n\n平均 の時計の時間-両方のビデオの平均視聴長の正確なアイデアを取得し、それらを見て\n\nSocial メディア好き/株式/コメント-どのように多くの時間を参照してくださいFacebook、Twitter、または、共有しているか、またはコメント欄にあなたのビデオの URL が含まれています。 \\ñ\\ nTags-メタタグのようなSEOのデータを表示する任意の YouTubeのビデオコンテンツ \\ n \\ n言葉/分-WPMは、ビデオの長さに対して単語数を測定し、高速な会話、ジャンプの作成者のコンテンツの成功についての予期しない洞察を明らかにします。 \\ n \\ n 説明 のリンク数-私たちは付加価値の提案とベストプラクティスを提供する動画の説明にリンクします。n説明 の単語数-私たちは、あなたのビデオの説明が短すぎるとあなたがそれが YouTube の最適化のためにちょうどいいときに知っているように警告します。\n\n取得する のアップグレード計画と vidIQ からさらに: \\ n\nvidIQ プロ-アクセスを取得する過去のデータは、人気の動画に時間に戻って、あなたの次のビデオのための最高のキーワードを得るためにキーワードの研究を実行し、あなたの競争を追跡し、説明キャンペーンを介して動画を促進する。nvidIQ ブースト-あなたのビデオのSEOを迅速かつ簡単にブーストvidIQの独自のキーワード推薦エンジンは、タグ、タイトル、および説明を最適化する。プロのツールと能力を追跡し、より多くのチャネルを最適化するための無制限のアクセス。\\ñ\\ nVisionは、ビデオマーケティングソフトウェアとYouTubeオーディエンス開発ツールのvidIQの堅牢なスイートのちょうど1つの部分です。これらにアクセスし、私たちの業界のホワイトペーパーを表示するには、私たちを参照してください@http://www.vidIQ.com\n\nStayタッチで:\nLikeはFacebook上で私ち:http://facebook.com/vidIQapp\nFollow 私たちのさえずり: http://twitter.com/vidIQ\n\nSupport: \nHave の質問やフィードバック?contact@vidIQ.com のサポートチームに連絡してください。"
+    },
+    "wantExtraStats": {
+        "message": "歴史的な社会とビューの統計をしたいですか?"
+    },
+    "upgradeNowTitle": {
+        "message": "今すぐアップグレード!"
+    },
+    "troubleLoggingIn": {
+        "message": "ログインに問題がありますか?"
+    },
+    "troubleLoading": {
+        "message": "<b>vidIQ</b> の読み込みに問題があります。リフレッシュしてください。"
+    },
+    "reset": {
+        "message": "リセット"
+    },
+    "resetSession": {
+        "message": "<b>vidIQ</b> セッションをリセットしてから、もう一度やり直してください。"
+    },
+    "domainNameTitle": {
+        "message": "ドメイン名"
+    },
+    "viewsTitle": {
+        "message": "表示モード"
+    },
+    "videoTitle": {
+        "message": "ビデオ"
+    },
+    "minutesWatchedTitle": {
+        "message": "分見た"
+    },
+    "searchTermTitle": {
+        "message": "検索用語"
+    },
+    "topEmbedsTitle": {
+        "message": "トップ埋め込み"
+    },
+    "embedSourcesTitle": {
+        "message": "ソースの埋め込み"
+    },
+    "facebookApiChanges": {
+        "message": "Facebook は最近、クライアントから直接認証を必要とする API を変更しました。ご理解いただきありがとうございます。"
+    },
+    "authFacebookTitle": {
+        "message": "認証フェイスブック"
+    },
+    "facebookGetMoreStats": {
+        "message": "より多くの <b>FB</b> の統計情報を取得するために接続"
+    },
+    "stats": {
+        "message": "統計"
+    },
+    "historical": {
+        "message": "歴史的"
+    },
+    "tweets": {
+        "message": "つぶやき"
+    },
+    "trending": {
+        "message": "トレンド"
+    },
+    "engagementRateTitle": {
+        "message": "エンゲージメント率"
+    },
+    "viewsPerHourTitle": {
+        "message": "1時間あたりのビュー数"
+    },
+    "topReferrersTitle": {
+        "message": "上位参照元"
+    },
+    "referredSourcesTitle": {
+        "message": "参照元"
+    },
+    "noDataForChart": {
+        "message": "$chart$ グラフのデータがありません",
+        "placeholders": {
+            "chart": {
+                "content": "$1"
+            }
+        }
+    },
+    "downloadName": {
+        "message": "vidIQ CSV エクスポートため$id $",
+        "placeholders": {
+            "id_": {
+                "content": "$1"
+            }
+        }
+    },
+    "downloadCSVTitle": {
+        "message": "ダウンロードCSV"
+    },
+    "noHistoricalData": {
+        "message": "過去のデータを取得できませんでした。"
+    },
+    "emailsMustMatch": {
+        "message": "メールに一致する必要があります。"
+    },
+    "passwordLengthValidation": {
+        "message": "パスワードは、少なくともする必要があります文字 $number$",
+        "placeholders": {
+            "number": {
+                "content": "$1"
+            }
+        }
+    },
+    "loginTitle": {
+        "message": "ログイン"
+    },
+    "emailTitle": {
+        "message": "電子メール"
+    },
+    "passwordTitle": {
+        "message": "パスワード"
+    },
+    "confirmEmailTitle": {
+        "message": "メールを確認します"
+    },
+    "recoverPasswordTitle": {
+        "message": "パスワードを回復します"
+    },
+    "actionableTitle": {
+        "message": "実用的です"
+    },
+    "performanceTitle": {
+        "message": "パフォーマンス"
+    },
+    "improvePerformanceWithBoost": {
+        "message": "<b> vidIQ ブースト </b> と私たちはあなたのビデオのパフォーマンスを向上させることを助けることができる!"
+    },
+    "learnMoreAboutBoost": {
+        "message": "<b> vidIQ ブースト </b > についての詳細を学ぶ"
+    },
+    "boostUpgradeTitle": {
+        "message": "ブーストへのアップグレード"
+    },
+    "createAccountTitle": {
+        "message": "アカウントを作成します。"
+    },
+    "mustAgreeToTOS": {
+        "message": "サービスの利用規約に同意する必要があります。"
+    },
+    "agreeToTOS": {
+        "message": "私たちの $begin$ サービス利用規約 $end$ に同意します。",
+        "placeholders": {
+            "begin": {
+                "content": "$1"
+            },
+            "end": {
+                "content": "$2"
+            }
+        }
+    },
+    "errorOrNoEmail": {
+        "message": "エラーが発生したか、そのようなメールが存在しません。"
+    },
+    "checkEmailForInfo": {
+        "message": "詳細な手順については、メールをチェック!"
+    },
+    "loginExistingAccount": {
+        "message": "既存の < b >vidIQ</b > アカウントにログイン"
+    },
+    "signUpForNewAccount": {
+        "message": "新しい < b > vidIQ </b > アカウントにサインアップします。"
+    },
+    "forgotPassword": {
+        "message": "パスワードを忘れた方?"
+    },
+    "backToLogin": {
+        "message": "ログイン画面へ戻る"
+    },
+    "noAccountYet": {
+        "message": "アカウントを持っていないか?"
+    },
+    "signUpFree": {
+        "message": "サインアップ無料!"
+    },
+    "itsFree": {
+        "message": "それは無料です!"
+    },
+    "getStarted": {
+        "message": "始める"
+    },
+    "noTags": {
+        "message": "タグはありません。"
+    },
+    "noTweets": {
+        "message": "いいえつぶやきを発見"
+    },
+    "copyTags": {
+        "message": "タグをクリップボードにコピーします"
+    },
+    "addTagTitle": {
+        "message": "タグを追加します"
+    },
+    "seeMoreStats": {
+        "message": "多くの統計情報を参照してくださいしたいですか。"
+    },
+    "authChannelTitle": {
+        "message": "認証 このチャネル"
+    },
+    "authThanks": {
+        "message": "認証ありがとうございます!"
+    },
+    "refreshDataTitle": {
+        "message": "データを更新します。"
+    },
+    "desktopTitle": {
+        "message": "デスクトップ"
+    },
+    "mobileTitle": {
+        "message": "携帯"
+    },
+    "tabletTitle": {
+        "message": "タブレット"
+    },
+    "gameConsoleTitle": {
+        "message": "ゲーム コンソール"
+    },
+    "tvTitle": {
+        "message": "テレビ"
+    },
+    "ytSearchTitle": {
+        "message": "YT 検索"
+    },
+    "ytSuggestedTitle": {
+        "message": "YT の提案"
+    },
+    "suggestedVideoTagsTitle": {
+        "message": "動画のタグを提案"
+    },
+    "overviewTitle": {
+        "message": "概要"
+    },
+    "socialTitle": {
+        "message": "社会"
+    },
+    "seoTitle": {
+        "message": "SEO"
+    },
+    "channelTitle": {
+        "message": "チャネル"
+    },
+    "videoTagsTitle": {
+        "message": "動画のタグ"
+    },
+    "channelTagsTitle": {
+        "message": "チャンネル タグ"
+    },
+    "viewsStatLabel": {
+        "message": "表示モード"
+    },
+    "durationStatLabel": {
+        "message": "期間"
+    },
+    "channelGrowthTooltip": {
+        "message": "このビデオは大きく共有!"
+    },
+    "ytSharesTooltipPopular": {
+        "message": "このビデオは大きく共有!"
+    },
+    "ytSharesTooltipUnpopular": {
+        "message": "このビデオでは、株式の大部分はありません。"
+    },
+    "fbLikesTooltipPopular": {
+        "message": "このビデオは、facebook を利用して大きく好かれて!"
+    },
+    "fbLikesTooltipUnpopular": {
+        "message": "このビデオの大部分を持たない Facebook 上が好き。"
+    },
+    "fbEngagementsTooltip": {
+        "message": "好きなもの、共有、およびコメントが含まれています。FB の制限のため我々 はメトリックごとに別個のレポートを得ることができません。"
+    },
+    "creatorSuggestedTooltip": {
+        "message": "提案の作成者: で動画数、\\\"次に \\\"作成者のチャンネルからセクション。ユーザーを保持するため、作成者を最適化する方法もを示します。"
+    },
+    "annotationsTooltip": {
+        "message": "このビデオの注釈の数です。"
+    },
+    "cardsTooltip": {
+        "message": "このビデオでカードの数です。"
+    },
+    "estimatedEarningsTooltip": {
+        "message": "収益は、$cpm$ CPM に基づいて推定 このビデオを。",
+        "placeholders": {
+            "cpm": {
+                "content": "$1"
+            }
+        }
+    },
+    "vidiqScoreTooltip": {
+        "message": "vidIQ スコアは契約と YouTube で他の動画を基準にしてビューに基づいてビデオの人気です。99/100 は、ビューおよび契約の等しい重量に YouTube での動画の 99 パーセンタイル値であることを意味します。"
+    },
+    "vphTooltipSimple": {
+        "message": "このビデオは現在得ている 1 時間あたりの量は、$value$ です。",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "vphTooltipDetailedBigger": {
+        "message": "このビデオは現在得ている $value$ビューは $diff$ ドル以上このビデオ 1 時間あたりの $avg$ ドルの 1 時間あたりの平均値のビュー。",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            },
+            "diff": {
+                "content": "$2"
+            },
+            "avg": {
+                "content": "$3"
+            }
+        }
+    },
+    "vphTooltipDetailedSmaller": {
+        "message": "このビデオは、$value$ には 1 時間あたり ビューを取得現在$diff$ 未満このビデオの $avg$ ドルの 1 時間あたりの平均値のビュー。",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            },
+            "diff": {
+                "content": "$2"
+            },
+            "avg": {
+                "content": "$3"
+            }
+        }
+    },
+    "watchTimeLow": {
+        "message": "時計は時間が少ない"
+    },
+    "watchTimeAverage": {
+        "message": "視聴時間が平均です"
+    },
+    "watchTimeGood": {
+        "message": "視聴時間が良いです"
+    },
+    "watchTimeIncredible": {
+        "message": "時計時間はすごいですね!"
+    },
+    "descWordCountStatLabel": {
+        "message": "desc ワード カウント"
+    },
+    "descLinkCountStatLabel": {
+        "message": "desc リンク数"
+    },
+    "wordsPerMinuteStatLabel": {
+        "message": "1 分あたりの単語"
+    },
+    "engagementsStatLabel": {
+        "message": "契約"
+    },
+    "ytLikesStatLabel": {
+        "message": "yt が好きです"
+    },
+    "ytDislikesStatLabel": {
+        "message": "yt 嫌い"
+    },
+    "ytCommentsStatLabel": {
+        "message": "yt コメント"
+    },
+    "ytEngagementsStatLabel": {
+        "message": "yt 契約"
+    },
+    "stumbleuponStatLabel": {
+        "message": "つまずく"
+    },
+    "linkedinStatLabel": {
+        "message": "リンクされています"
+    },
+    "googlePlusStatLabel": {
+        "message": "グーグル プラス"
+    },
+    "channelViewsStatLabel": {
+        "message": "合計視聴数"
+    },
+    "avgDailySubsStatLabel": {
+        "message": "平均 毎日潜水"
+    },
+    "avgDailyViewsStatLabel": {
+        "message": "平均毎日の表示回数"
+    },
+    "estimatedMonthlyRevenueStatLabel": {
+        "message": "≈ の毎月の収入"
+    },
+    "likeRatioStatLabel": {
+        "message": "比のような"
+    },
+    "ytSharesStatLabel": {
+        "message": "yt 株式"
+    },
+    "fbSharesCommentsStatLabel": {
+        "message": "fb 株 + コメント"
+    },
+    "fbLikesStatLabel": {
+        "message": "fb が好きです。"
+    },
+    "fbEngagementsStatLabel": {
+        "message": "fb 契約"
+    },
+    "creatorSuggestedStatLabel": {
+        "message": "提案の作成者"
+    },
+    "annotationsStatLabel": {
+        "message": "注釈"
+    },
+    "cardsStatLabel": {
+        "message": "カード"
+    },
+    "mcnStatLabel": {
+        "message": "mcn"
+    },
+    "redditCommentsStatLabel": {
+        "message": "reddit コメント"
+    },
+    "redditPostsStatLabel": {
+        "message": "Reddit の記事"
+    },
+    "redditLikesStatLabel": {
+        "message": "しかし賛成"
+    },
+    "channelSubscribersStatLabel": {
+        "message": "加入者"
+    },
+    "engagementRateStatLabel": {
+        "message": "エンゲージメント率"
+    },
+    "numGoogleTrafficSourcesStatLabel": {
+        "message": "リファラー"
+    },
+    "numGoogleEmbedSourcesStatLabel": {
+        "message": "srcs を埋め込む"
+    },
+    "estimatedEarningsStatLabel": {
+        "message": "見積もり収益額"
+    },
+    "vidiqScoreStatLabel": {
+        "message": "vidIQ スコア"
+    },
+    "seoScoreStatLabel": {
+        "message": "vidIQ SEO のスコア"
+    },
+    "vphStatLabel": {
+        "message": "1 時間あたりの景色"
+    },
+    "subsDrivenStatLabel": {
+        "message": "推進潜水艦"
+    },
+    "percentSubViewsStatLabel": {
+        "message": "サブビュー"
+    },
+    "organicViewsStatLabel": {
+        "message": "オーガニック ビュー"
+    },
+    "avgViewTimeStatLabel": {
+        "message": "平均表示時間"
+    },
+    "referredViewsStatLabel": {
+        "message": "参照ビュー"
+    },
+    "embeddedViewsStatLabel": {
+        "message": "ビューを埋め込む"
+    },
+    "ytSearchViewsStatLabel": {
+        "message": "yt 検索ビュー"
+    },
+    "suggestedViewsStatLabel": {
+        "message": "推奨されるビュー"
+    },
+    "recentChannelViewsStatLabel": {
+        "message": "再生最後 $period$ 日",
+        "placeholders": {
+            "period": {
+                "content": "$1"
+            }
+        }
+    },
+    "recentChannelSubsStatLabel": {
+        "message": "潜水艦 $period$ 数日します。",
+        "placeholders": {
+            "period": {
+                "content": "$1"
+            }
+        }
+    },
+    "tagCountStatLabel": {
+        "message": "タグ数"
+    },
+    "tagVolumeStatLabel": {
+        "message": "タグ ボリューム"
+    },
+    "keywordsInTitleStatLabel": {
+        "message": "キーワードをタイトルに"
+    },
+    "keywordsInDescriptionStatLabel": {
+        "message": "説明内のキーワード"
+    },
+    "tripledKeywordsStatLabel": {
+        "message": "3 倍のキーワード"
+    },
+    "rankedTagsStatLabel": {
+        "message": "ランク付けされたタグ"
+    },
+    "highVolumeRankedTagsStatLabel": {
+        "message": "ランク高いボリューム ・ タグ"
+    },
+    "wantTrendingVideos": {
+        "message": "モバイル向け動画を見たいです? か"
+    },
+    "noTrending": {
+        "message": "傾向映画の発見されました。"
+    },
+    "by": {
+        "message": "によって"
+    },
+    "vph": {
+        "message": "VPH"
+    },
+    "matches": {
+        "message": "一致します。"
+    },
+    "showAllTitle": {
+        "message": "全件表示します。"
+    },
+    "showFewerTitle": {
+        "message": "数を見る"
+    },
+    "fieldIsRequired": {
+        "message": "フィールドは必須"
+    },
+    "emailAddressInvalid": {
+        "message": "電子メール アドレスは有効でなければなりません"
+    },
+    "submit": {
+        "message": "送信"
+    },
+    "percentOfEngagements": {
+        "message": "$name$: 契約の $percent$ %",
+        "placeholders": {
+            "name": {
+                "content": "$1"
+            },
+            "percent": {
+                "content": "$2"
+            }
+        }
+    },
+    "dislikes": {
+        "message": "嫌いなもの"
+    },
+    "likes": {
+        "message": "好きなもの"
+    },
+    "configureInSettings": {
+        "message": "VidIQ の設定を構成します。"
+    },
+    "copyAnnotationsTitle": {
+        "message": "コメントをコピーします。"
+    },
+    "copyCardsTitle": {
+        "message": "カードをコピーします。"
+    },
+    "copyEndScreenTitle": {
+        "message": "コピー終了画面"
+    },
+    "advancedEmbedTitle": {
+        "message": "高度な埋め込み"
+    },
+    "massLikeTitle": {
+        "message": "ような塊"
+    },
+    "thumbnailEditorTitle": {
+        "message": "サムネイル エディター"
+    },
+    "poweredByVidIQ": {
+        "message": "VidIQ によって供給"
+    },
+    "poweredBy": {
+        "message": "協力を受けています"
+    },
+    "rememberToRefresh": {
+        "message": "アップグレードした後を更新してください!"
+    },
+    "upgradeToViewInsights": {
+        "message": "すべての動画の洞察力を表示へのアップグレード"
+    },
+    "sharesAndComments": {
+        "message": "株式 + コメント"
+    },
+    "comments": {
+        "message": "コメント"
+    },
+    "engagementRateTooltip": {
+        "message": "婚約率 (ER) はすべての検出されたエンゲージメントの測定合計視聴数の割合です。"
+    },
+    "engagementRateER": {
+        "message": "ER"
+    },
+    "visitVidIQ": {
+        "message": "vidIQ訪問"
+    },
+    "inlineKeywordsTitle": {
+        "message": "インライン キーワード"
+    },
+    "disableInlineKeywords": {
+        "message": "インライン キーワードを無効にします。"
+    },
+    "enableInlineKeywords": {
+        "message": "インライン キーワードを有効にします。"
+    },
+    "keywordScoreTitle": {
+        "message": "キーワード スコア"
+    },
+    "keywordScoreTooltip": {
+        "message": "キーワードスコアはどのように効果的なこのキーワードは、あなたのビデオの最適化の努力になる測定に役立つように決定されます。1M+購読者チャネルがある場合は、競争力の高いキーワードに侵入することができます。それは低競争で検索用語をミッドレンジに集中するより良い場合は小さいチャネルです。"
+    },
+    "relatedQueriesTitle": {
+        "message": "関連するクエリ"
+    },
+    "trendingVideosTitle": {
+        "message": "モバイル向け動画"
+    },
+    "signupThanks": {
+        "message": "サインアップのためのおかげで!"
+    },
+    "topSearchKeywordsTitle": {
+        "message": "上位の検索キーワード"
+    },
+    "noRelatedKeywords": {
+        "message": "関連キーワードが見つかりません"
+    },
+    "improveSearchTagsTooltip": {
+        "message": "これらのタグは検索のビューを改善するために重点を置く"
+    },
+    "wantNMoreRecs": {
+        "message": "の検索用語の $number$ より多くの推奨事項をしますか",
+        "placeholders": {
+            "number": {
+                "content": "$1"
+            }
+        }
+    },
+    "improveVideosSearchTraffic": {
+        "message": "動画の検索トラフィックを向上させる"
+    },
+    "getTopKeywordAccess": {
+        "message": "トップへのアクセスを得る関連キーワード ・ トレンド動画検索ランキングを改善するために使用することができます"
+    },
+    "csvExportTitle": {
+        "message": "CSV エクスポート"
+    },
+    "massEditVideosTitle": {
+        "message": "一括編集動画"
+    },
+    "massEditCardsAndAnns": {
+        "message": "一括編集カード ・注釈"
+    },
+    "hideChannelInfoTitle": {
+        "message": "チャンネルを隠す情報"
+    },
+    "showChannelInfoTitle": {
+        "message": "チャンネルの表示情報"
+    },
+    "close": {
+        "message": "閉じる"
+    },
+    "open": {
+        "message": "オープン"
+    },
+    "loadByNumber": {
+        "message": "動画数で読み込む"
+    },
+    "loadByList": {
+        "message": "リストを読み込む"
+    },
+    "loadByPlaylist": {
+        "message": "プレイリストの読み込み"
+    },
+    "allVideosUpTo": {
+        "message": "すべての動画(まで$limit$)",
+        "placeholders": {
+            "limit": {
+                "content": "$1"
+            }
+        }
+    },
+    "custom": {
+        "message": "カスタム"
+    },
+    "listEntryRules": {
+        "message": "動画 Id または動画の Url を入力します。スペース、カンマで区切るか改行します。"
+    },
+    "firstPage": {
+        "message": "最初のページ ($vids$)",
+        "placeholders": {
+            "vids": {
+                "content": "$1"
+            }
+        }
+    },
+    "nVideos": {
+        "message": "$vids$ 動画",
+        "placeholders": {
+            "vids": {
+                "content": "$1"
+            }
+        }
+    },
+    "vidNumber": {
+        "message": "#の vids"
+    },
+    "showMoreTitle": {
+        "message": "詳細を表示します($number$)",
+        "placeholders": {
+            "number": {
+                "content": "$1"
+            }
+        }
+    },
+    "checklistCard": {
+        "message": "カードを少なくとも 1 枚"
+    },
+    "checklistEndScreen": {
+        "message": "少なくとも 1 終了画面"
+    },
+    "checklistCC": {
+        "message": "クローズド キャプション (マニュアル)"
+    },
+    "checklistMoney": {
+        "message": "収益受け取りを有効に"
+    },
+    "checklistPlaylist": {
+        "message": "プレイリストに追加"
+    },
+    "checklistTwitter": {
+        "message": "Twitter 上で共有"
+    },
+    "checklistFacebook": {
+        "message": "少なくとも 1 のように Facebook 上で共有"
+    },
+    "checklistComment": {
+        "message": "最近のコメントに答えた"
+    },
+    "noTagsFound": {
+        "message": "タグが見つかりません"
+    },
+    "tags": {
+        "message": "タグ"
+    },
+    "likeRatio": {
+        "message": "比率合計が好きに好き・嫌い"
+    },
+    "settings": {
+        "message": "設定"
+    },
+    "prev": {
+        "message": "前のページ"
+    },
+    "next": {
+        "message": "次に"
+    },
+    "allVideosLoaded": {
+        "message": "すべての動画を読み込まれている!"
+    },
+    "pageStatus": {
+        "message": "ページ <b>$page$</b>",
+        "placeholders": {
+            "page": {
+                "content": "$1"
+            }
+        }
+    },
+    "pageStatusTotalKnown": {
+        "message": "ページ<b>$page$</b> の <b>$total$</b>",
+        "placeholders": {
+            "page": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "pluralPagesLeftTitle": {
+        "message": "$pages$ ページ左",
+        "placeholders": {
+            "pages": {
+                "content": "$1"
+            }
+        }
+    },
+    "singularPageLeftTitle": {
+        "message": "1 ページ左"
+    },
+    "thatsEnoughTitle": {
+        "message": "十分です"
+    },
+    "loadMoreTitle": {
+        "message": "詳細をロードします。"
+    },
+    "loadingVideosTitle": {
+        "message": "ビデオの読み込み"
+    },
+    "mfaCodeSubmitFail": {
+        "message": "確認コードを送信できませんでした。"
+    },
+    "mfaCodeRequestFail": {
+        "message": "検証コードを要求できませんでした。"
+    },
+    "mfaInfoSMS": {
+        "message": "リクエストでは、< b >$phoneNumber$</b > 検証コードに SMS メッセージが送信されます。",
+        "placeholders": {
+            "phoneNumber": {
+                "content": "$1"
+            }
+        }
+    },
+    "mfaInfoEmail": {
+        "message": "リクエストでは、我々 をお送りする検証コードを記載したメール"
+    },
+    "requestCodeTitle": {
+        "message": "要求コード"
+    },
+    "mfaRequired": {
+        "message": "2 要素認証が必要です。"
+    },
+    "mfaComplete": {
+        "message": "承認完了!"
+    },
+    "verificationCodeTitle": {
+        "message": "確認コード"
+    },
+    "mfaCodeSent": {
+        "message": "確認コードを送信しました"
+    },
+    "mfaCodeSentExplain": {
+        "message": "再び求めることができる場合はそれを受信しない、"
+    },
+    "choosePlaylist": {
+        "message": "プレイリストを選択します。"
+    },
+    "loading": {
+        "message": "読み込み"
+    },
+    "loadPlaylistsTitle": {
+        "message": "プレイリストを読み込む"
+    },
+    "keywordRankTooltip": {
+        "message": "このビデオ ランク付けするかの YouTube 検索でこのキーワードを検索するとき"
+    },
+    "addKeyword": {
+        "message": "このキーワードを追加します。"
+    },
+    "overall": {
+        "message": "全体的な"
+    },
+    "monthlySearches": {
+        "message": "月間検索ボリューム"
+    },
+    "volume": {
+        "message": "vidIQ キーワードのボリューム"
+    },
+    "competition": {
+        "message": "vidIQ 競争のスコア"
+    },
+    "relatedTo": {
+        "message": "を関連します。"
+    },
+    "weightClassGood": {
+        "message": "このタグの競争上"
+    },
+    "weightClassMiddlin": {
+        "message": "このタグの近くの競争"
+    },
+    "weightClassBad": {
+        "message": "このタグのための競争の下"
+    },
+    "yourWeightClass": {
+        "message": "重量級"
+    },
+    "noResultsFound": {
+        "message": "結果は見つかりませんでした。"
+    },
+    "dropFileHere": {
+        "message": "ここでは、ファイルを削除またはファイルを参照するをクリックしてください"
+    },
+    "yes": {
+        "message": "うん"
+    },
+    "no": {
+        "message": "違います"
+    },
+    "cancel": {
+        "message": "キャンセル"
+    },
+    "livePreview": {
+        "message": "ライブ プレビュー"
+    },
+    "embedCodeCopy": {
+        "message": "埋め込みコード (コピーするをクリックします)"
+    },
+    "enablePrivacy": {
+        "message": "強化されたプライバシーを有効にします(すなわちクッキー)"
+    },
+    "showVideoInfo": {
+        "message": "ビデオ情報を表示します(タイトル、所有者、等)"
+    },
+    "showRelatedVideos": {
+        "message": "関連動画を見る"
+    },
+    "hideYouTubeLogo": {
+        "message": "YouTube のロゴを非表示します。"
+    },
+    "loopVideo": {
+        "message": "ループ動画"
+    },
+    "showAnnotations": {
+        "message": "注釈を表示します。"
+    },
+    "playVideoFrom": {
+        "message": "ビデオを再生します。"
+    },
+    "to": {
+        "message": "宛先"
+    },
+    "allowFullscreen": {
+        "message": "全画面表示を許可します。"
+    },
+    "disableKeyboardControls": {
+        "message": "キーボード コントロールを無効にします。"
+    },
+    "showPlayerControls": {
+        "message": "プレーヤー コントロールを表示します。"
+    },
+    "showCaptions": {
+        "message": "キャプションを表示します。"
+    },
+    "autoplayVideo": {
+        "message": "自動再生ビデオ"
+    },
+    "default": {
+        "message": "デフォルト"
+    },
+    "quality": {
+        "message": "品質"
+    },
+    "playerSize": {
+        "message": "プレーヤーのサイズ"
+    },
+    "advancedEmbedInfo": {
+        "message": "このダイアログ ボックスでは、YouTube が提供する利用可能な埋め込みオプションを活用できます。続きを読むについてこれらのオプション、<$ href$ > を参照してください YouTube の埋め込みプレーヤー ドキュメント </a >。",
+        "placeholders": {
+            "_href": {
+                "content": "$1"
+            }
+        }
+    },
+    "deleteTheTemplate": {
+        "message": "「$template$」テンプレートを削除しますか",
+        "placeholders": {
+            "template": {
+                "content": "$1"
+            }
+        }
+    },
+    "saveThisVideoTooltip": {
+        "message": "このビデオをテンプレートとして保存し、そのカードと他の動画に注釈を読み込む!"
+    },
+    "cardTemplates": {
+        "message": "カード テンプレート"
+    },
+    "annotationTemplates": {
+        "message": "注釈テンプレート"
+    },
+    "addCardsToSave": {
+        "message": "保存するカードを追加!"
+    },
+    "addAnnotationsToSave": {
+        "message": "保存するアノテーションを追加!"
+    },
+    "saveTemplateTitle": {
+        "message": "テンプレートを保存します。"
+    },
+    "chooseATemplate": {
+        "message": "テンプレートを選択します。"
+    },
+    "noTemplatesToLoad": {
+        "message": "読み込むテンプレートがありません! < br > その $resources$ をロードするテンプレートとして 他のビデオにビデオを保存",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "doneExclaim": {
+        "message": "完成です！"
+    },
+    "processingEllipsis": {
+        "message": "処理しています."
+    },
+    "bulkProcessorBeforeHeading": {
+        "message": "あなたは約 < b > $task$ </b >",
+        "placeholders": {
+            "task": {
+                "content": "$1"
+            }
+        }
+    },
+    "continueWhenReady": {
+        "message": "続ける準備ができたら、"
+    },
+    "overwriteEndscreen": {
+        "message": "これらのビデオのエンド画面注釈を上書き"
+    },
+    "editDetailsTask": {
+        "message": "$nVideos$ のための詳細を編集します。",
+        "placeholders": {
+            "nVideos": {
+                "content": "$1"
+            }
+        }
+    },
+    "editThumbnailsTask": {
+        "message": "$nVideos$ のためのサムネイルを編集します。",
+        "placeholders": {
+            "nVideos": {
+                "content": "$1"
+            }
+        }
+    },
+    "bulkProcessSuccess": {
+        "message": "成功、$number$ $resources$ あなたが変更されている!",
+        "placeholders": {
+            "number": {
+                "content": "$1"
+            },
+            "resources": {
+                "content": "$2"
+            }
+        }
+    },
+    "bulkProcessSuccessSingular": {
+        "message": "成功すると、$resource ドルを変更されています!"
+    },
+    "bulkProcessFail": {
+        "message": "<b> $number$ $resources$ に変更失敗しました。 </b> どれが更新されませんでしたを確認する上記のビデオを確認してください。",
+        "placeholders": {
+            "number": {
+                "content": "$1"
+            },
+            "resources": {
+                "content": "$2"
+            }
+        }
+    },
+    "bulkProcessFailSingular": {
+        "message": "<b> $resource$ に変更失敗しました </b>。",
+        "placeholders": {
+            "resource": {
+                "content": "$1"
+            }
+        }
+    },
+    "thumbnailSingular": {
+        "message": "サムネイル"
+    },
+    "thumbnailPlural": {
+        "message": "サムネイル"
+    },
+    "videoSingular": {
+        "message": "ビデオ"
+    },
+    "videoPlural": {
+        "message": "動画"
+    },
+    "oneVideo": {
+        "message": "ビデオ 1"
+    },
+    "copyVideoResourcesTask": {
+        "message": "コピー $resources$",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "copyVideoResourcesSuccess": {
+        "message": "<b> 成功、あなたの選択した $resources$ をコピーされている! </b> $resources$ を参照してください、上記のリストに任意のビデオをクリックするだけしたい場合。",
+        "placeholders": {
+            "resources": {
+                "content": "$2"
+            }
+        }
+    },
+    "copyVideoResourcesFail": {
+        "message": "<b> 、 が $number$ </b > を見極めるために上記のリストの動画が更新されていません確認してください保存に失敗しました、我々 は、$resources$ をコピーします。$resources$ を表示するには、任意のビデオをクリックします。",
+        "placeholders": {
+            "number": {
+                "content": "$1"
+            },
+            "resources": {
+                "content": "$3"
+            }
+        }
+    },
+    "readyCopyResources": {
+        "message": "準備ができて、私の $resources$ をコピーですよ!",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "customUrlWarning": {
+        "message": "カスタム Url を保存に失敗した可能性があります。"
+    },
+    "time": {
+        "message": "時間"
+    },
+    "startTime": {
+        "message": "開始時刻"
+    },
+    "speechBubbleTitle": {
+        "message": "吹き出し"
+    },
+    "noteTitle": {
+        "message": "メモ"
+    },
+    "spotlightTitle": {
+        "message": "スポット ライト"
+    },
+    "labelTitle": {
+        "message": "ラベル"
+    },
+    "callToAction": {
+        "message": "アクションへの呼び出し"
+    },
+    "teaserText": {
+        "message": "お誘いテキスト"
+    },
+    "message": {
+        "message": "メッセージ"
+    },
+    "name": {
+        "message": "名"
+    },
+    "text": {
+        "message": "テキスト"
+    },
+    "link": {
+        "message": "リンク"
+    },
+    "learnMore": {
+        "message": "詳細情報"
+    },
+    "signUp": {
+        "message": "サインアップ"
+    },
+    "shop": {
+        "message": "ショップ"
+    },
+    "download": {
+        "message": "ダウンロード"
+    },
+    "order": {
+        "message": "注文"
+    },
+    "buy": {
+        "message": "購入します。"
+    },
+    "title": {
+        "message": "タイトル"
+    },
+    "description": {
+        "message": "説明"
+    },
+    "edit": {
+        "message": "編集"
+    },
+    "noResourcesFound": {
+        "message": "このビデオを見つけたない $resources$",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "selectAllTitle": {
+        "message": "すべてを選択します。"
+    },
+    "selectNoneTitle": {
+        "message": "[なし]"
+    },
+    "copyEndScreenNote": {
+        "message": "注: 注釈付きビデオ終了画面要素をコピー公開が取り下げられますそれらその動画の終了画面をコピーできるようにします。"
+    },
+    "chooseResourcesToCopy": {
+        "message": "コピーし の $resources$ を選択します。",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "selected": {
+        "message": "選択"
+    },
+    "updateDefaultNote": {
+        "message": "<B> Text </b> 既定値を更新する可能性がありますと < b > Link </b > 各 $resources$ ドル以下の値します。",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "noOtherVideosFound": {
+        "message": "他の動画は見つかりませんでした。"
+    },
+    "loadingVideosEllipsis": {
+        "message": "ビデオを読み込んでいます"
+    },
+    "chooseVideoCopyTargets": {
+        "message": "これらの $resources$ をコピーし動画を選択します。",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "updatePerVideoNote": {
+        "message": "更新可能性があります、<b> Text </b > および < b > Link </b >各動画の $resources$ ドル以下の値です。",
+        "placeholders": {
+            "resources": {
+                "content": "$1"
+            }
+        }
+    },
+    "expandAllTitle": {
+        "message": "すべてを展開します。"
+    },
+    "expandNoneTitle": {
+        "message": "どれも展開します。"
+    },
+    "back": {
+        "message": "戻る"
+    },
+    "allCommentThreads": {
+        "message": "すべてのコメントのスレッド (選択フィルター)"
+    },
+    "hasReplies": {
+        "message": "返信は、します。"
+    },
+    "noReplies": {
+        "message": "返信がないです。"
+    },
+    "iveRepliedTo": {
+        "message": "私が返信しました。"
+    },
+    "iveNotRepliedTo": {
+        "message": "返事はまだしていません。"
+    },
+    "containQuestions": {
+        "message": "質問が含まれて"
+    },
+    "containProfanity": {
+        "message": "不適切な言葉が含まれて"
+    },
+    "containPositiveWords": {
+        "message": "肯定的な言葉が含まれて"
+    },
+    "containNegativeWords": {
+        "message": "否定的な言葉が含まれて"
+    },
+    "commentsMadeBy": {
+        "message": "コメントによって作ら。。。"
+    },
+    "searchByPhrases": {
+        "message": "フレーズで検索。。。。"
+    },
+    "filterOutPhrases": {
+        "message": "フレーズを除外。。。。"
+    },
+    "filterOutVideos": {
+        "message": "ビデオをフィルター処理。。。。"
+    },
+    "minimumSubs": {
+        "message": "最小契約数"
+    },
+    "multipleFilters": {
+        "message": "複数のフィルターを適用します。"
+    },
+    "showingCommentThreads": {
+        "message": "示す$current$ $total$ コメントのスレッド。",
+        "placeholders": {
+            "current": {
+                "content": "$1"
+            },
+            "total": {
+                "content": "$2"
+            }
+        }
+    },
+    "searchByList": {
+        "message": "コンマで区切った一覧でさがす"
+    },
+    "filterByList": {
+        "message": "コンマで区切られたリストでフィルターします。"
+    },
+    "ignoreByList": {
+        "message": "ビデオ Id の一覧を無視します。"
+    },
+    "searchByUsername": {
+        "message": "ユーザー名でコメントを検索"
+    },
+    "filterBySubscribers": {
+        "message": "サブスクライバーの数によってコメントをフィルター"
+    },
+    "commentTemplatesTitle": {
+        "message": "コメント テンプレート"
+    },
+    "noCommentTemplates": {
+        "message": "コメント テンプレートが保存されていません。開始する 1 つ追加!"
+    },
+    "insertReplyTitle": {
+        "message": "返信を挿入します"
+    },
+    "newTitle": {
+        "message": "新機能"
+    },
+    "saveTitle": {
+        "message": "保存"
+    },
+    "deleteTitle": {
+        "message": "削除"
+    },
+    "saveName": {
+        "message": "名前を保存します"
+    },
+    "editName": {
+        "message": "名を編集します"
+    },
+    "templateNameTitle": {
+        "message": "テンプレート名"
+    },
+    "templateTextTitle": {
+        "message": "テンプレートのテキスト"
+    },
+    "createNewCommentTemplateTitle": {
+        "message": "コメント テンプレートの新規作成します"
+    },
+    "createTitle": {
+        "message": "作成します"
+    },
+    "templateTextHint": {
+        "message": "ヒント: <i>&lt;user-name&gt;</i> ; </i> に返信するチャネルの名前に置き換えられます。"
+    },
+    "templatePlaceholder1": {
+        "message": "例えばおかげで"
+    },
+    "templatePlaceholder2": {
+        "message": "例えばサブスクライブをありがとう!"
+    },
+    "featureSuccess": {
+        "message": "<b> あなたのビデオの成功は今注目! </b> を更新または削除このおすすめ動画、$url$ </a> <$atag$ > を参照してください。",
+        "placeholders": {
+            "url": {
+                "content": "$1"
+            },
+            "atag": {
+                "content": "$2"
+            }
+        }
+    },
+    "featureFail": {
+        "message": "<b> ええとああ、あなたのビデオがない紹介! </b> メモ公開または非公開である場合、動画だけ機能があります。手動でこのビデオをフィーチャーしようには、</a> $url$ <$ atag$ ></a> を参照してください。",
+        "placeholders": {
+            "url": {
+                "content": "$1"
+            },
+            "_atag": {
+                "content": "$2"
+            }
+        }
+    },
+    "filterByPlaylist": {
+        "message": "再生リストによるフィルター処理します。"
+    },
+    "searchAndReplace": {
+        "message": "検索と置換"
+    },
+    "replace": {
+        "message": "置換"
+    },
+    "replaceWith": {
+        "message": "置き換えます"
+    },
+    "search": {
+        "message": "検索"
+    },
+    "caseSensitiveQ": {
+        "message": "大文字小文字を区別するか?"
+    },
+    "loadingVideoDataEllipsis": {
+        "message": "ビデオ データを読み込んでいます"
+    },
+    "oneItemSelected": {
+        "message": "1 つのアイテムを選択"
+    },
+    "nItemsSelected": {
+        "message": "$n$ アイテム選択",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "clearPendingEditsTitle": {
+        "message": "明確な保留中の編集"
+    },
+    "readyMakeChanges": {
+        "message": "私は準備ができて、私を変更!"
+    },
+    "resource": {
+        "message": "私は準備ができて、私を変更!"
+    },
+    "resources": {
+        "message": "リソース"
+    },
+    "editOneThing": {
+        "message": "$thing$ 1 を編集します。",
+        "placeholders": {
+            "thing": {
+                "content": "$1"
+            }
+        }
+    },
+    "editNThings": {
+        "message": "$n$ $things$ を編集します。",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            },
+            "things": {
+                "content": "$2"
+            }
+        }
+    },
+    "deleteOneThing": {
+        "message": "$thing$ 1 を削除します。",
+        "placeholders": {
+            "thing": {
+                "content": "$1"
+            }
+        }
+    },
+    "deleteNThings": {
+        "message": "$n$ $things$ を削除します。",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            },
+            "things": {
+                "content": "$2"
+            }
+        }
+    },
+    "card": {
+        "message": "カード"
+    },
+    "annotation": {
+        "message": "注釈"
+    },
+    "markAllForDeletionTitle": {
+        "message": "削除のすべてのマーク"
+    },
+    "clearPendingDeletionsTitle": {
+        "message": "明確な保留中の削除"
+    },
+    "noResourcesFoundTitle": {
+        "message": "リソースが見つかりません"
+    },
+    "noResourcesFoundHint": {
+        "message": "ください戻ると <b> All </b> リソースの種類を選択するかを検索するビデオの量を増やします。"
+    },
+    "and": {
+        "message": "そして"
+    },
+    "found": {
+        "message": "発見"
+    },
+    "searchingFor": {
+        "message": "を検索"
+    },
+    "chooseSourceVideoTitle": {
+        "message": "ソース ビデオを選択します。"
+    },
+    "chooseResourcesToEditTitle": {
+        "message": "編集または削除するリソースを選択します。"
+    },
+    "all": {
+        "message": "すべて"
+    },
+    "youtubeBackoff": {
+        "message": "YouTube で待機しています。これは分だけかかるべきであります。"
+    },
+    "exportedOneVideo": {
+        "message": "エクスポート<b>1 video</b> に <b>$time$</b>",
+        "placeholders": {
+            "time": {
+                "content": "$1"
+            }
+        }
+    },
+    "exportedNVideos": {
+        "message": "エクスポート <b>$n$ videos</b> に<b>$time$</b>",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            },
+            "time": {
+                "content": "$2"
+            }
+        }
+    },
+    "CSVPreview": {
+        "message": "エクスポート <b>$n$ videos</b> に<b>$time$</b>",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            },
+            "time": {
+                "content": "$2"
+            }
+        }
+    },
+    "loadingBatch": {
+        "message": "読み込みバッチ"
+    },
+    "exportUpTo": {
+        "message": "最大 $limit$ドルの動画をエクスポートします。",
+        "placeholders": {
+            "limit": {
+                "content": "$1"
+            }
+        }
+    },
+    "exportMyVideos": {
+        "message": "すべての私のビデオをエクスポートします。"
+    },
+    "exportTheirVideos": {
+        "message": "すべての動画をエクスポートします。"
+    },
+    "exportExplainMine": {
+        "message": "この機能を使用してすべてのパブリック、プライベート、および未公開ビデオ データ CSV ファイルとしてダウンロード"
+    },
+    "exportExplainMineLimited": {
+        "message": "この機能を使用して、いくつかをダウンロードの<b> $channel$ </b> 公共のビデオ データを CSV ファイルとして",
+        "placeholders": {
+            "channel": {
+                "content": "$1"
+            }
+        }
+    },
+    "exportExplainTheirs": {
+        "message": "この機能を使用して、すべてをダウンロードするにはの<b> $channel$ </b> 公共のビデオ データを CSV ファイルとして",
+        "placeholders": {
+            "channel": {
+                "content": "$1"
+            }
+        }
+    },
+    "exportExplainTheirsLimited": {
+        "message": "この機能を使用して、いくつかをダウンロードの<b> $channel$ </b> 公共のビデオ データを CSV ファイルとして",
+        "placeholders": {
+            "channel": {
+                "content": "$1"
+            }
+        }
+    },
+    "uploadUpgradeBoost": {
+        "message": "アップグレード宛先<b>ブースト</b>取得するには<b>無制限</b>動画!"
+    },
+    "uploadUpgradeProBoost": {
+        "message": "アップグレード宛先<b>Pro</b>宛先取得$limit$ ビデオ、またはアップグレード宛先<b>Boost</b>取得するには<b> unlimited </b>動画!",
+        "placeholders": {
+            "limit": {
+                "content": "$1"
+            }
+        }
+    },
+    "massCSVExportTitle": {
+        "message": "大量の CSV エクスポート"
+    },
+    "massLikeThisVideo": {
+        "message": "このビデオのような塊"
+    },
+    "couldNotFindOwnedChannels": {
+        "message": "所有する任意のチャンネルが見つかりませんでした。"
+    },
+    "selectLikingChannels": {
+        "message": "<b> 質量 </b> このビデオのようなボタンをクリックしてあなたのビデオのようにする必要がありますチャネルを選択します。"
+    },
+    "videoToBeMassLiked": {
+        "message": "好かれる大量のビデオ"
+    },
+    "loginToUseShortcuts": {
+        "message": "ショートカットを使用してログイン!"
+    },
+    "signUpForVidIQ": {
+        "message": "VidIQ にサインアップします。"
+    },
+    "help": {
+        "message": "ヘルプ"
+    },
+    "blog": {
+        "message": "ブログ"
+    },
+    "logoutTitle": {
+        "message": "ログアウトします。"
+    },
+    "authForShortcuts": {
+        "message": "VidIQ ショートカットを使用する認証します。"
+    },
+    "vidIQShortcutsTitle": {
+        "message": "vidIQ ショート カット"
+    },
+    "analyticsTitle": {
+        "message": "アナリティクス"
+    },
+    "descriptionsTitle": {
+        "message": "説明"
+    },
+    "seoTagsTitle": {
+        "message": "SEO |タグ"
+    },
+    "subscriberInsightsTitle": {
+        "message": "サブスクライバーの洞察力"
+    },
+    "youTubeShortcuts": {
+        "message": "YouTube のショートカット"
+    },
+    "homeTitle": {
+        "message": "ホーム"
+    },
+    "dashboardTitle": {
+        "message": "ダッシュ ボード"
+    },
+    "uploadTitle": {
+        "message": "アップロード"
+    },
+    "myVideosTitle": {
+        "message": "私のビデオ"
+    },
+    "playlistsTitle": {
+        "message": "プレイリスト"
+    },
+    "commentsTitle": {
+        "message": "コメント"
+    },
+    "subscribersTitle": {
+        "message": "加入者"
+    },
+    "facebookAuthTitle": {
+        "message": "Facebook を認証します。"
+    },
+    "suggestion": {
+        "message": "提案"
+    },
+    "statusTitle": {
+        "message": "ステータス"
+    },
+    "fileTitle": {
+        "message": "ファイル"
+    },
+    "chooseEllipses": {
+        "message": "選択してください."
+    },
+    "categoryTitle": {
+        "message": "カテゴリ"
+    },
+    "authChannelWithVidIQ": {
+        "message": "<B> vidIQ </b> のあなたのチャネルを認証します"
+    },
+    "videoStillTitle": {
+        "message": "まだビデオ"
+    },
+    "solidColorTitle": {
+        "message": "ソリッド カラー"
+    },
+    "otherImageTitle": {
+        "message": "その他のイメージ"
+    },
+    "currentThumbnailTitle": {
+        "message": "現在のサムネイル"
+    },
+    "maxRes": {
+        "message": "利用可能な最大解像度"
+    },
+    "chooseCurrentThumb": {
+        "message": "現在のサムネイルを選択します"
+    },
+    "imageThumbInfo": {
+        "message": "サムネイルの背景のイメージを使用するには、アップロードする 1 つを選択するか、ボックスにいずれかをドロップします。"
+    },
+    "chooseThumbBgColor": {
+        "message": "あなたのサムネイルの目的の背景色を選択します。"
+    },
+    "chooseThumbStill": {
+        "message": "まだあなたのサムネイルのビデオを使用して目的のフレームでビデオを一時停止します。"
+    },
+    "stepThroughFrame": {
+        "message": "手順 <br/> 各ビデオ フレーム"
+    },
+    "addStuffToThumbnail": {
+        "message": "サムネイルにテキスト、イメージ、および図形オーバーレイを追加します。"
+    },
+    "editSelectedObjectTitle": {
+        "message": "選択したオブジェクトを編集します。"
+    },
+    "borderTitle": {
+        "message": "国境"
+    },
+    "widthTitle": {
+        "message": "幅"
+    },
+    "borderWidthTitle": {
+        "message": "境界線の幅"
+    },
+    "opacityTitle": {
+        "message": "不透明度"
+    },
+    "addShapeTitle": {
+        "message": "図形を追加します。"
+    },
+    "shapeRect": {
+        "message": "四角形"
+    },
+    "shapeTriangle": {
+        "message": "三角形"
+    },
+    "shapeCircle": {
+        "message": "円"
+    },
+    "shapeEllipse": {
+        "message": "楕円"
+    },
+    "addTextTitle": {
+        "message": "テキストを追加します。"
+    },
+    "noTemplatesToLoad2": {
+        "message": "新しいテンプレートを作成するオブジェクトを追加するテンプレートを保存するがないです。"
+    },
+    "noTemplatesToLoad3": {
+        "message": "まだ、保存されたテンプレート作成上"
+    },
+    "noTemplatesToLoad4": {
+        "message": "読み込むテンプレートがありません。"
+    },
+    "addCreateOverwrite": {
+        "message": "作成またはテンプレートを上書きするオブジェクトを追加します。"
+    },
+    "exampleTemplateName": {
+        "message": "名前 (例えばマイ-テンプレート-1)"
+    },
+    "overwriteTitle": {
+        "message": "上書き"
+    },
+    "createNewTitle": {
+        "message": "新規作成します。"
+    },
+    "replaceCurrentObjects": {
+        "message": "現在のオブジェクトを置き換える"
+    },
+    "chooseTemplate": {
+        "message": "テンプレートを選択します。"
+    },
+    "loadTitle": {
+        "message": "ロード"
+    },
+    "loadTemplate": {
+        "message": "テンプレート ロード"
+    },
+    "saveThumbnailTitle": {
+        "message": "サムネイルを保存します。"
+    },
+    "savingEllipsis": {
+        "message": "保存."
+    },
+    "savingThumbnailEllipsis": {
+        "message": "サムネイルを保存しています"
+    },
+    "preThumbnailSaveInfo": {
+        "message": "これは、ウェブ の周りあなたのサムネイルのようです。準備ができたら、「サムネイルを保存」ボタンををクリックしてします。"
+    },
+    "thumbnailSavedNotice": {
+        "message": "サムネイルが保存されました。変更を反映するために YouTube には数分をかかる場合があります。"
+    },
+    "customThumbnailUsageNotice": {
+        "message": "カスタム サムネイルを使用して、あなたのアカウントは検証し優良 $endz$ する必要があります$startz$。",
+        "placeholders": {
+            "endz": {
+                "content": "$1"
+            },
+            "startz": {
+                "content": "$2"
+            }
+        }
+    },
+    "youTubeSearchTitle": {
+        "message": "YouTube (検索)"
+    },
+    "facebookTitle": {
+        "message": "Facebook"
+    },
+    "twitterTitle": {
+        "message": "Twitter"
+    },
+    "last60Minutes": {
+        "message": "最後の 60 分間"
+    },
+    "last48Hours": {
+        "message": "最後の 48 時間"
+    },
+    "last7Days": {
+        "message": "過去 7 日間"
+    },
+    "reviewUs": {
+        "message": "私たちのレビュー!"
+    },
+    "subscribeForTricks": {
+        "message": "ヒントとトリックのための vidIQ チャネルを購読する!"
+    },
+    "improveYourViews": {
+        "message": "あなたの意見を改善したいですか?"
+    },
+    "averageMinutesWatched": {
+        "message": "見て平均分"
+    },
+    "percentChangeTooltip": {
+        "message": "$change$ %前の期間と比較してください。($previous$)",
+        "placeholders": {
+            "change": {
+                "content": "$1"
+            },
+            "previous": {
+                "content": "$2"
+            }
+        }
+    },
+    "boostToGetTitleRecs": {
+        "message": "このビデオのタイトルの推奨事項を後押し!"
+    },
+    "boostToGetDescriptionRecs": {
+        "message": "説明推奨を得るためにこのビデオを後押し!"
+    },
+    "considerIncludingTitle": {
+        "message": "タイトルでの検索キーワードの高度を含むご検討ください。"
+    },
+    "considerIncludingDescription": {
+        "message": "あなたの説明で高度を含む検索キーワードを考慮します。"
+    },
+    "addMoreTagsForTitleRecs": {
+        "message": "あなたのタイトルの推奨事項を取得するより多くのタグを追加!"
+    },
+    "addMoreTagsForDescriptionRecs": {
+        "message": "あなたの記述のための推薦を取得するより多くのタグを追加!"
+    },
+    "translateTitle": {
+        "message": "翻訳"
+    },
+    "addAllTitle": {
+        "message": "すべて追加します。"
+    },
+    "chooseLanguage": {
+        "message": "翻訳する言語を選択してください!"
+    },
+    "chooseTwoLangs": {
+        "message": "2 つの異なる言語に変換を選択してください!"
+    },
+    "translationProblem": {
+        "message": "あなたの翻訳を取得する問題があった。"
+    },
+    "translateKeywordsTitle": {
+        "message": "キーワードを翻訳します。"
+    },
+    "autoDetect": {
+        "message": "自動検出"
+    },
+    "chooseLanguage2": {
+        "message": "言語を選択してください"
+    },
+    "addingTranslatedKeywords": {
+        "message": "追加するキーワードを翻"
+    },
+    "upgradeProTranslate": {
+        "message": "$start$ vidIQ にプロ $end$ すべての翻訳を表示するをアップグレード!",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "end": {
+                "content": "$2"
+            }
+        }
+    },
+    "deleteAllKeywordsQ": {
+        "message": "すべてのキーワードを削除しますか?"
+    },
+    "clearTitle": {
+        "message": "明確な"
+    },
+    "upgradeBoostTagRecs": {
+        "message": "$start$ vidIQ ブースト $end$ より推奨されるタグと 9 よりトレンド動画 $n$ を表示するにアップグレード!",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "end": {
+                "content": "$2"
+            },
+            "n": {
+                "content": "$3"
+            }
+        }
+    },
+    "boostLearnMore": {
+        "message": "これで新しい動画を高めることについての詳細を学ぶことができます。$start$video tutorial$end$!",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "end": {
+                "content": "$2"
+            }
+        }
+    },
+    "recommendedTagsTitle": {
+        "message": "推奨されるタグ"
+    },
+    "unlockTooltip": {
+        "message": "ブーストにアップグレードするときの国、言語、および並べ替えオプションのロックを解除!"
+    },
+    "relevancyTitle": {
+        "message": "関連性"
+    },
+    "sortBy": {
+        "message": "並べ替え"
+    },
+    "addTagsForRecs": {
+        "message": "推奨事項を取得するいくつかのタグを追加!"
+    },
+    "keywordInspectorTitle": {
+        "message": "キーワード インスペクター"
+    },
+    "optimizeOneMoreVideo": {
+        "message": "1 より多くのビデオを最適化できます。"
+    },
+    "optimizeNMoreVideos": {
+        "message": "$n$ より多くのビデオを最適化できます。",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "newPeriodStartsTomorrow": {
+        "message": "新しい期間が明日から始まります。"
+    },
+    "newPeriodStartsNDays": {
+        "message": "新しい期間は、$n$ 日で開始します。",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "quotaLimitTooltip": {
+        "message": "あなたのアカウントは $quota$ 動画に限定 1 ヶ月。続きに興味のある方は、こちらからお問い合わせください。",
+        "placeholders": {
+            "quota": {
+                "content": "$1"
+            }
+        }
+    },
+    "outOfOptimizationsNDays": {
+        "message": "あなたはこの期間の最適化から。$start$Upgradez$end$または$n$ 日に戻ってチェックしてください。",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "end": {
+                "content": "$2"
+            },
+            "n": {
+                "content": "$3"
+            }
+        }
+    },
+    "outOfOptimizationsTomorrow": {
+        "message": "あなたはこの期間の最適化から。$start$Upgrade$end$または明日戻って確認してください。",
+        "placeholders": {
+            "start": {
+                "content": "$1"
+            },
+            "end": {
+                "content": "$2"
+            }
+        }
+    },
+    "boostVideoTitle": {
+        "message": "このビデオを高める"
+    },
+    "cantLoadSeoScoreChecklist": {
+        "message": "SEO のスコアまたはチェックリストを読み込むことができません。"
+    },
+    "titleDescSuggestionTitle": {
+        "message": "タイトルと説明の提案"
+    },
+    "characterCountersTitle": {
+        "message": "文字カウンター"
+    },
+    "clearKeywordsTitle": {
+        "message": "明確なキーワード"
+    },
+    "copyKeywordsTitle": {
+        "message": "キーワードをコピーします。"
+    },
+    "dragDropKeywordsTitle": {
+        "message": "ドラッグ ・ アンド ・ ドロップのキーワード"
+    },
+    "emojiMenusTitle": {
+        "message": "絵文字メニュー"
+    },
+    "seoScoreChecklistTitle": {
+        "message": "Seo のスコアとチェックリスト"
+    },
+    "preferencesTitle": {
+        "message": "基本設定"
+    },
+    "createThumbnailTitle": {
+        "message": "サムネイルを作成します。"
+    },
+    "noTagsDetected": {
+        "message": "ビデオの説明、タグのいずれかが見つかりません。説明、タイトル、タグ、最強のキーワードが表示されることを確認します。"
+    },
+    "numberOfViewsTitle": {
+        "message": "ビューの数"
+    },
+    "videosToGainViewsFromTitle": {
+        "message": "動画からの眺めを得るために"
+    },
+    "searchByKeyword": {
+        "message": "キーワードで検索します。"
+    },
+    "dontForgetRefresh": {
+        "message": "アップグレード後に更新することを忘れないでください!"
+    },
+    "getMoreViews": {
+        "message": "このビデオより多くの意見を得る"
+    },
+    "upgradeToBoost": {
+        "message": "アップグレード宛先<b> vidIQBoost </b>"
+    },
+    "hide": {
+        "message": "非表示"
+    },
+    "vidiqBoostUpgradeViews": {
+        "message": "アップグレード宛先<b> vidIQBoost </b> より多くのビューを取得する!"
+    },
+    "searchVolumeTitle": {
+        "message": "vidIQ 検索ボリューム"
+    },
+    "unableToGetFullResults": {
+        "message": "クォータ制限のため完全な結果を取得できません。"
+    },
+    "reports": {
+        "message": "レポート"
+    },
+    "sourceGoogleTrends": {
+        "message": "ソース: Google の動向 (YouTube検索)"
+    },
+    "interestOverTimeTitle": {
+        "message": "時間をかけて興味"
+    },
+    "searchQueriesTitle": {
+        "message": "検索クエリ"
+    },
+    "risingSearchQueriesTitle": {
+        "message": "上昇検索クエリ"
+    },
+    "topSearchQueriesTitle": {
+        "message": "上位の検索クエリ"
+    },
+    "topTitle": {
+        "message": "ページのトップへ"
+    },
+    "risingTitle": {
+        "message": "上昇"
+    },
+    "hideKwinsTitle": {
+        "message": "キーワード インスペクターを非表示します。"
+    },
+    "searchForKeyword": {
+        "message": "キーワードの検索"
+    },
+    "improveVideosBestTags": {
+        "message": "あなたのビデオと <br> 使用可能な限り最高のタグを改善します。"
+    },
+    "recommendedBy": {
+        "message": "おすすめ"
+    },
+    "relatedTrendingVideos": {
+        "message": "関連トレンド動画"
+    },
+    "noRelatedTrendingVideos": {
+        "message": "発見関連トレンド動画"
+    },
+    "relatedKeywords": {
+        "message": "関連するキーワード"
+    },
+    "notEnoughSVReports": {
+        "message": "レポートを表示するには、十分な検索ボリューム"
+    },
+    "notEnoughSVIOT": {
+        "message": "検索期間金利レポートのボリュームが十分ではないです。"
+    },
+    "notEnoughSVQueries": {
+        "message": "検索検索クエリ レポートのボリュームが十分ではないです。"
+    },
+    "allTimeTitle": {
+        "message": "すべての時間"
+    },
+    "lastYearTitle": {
+        "message": "昨年"
+    },
+    "last30DaysTitle": {
+        "message": "過去 30 日間"
+    },
+    "upgradeForMoreRelatedKeywords": {
+        "message": "$before$Upgrade$after$ 宛先関連キーワード以上を取得します。",
+        "placeholders": {
+            "before": {
+                "content": "$1"
+            },
+            "after": {
+                "content": "$2"
+            }
+        }
+    },
+    "vidIQVisionOptions": {
+        "message": "vidIQ ビジョン - オプション"
+    },
+    "extensionSettingsTitle": {
+        "message": "拡張機能の設定"
+    },
+    "thumbnailRatingBarTitle": {
+        "message": "サムネイルの評価バー"
+    },
+    "toolbarStatsDropdownTitle": {
+        "message": "ツールバーの統計情報] ドロップダウン"
+    },
+    "successfullyAuthed": {
+        "message": "正常に認証されました。"
+    },
+    "endScreens": {
+        "message": "終了画面"
+    },
+    "scHighestViewsTitle": {
+        "message": "最高の景色"
+    },
+    "scAvgViewsTitle": {
+        "message": "平均値ビュー"
+    },
+    "scAvgAgeTitle": {
+        "message": "平均年齢"
+    },
+    "scTimesInTitleTitle": {
+        "message": "タイトルの回"
+    },
+    "scTimesInDescTitle": {
+        "message": "Desc で回"
+    },
+    "scTopCreatorTitle": {
+        "message": "創造するトップ企業"
+    },
+    "scAddedLast7DaysTitle": {
+        "message": "最後の 7 日間を追加"
+    },
+    "scCcTitle": {
+        "message": "CC"
+    },
+    "allFieldsRequired": {
+        "message": "フィールドはすべて必須です。"
+    },
+    "accountCreationProblem": {
+        "message": "アカウントの作成に問題があった"
+    },
+    "emailTaken": {
+        "message": "メールは既に使用されています。別の 1 つを試してください。"
+    },
+    "invalidLogin": {
+        "message": "指定したメール アドレスとパスワードが有効ではありません。"
+    },
+    "filterNItems": {
+        "message": "$n$ アイテムをフィルターします。",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "filterOneItem": {
+        "message": "1 つのアイテムにフィルターを適用します。"
+    },
+    "nResults": {
+        "message": "$n$ 結果",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "oneResult": {
+        "message": "1 結果"
+    },
+    "setCustomRange": {
+        "message": "カスタム設定範囲"
+    },
+    "associatedWebsiteTitle": {
+        "message": "関連する ウェブ サイト"
+    },
+    "fundraisingTitle": {
+        "message": "募金"
+    },
+    "merchandiseTitle": {
+        "message": "商品"
+    },
+    "videoPlaylistTitle": {
+        "message": "ビデオ/プレイリスト"
+    },
+    "successfullyAddedNLikes": {
+        "message": "正常に追加された $n$ 新しいのあなたのビデオが好きだ!",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "successfullyAddedOneLike": {
+        "message": "正常に追加された 1 つの新しいのようなあなたのビデオに!"
+    },
+    "massLikeFail": {
+        "message": "あなたのビデオのように大量に失敗しました: $error$",
+        "placeholders": {
+            "error": {
+                "content": "$1"
+            }
+        }
+    },
+    "mustLinkChannel": {
+        "message": "VidIQ アカウントでこの機能を使用するために現在の YouTube チャンネルをリンクする必要があります。"
+    },
+    "unknownError": {
+        "message": "不明なエラー"
+    },
+    "shapeTitle": {
+        "message": "図形"
+    },
+    "imageTitle": {
+        "message": "イメージ"
+    },
+    "templatesTitle": {
+        "message": "テンプレート"
+    },
+    "enterText": {
+        "message": "テキストを入力します。"
+    },
+    "categoryComedy": {
+        "message": "コメディ"
+    },
+    "categoryEntertainment": {
+        "message": "エンターテイメント"
+    },
+    "categoryFamily": {
+        "message": "家族"
+    },
+    "categoryMusic": {
+        "message": "音楽"
+    },
+    "categorySports": {
+        "message": "スポーツ"
+    },
+    "checklistTitle": {
+        "message": "チェックリスト"
+    },
+    "idTitle": {
+        "message": "ID"
+    },
+    "keywordsTitle": {
+        "message": "キーワード"
+    },
+    "datePublishedTitle": {
+        "message": "公開された日付"
+    },
+    "estimatedTime": {
+        "message": "$timeFromNow$ (推定)",
+        "placeholders": {
+            "timeFromNow": {
+                "content": "$1"
+            }
+        }
+    },
+    "ytCommentsStatTitle": {
+        "message": "YouTube のコメント"
+    },
+    "ytLikesStatTitle": {
+        "message": "YouTube が好きです"
+    },
+    "ytDislikesStatTitle": {
+        "message": "YouTube 嫌い"
+    },
+    "ytSharesStatTitle": {
+        "message": "YouTube 株"
+    },
+    "fbLikesStatTitle": {
+        "message": "Facebook が好きです"
+    },
+    "fbSharesStatTitle": {
+        "message": "Facebook の株式"
+    },
+    "fbCommentsStatTitle": {
+        "message": "Facebook コメント"
+    },
+    "redditUpvotesStatTitle": {
+        "message": "Reddi 賛成"
+    },
+    "redditPostsStatTitle": {
+        "message": "Reddit の記事"
+    },
+    "redditCommentsStatTitle": {
+        "message": "Reddit コメント"
+    },
+    "googlePlusStatTitle": {
+        "message": "Google+"
+    },
+    "stumbleuponStatTitle": {
+        "message": "Stumbleupon"
+    },
+    "linkedInStatTitle": {
+        "message": "LinkedIn"
+    },
+    "dayAbbreviation": {
+        "message": "d"
+    },
+    "hourAbbreviation": {
+        "message": "h"
+    },
+    "minuteAbbreviation": {
+        "message": "m"
+    },
+    "couldNotGetTemplates": {
+        "message": "テンプレートを取得できませんでした: $error$",
+        "placeholders": {
+            "error": {
+                "content": "$1"
+            }
+        }
+    },
+    "templateSaved": {
+        "message": "$template $ が正常に保存されました!",
+        "placeholders": {
+            "template_": {
+                "content": "$1"
+            }
+        }
+    },
+    "templateSaveProblem": {
+        "message": "「$template$」を保存中に問題が発生しました: $error$",
+        "placeholders": {
+            "template": {
+                "content": "$1"
+            },
+            "error": {
+                "content": "$2"
+            }
+        }
+    },
+    "failedToLoadCardsNoCards": {
+        "message": "カードの読み込みに失敗しました: このテンプレートのカードが存在しません。"
+    },
+    "failedToLoadCardsOther": {
+        "message": "カードの読み込みに失敗しました: $other$",
+        "placeholders": {
+            "other": {
+                "content": "$1"
+            }
+        }
+    },
+    "failedToLoadCardsNoVideo": {
+        "message": "カードの読み込みに失敗しました: ビデオは存在しません。"
+    },
+    "failedToLoadAnnsNoAnns": {
+        "message": "注釈の読み込みに失敗しました: このテンプレートの注釈が存在しません。"
+    },
+    "failedToLoadAnnsOther": {
+        "message": "注釈の読み込みに失敗しました: $other$",
+        "placeholders": {
+            "other": {
+                "content": "$1"
+            }
+        }
+    },
+    "failedToLoadAnnsNoVideo": {
+        "message": "注釈の読み込みに失敗しました: ビデオは存在しません。"
+    },
+    "templateDeleted": {
+        "message": "正常に削除された $template$!",
+        "placeholders": {
+            "template": {
+                "content": "$1"
+            }
+        }
+    },
+    "templateDeleteProblem": {
+        "message": "「$template$」を削除中に問題が発生しました: $error$",
+        "placeholders": {
+            "template": {
+                "content": "$1"
+            },
+            "error": {
+                "content": "$2"
+            }
+        }
+    },
+    "couldNotRetrieveCurrThumb": {
+        "message": "現在のサムネイルを取得できませんでした。"
+    },
+    "imageTooLarge": {
+        "message": "画像の大きすぎる、最大値は $limit$ MB",
+        "placeholders": {
+            "limit": {
+                "content": "$1"
+            }
+        }
+    },
+    "visit": {
+        "message": "訪問"
+    },
+    "none": {
+        "message": "どれも"
+    },
+    "topDevicesStatLabel": {
+        "message": "トップ デバイス"
+    },
+    "topCountriesStatLabel": {
+        "message": "トップの国"
+    },
+    "hourSingular": {
+        "message": "時間"
+    },
+    "hourPlural": {
+        "message": "時間"
+    },
+    "minuteSingular": {
+        "message": "分"
+    },
+    "minutePlural": {
+        "message": "分"
+    },
+    "secondSingular": {
+        "message": "秒"
+    },
+    "secondPlural": {
+        "message": "秒"
+    },
+    "langAfrikaans": {
+        "message": "アフリカーンス語"
+    },
+    "langIndonesian": {
+        "message": "インドネシア語"
+    },
+    "langMalay": {
+        "message": "マレー語"
+    },
+    "langCatalan": {
+        "message": "カタロニア語"
+    },
+    "langCzech": {
+        "message": "チェコ語"
+    },
+    "langDanish": {
+        "message": "デンマーク語"
+    },
+    "langGerman": {
+        "message": "ドイツ語"
+    },
+    "langEstonian": {
+        "message": "エストニア語"
+    },
+    "langEnglishUnitedKingdom": {
+        "message": "英語 (イギリス)"
+    },
+    "langEnglish": {
+        "message": "英語"
+    },
+    "langSpanishSpain": {
+        "message": "スペイン語 (スペイン)"
+    },
+    "langSpanishLatinAmerica": {
+        "message": "スペイン語 (ラテン アメリカ)"
+    },
+    "langBasque": {
+        "message": "バスク語"
+    },
+    "langFilipino": {
+        "message": "フィリピノ語"
+    },
+    "langFrench": {
+        "message": "フランス語"
+    },
+    "langFrenchCanada": {
+        "message": "フランス語 (カナダ)"
+    },
+    "langGalician": {
+        "message": "ガリシア語"
+    },
+    "langCroatian": {
+        "message": "クロアチア語"
+    },
+    "langZulu": {
+        "message": "ズールー語"
+    },
+    "langIcelandic": {
+        "message": "アイスランド語"
+    },
+    "langItalian": {
+        "message": "イタリア語"
+    },
+    "langSwahili": {
+        "message": "スワヒリ語"
+    },
+    "langLatvian": {
+        "message": "ラトビア語"
+    },
+    "langLithuanian": {
+        "message": "リトアニア語"
+    },
+    "langHungarian": {
+        "message": "ハンガリー語"
+    },
+    "langDutch": {
+        "message": "オランダ語"
+    },
+    "langNorwegian": {
+        "message": "ノルウェー語"
+    },
+    "langPolish": {
+        "message": "ポーランド語"
+    },
+    "langPortuguesePortugal": {
+        "message": "ポルトガル語 (ポルトガル)"
+    },
+    "langPortugueseBrazil": {
+        "message": "ポルトガル語 (ブラジル)"
+    },
+    "langRomanian": {
+        "message": "ルーマニア語"
+    },
+    "langSlovak": {
+        "message": "スロバキア語"
+    },
+    "langSlovenian": {
+        "message": "スロベニア語"
+    },
+    "langFinnish": {
+        "message": "フィンランド語"
+    },
+    "langSwedish": {
+        "message": "スウェーデン語"
+    },
+    "langVietnamese": {
+        "message": "ベトナム語"
+    },
+    "langTurkish": {
+        "message": "トルコ語"
+    },
+    "langBulgarian": {
+        "message": "ブルガリア語"
+    },
+    "langRussian": {
+        "message": "ロシア語"
+    },
+    "langSerbian": {
+        "message": "セルビア語"
+    },
+    "langUkrainian": {
+        "message": "ウクライナ語"
+    },
+    "langGreek": {
+        "message": "ギリシャ語"
+    },
+    "langHebrew": {
+        "message": "ヘブライ語"
+    },
+    "langUrdu": {
+        "message": "ウルドゥ語"
+    },
+    "langArabic": {
+        "message": "アラビア語"
+    },
+    "langPersian": {
+        "message": "ペルシャ語"
+    },
+    "langMarathi": {
+        "message": "マラーティー語"
+    },
+    "langHindi": {
+        "message": "ヒンディー語"
+    },
+    "langBengali": {
+        "message": "ベンガル語"
+    },
+    "langGujarati": {
+        "message": "グジャラート語"
+    },
+    "langTamil": {
+        "message": "タミール語"
+    },
+    "langTelugu": {
+        "message": "テルグ語"
+    },
+    "langKannada": {
+        "message": "カナラ語"
+    },
+    "langMalayalam": {
+        "message": "マラヤラム語"
+    },
+    "langThai": {
+        "message": "タイ語"
+    },
+    "langAmharic": {
+        "message": "アムハラ語"
+    },
+    "langChinese": {
+        "message": "中国語"
+    },
+    "langChineseTaiwan": {
+        "message": "中国語 (台湾)"
+    },
+    "langChineseHongKong": {
+        "message": "中国語 (香港)"
+    },
+    "langJapanese": {
+        "message": "日本語"
+    },
+    "langKorean": {
+        "message": "韓国語"
+    },
+    "langAlbanian": {
+        "message": "アルバニア語"
+    },
+    "langArmenian": {
+        "message": "アルメニア語"
+    },
+    "langAzerbaijani": {
+        "message": "アゼルバイジャン"
+    },
+    "langBelarusian": {
+        "message": "ベラルーシ語"
+    },
+    "langBosnian": {
+        "message": "ボスニア語"
+    },
+    "langCebuano": {
+        "message": "セブアノ語"
+    },
+    "langChichewa": {
+        "message": "チチェワ語"
+    },
+    "langChineseSimplified": {
+        "message": "中国語 (簡体)"
+    },
+    "langChineseTraditional": {
+        "message": "中国語 (繁体)"
+    },
+    "langCorsican": {
+        "message": "コルシカ島"
+    },
+    "langEsperanto": {
+        "message": "エスペラント語"
+    },
+    "langWesternFrisian": {
+        "message": "エスペラント語"
+    },
+    "langGeorgian": {
+        "message": "フリジア語"
+    },
+    "langHaitianCreole": {
+        "message": "グルジア語"
+    },
+    "langHawaiian": {
+        "message": "ハイチ語"
+    },
+    "langHausa": {
+        "message": "ハワイアン"
+    },
+    "langHmong": {
+        "message": "ハウサ語"
+    },
+    "langIgbo": {
+        "message": "もん族"
+    },
+    "langIrish": {
+        "message": "いぼ語"
+    },
+    "langJavanese": {
+        "message": "アイルランド語"
+    },
+    "langKazakh": {
+        "message": "ジャワ語"
+    },
+    "langKhmer": {
+        "message": "カザフ語"
+    },
+    "langKurdish": {
+        "message": "クメール"
+    },
+    "langKyrgyz": {
+        "message": "クルド人"
+    },
+    "langLao": {
+        "message": "キルギス語"
+    },
+    "langLatin": {
+        "message": "ラオス"
+    },
+    "langLuxembourgish": {
+        "message": "ラテン語"
+    },
+    "langMacedonian": {
+        "message": "ルクセンブルク語"
+    },
+    "langMalagasy": {
+        "message": "マケドニアの"
+    },
+    "langMaltese": {
+        "message": "マダガスカル"
+    },
+    "langMaori": {
+        "message": "マルタ語"
+    },
+    "langMongolian": {
+        "message": "マオリ語"
+    },
+    "langMyanmarBurmese": {
+        "message": "モンゴル語"
+    },
+    "langNepali": {
+        "message": "ミャンマー (ビルマ)"
+    },
+    "langPashto": {
+        "message": "ネパール語"
+    },
+    "langPortuguese": {
+        "message": "パシュトゥー語"
+    },
+    "langPunjabi": {
+        "message": "ポルトガル語"
+    },
+    "langScottishGaelic": {
+        "message": "パンジャブ語"
+    },
+    "langSamoan": {
+        "message": "スコットランド ・ ゲール語"
+    },
+    "langSesotho": {
+        "message": "サモア"
+    },
+    "langShona": {
+        "message": "セソト"
+    },
+    "langSindhi": {
+        "message": "ショナ語"
+    },
+    "langSinhala": {
+        "message": "しんど語"
+    },
+    "langSomali": {
+        "message": "シンハラ語"
+    },
+    "langSpanish": {
+        "message": "ソマリア"
+    },
+    "langSudanese": {
+        "message": "スペイン語"
+    },
+    "langTajik": {
+        "message": "スーダン"
+    },
+    "langUzbek": {
+        "message": "タジク語"
+    },
+    "langWelsh": {
+        "message": "ウズベク語"
+    },
+    "langXhosa": {
+        "message": "ウェールズ語"
+    },
+    "langYiddish": {
+        "message": "コサ語"
+    },
+    "langYoruba": {
+        "message": "イディッシュ語"
+    },
+    "countryAfghanistan": {
+        "message": "ヨルバ語"
+    },
+    "countrylandIslands": {
+        "message": "アフガニスタン"
+    },
+    "countryAlbania": {
+        "message": "オーランド諸島"
+    },
+    "countryAlgeria": {
+        "message": "アルバニア"
+    },
+    "countryAmericanSamoa": {
+        "message": "アルジェリア"
+    },
+    "countryAndorra": {
+        "message": "アメリカ領サモア"
+    },
+    "countryAngola": {
+        "message": "アンドラ"
+    },
+    "countryAnguilla": {
+        "message": "アンゴラ"
+    },
+    "countryAntarctica": {
+        "message": "アンギラ"
+    },
+    "countryAntiguaandBarbuda": {
+        "message": "南極大陸"
+    },
+    "countryArgentina": {
+        "message": "アンティグア ・ バーブーダ"
+    },
+    "countryArmenia": {
+        "message": "アルゼンチン"
+    },
+    "countryAruba": {
+        "message": "アルメニア"
+    },
+    "countryAustralia": {
+        "message": "アルバ"
+    },
+    "countryAustria": {
+        "message": "オーストラリア"
+    },
+    "countryAzerbaijan": {
+        "message": "オーストリア"
+    },
+    "countryBahamas": {
+        "message": "アゼルバイジャン"
+    },
+    "countryBahrain": {
+        "message": "バハマ"
+    },
+    "countryBangladesh": {
+        "message": "バーレーン"
+    },
+    "countryBarbados": {
+        "message": "バングラデシュ"
+    },
+    "countryBelarus": {
+        "message": "バルバドス"
+    },
+    "countryBelgium": {
+        "message": "ベラルーシ"
+    },
+    "countryBelize": {
+        "message": "ベルギー"
+    },
+    "countryBenin": {
+        "message": "ベリーズ"
+    },
+    "countryBermuda": {
+        "message": "ベナン"
+    },
+    "countryBhutan": {
+        "message": "バミューダ"
+    },
+    "countryBoliviaPlurinationalStateof": {
+        "message": "ブータン"
+    },
+    "countryBonaireSintEustatiusandSaba": {
+        "message": "ボリビア多民族国"
+    },
+    "countryBosniaandHerzegovina": {
+        "message": "ボネール島、シント ・ ユースタティウス島、サバ島"
+    },
+    "countryBotswana": {
+        "message": "ボスニア・ヘルツェゴビナ"
+    },
+    "countryBouvetIsland": {
+        "message": "ボツワナ"
+    },
+    "countryBrazil": {
+        "message": "ブーベ島"
+    },
+    "countryBritishIndianOceanTerritory": {
+        "message": "ブラジル"
+    },
+    "countryBruneiDarussalam": {
+        "message": "英領インド洋地域"
+    },
+    "countryBulgaria": {
+        "message": "ブルネイ・ダルサラーム国"
+    },
+    "countryBurkinaFaso": {
+        "message": "ブルガリア"
+    },
+    "countryBurundi": {
+        "message": "ブルキナ ・ ファソ"
+    },
+    "countryCambodia": {
+        "message": "ブルンジ"
+    },
+    "countryCameroon": {
+        "message": "カンボジア"
+    },
+    "countryCanada": {
+        "message": "カメルーン"
+    },
+    "countryCapeVerde": {
+        "message": "カナダ"
+    },
+    "countryCaymanIslands": {
+        "message": "カーボベルデ"
+    },
+    "countryCentralAfricanRepublic": {
+        "message": "ケイマン諸島"
+    },
+    "countryChad": {
+        "message": "中央アフリカ共和国"
+    },
+    "countryChile": {
+        "message": "チャド"
+    },
+    "countryChina": {
+        "message": "チリ"
+    },
+    "countryChristmasIsland": {
+        "message": "中国"
+    },
+    "countryCocosKeelingIslands": {
+        "message": "クリスマス島"
+    },
+    "countryColombia": {
+        "message": "ココス (キーリング) 諸島"
+    },
+    "countryComoros": {
+        "message": "コロンビア"
+    },
+    "countryCongo": {
+        "message": "コモロ"
+    },
+    "countryCongotheDemocraticRepublicofthe": {
+        "message": "コンゴ"
+    },
+    "countryCookIslands": {
+        "message": "コンゴの民主共和国、"
+    },
+    "countryCostaRica": {
+        "message": "クック諸島"
+    },
+    "countryCtedIvoire": {
+        "message": "コスタリカ"
+    },
+    "countryCroatia": {
+        "message": "コートジボワール"
+    },
+    "countryCuba": {
+        "message": "クロアチア"
+    },
+    "countryCuraao": {
+        "message": "キューバ"
+    },
+    "countryCyprus": {
+        "message": "キュラソー"
+    },
+    "countryCzechRepublic": {
+        "message": "キプロス"
+    },
+    "countryDenmark": {
+        "message": "デンマーク"
+    },
+    "countryDjibouti": {
+        "message": "ジブチ"
+    },
+    "countryDominica": {
+        "message": "ドミニカ国"
+    },
+    "countryDominicanRepublic": {
+        "message": "ドミニカ共和国"
+    },
+    "countryEcuador": {
+        "message": "エクアドル"
+    },
+    "countryEgypt": {
+        "message": "エジプト"
+    },
+    "countryElSalvador": {
+        "message": "エルサルバドル"
+    },
+    "countryEquatorialGuinea": {
+        "message": "赤道ギニア"
+    },
+    "countryEritrea": {
+        "message": "エリトリア"
+    },
+    "countryEstonia": {
+        "message": "エストニア"
+    },
+    "countryEthiopia": {
+        "message": "エチオピア"
+    },
+    "countryFalklandIslandsMalvinas": {
+        "message": "フォークランド諸島 (マルビナス)"
+    },
+    "countryFaroeIslands": {
+        "message": "フェロー諸島"
+    },
+    "countryFiji": {
+        "message": "フィジー"
+    },
+    "countryFinland": {
+        "message": "フィンランド"
+    },
+    "countryFrance": {
+        "message": "フランス"
+    },
+    "countryFrenchGuiana": {
+        "message": "フランス領ギアナ"
+    },
+    "countryFrenchPolynesia": {
+        "message": "フランス領ポリネシア"
+    },
+    "countryFrenchSouthernTerritories": {
+        "message": "フランス領極南諸島"
+    },
+    "countryGabon": {
+        "message": "ガボン"
+    },
+    "countryGambia": {
+        "message": "ガンビア"
+    },
+    "countryGeorgia": {
+        "message": "グルジア"
+    },
+    "countryGermany": {
+        "message": "ドイツ"
+    },
+    "countryGhana": {
+        "message": "ガーナ"
+    },
+    "countryGibraltar": {
+        "message": "ジブラルタル"
+    },
+    "countryGreece": {
+        "message": "ギリシャ"
+    },
+    "countryGreenland": {
+        "message": "グリーンランド"
+    },
+    "countryGrenada": {
+        "message": "グレナダ"
+    },
+    "countryGuadeloupe": {
+        "message": "グアドループ (仏領)"
+    },
+    "countryGuam": {
+        "message": "グアム"
+    },
+    "countryGuatemala": {
+        "message": "グアテマラ"
+    },
+    "countryGuernsey": {
+        "message": "ガーンジー島"
+    },
+    "countryGuinea": {
+        "message": "ギニア"
+    },
+    "countryGuineaBissau": {
+        "message": "ギニア-ビサウ"
+    },
+    "countryGuyana": {
+        "message": "ガイアナ"
+    },
+    "countryHaiti": {
+        "message": "ハイチ"
+    },
+    "countryHeardIslandandMcDonaldIslands": {
+        "message": "ハード島とマクドナルド諸島"
+    },
+    "countryHolySeeVaticanCityState": {
+        "message": "聖座 (バチカン市国)"
+    },
+    "countryHonduras": {
+        "message": "ホンジュラス"
+    },
+    "countryHongKong": {
+        "message": "香港"
+    },
+    "countryHungary": {
+        "message": "ハンガリー"
+    },
+    "countryIceland": {
+        "message": "アイスランド"
+    },
+    "countryIndia": {
+        "message": "インド"
+    },
+    "countryIndonesia": {
+        "message": "インドネシア"
+    },
+    "countryIranIslamicRepublicof": {
+        "message": "イラン ・ イスラム共和国"
+    },
+    "countryIraq": {
+        "message": "イラク"
+    },
+    "countryIreland": {
+        "message": "アイルランド"
+    },
+    "countryIsleofMan": {
+        "message": "マン島"
+    },
+    "countryIsrael": {
+        "message": "イスラエル"
+    },
+    "countryItaly": {
+        "message": "イタリア"
+    },
+    "countryJamaica": {
+        "message": "ジャマイカ"
+    },
+    "countryJapan": {
+        "message": "日本"
+    },
+    "countryJersey": {
+        "message": "ジャージー"
+    },
+    "countryJordan": {
+        "message": "ヨルダン"
+    },
+    "countryKazakhstan": {
+        "message": "カザフスタン"
+    },
+    "countryKenya": {
+        "message": "ケニア"
+    },
+    "countryKiribati": {
+        "message": "キリバス"
+    },
+    "countryKoreaDemocraticPeoplesRepublicof": {
+        "message": "韓国、民主主義人民共和国"
+    },
+    "countryKoreaRepublicof": {
+        "message": "韓国、共和国"
+    },
+    "countryKuwait": {
+        "message": "クウェート"
+    },
+    "countryKyrgyzstan": {
+        "message": "キルギス"
+    },
+    "countryLaoPeoplesDemocraticRepublic": {
+        "message": "ラオス人民民主共和国"
+    },
+    "countryLatvia": {
+        "message": "ラトビア"
+    },
+    "countryLebanon": {
+        "message": "レバノン"
+    },
+    "countryLesotho": {
+        "message": "レソト"
+    },
+    "countryLiberia": {
+        "message": "リベリア"
+    },
+    "countryLibya": {
+        "message": "リビア"
+    },
+    "countryLiechtenstein": {
+        "message": "リヒテンシュタイン"
+    },
+    "countryLithuania": {
+        "message": "リトアニア"
+    },
+    "countryLuxembourg": {
+        "message": "ルクセンブルク"
+    },
+    "countryMacao": {
+        "message": "マカオ"
+    },
+    "countryMacedoniatheFormerYugoslavRepublicof": {
+        "message": "マケドニア、旧ユーゴスラビア共和国"
+    },
+    "countryMadagascar": {
+        "message": "マダガスカル"
+    },
+    "countryMalawi": {
+        "message": "マラウイ"
+    },
+    "countryMalaysia": {
+        "message": "マレーシア"
+    },
+    "countryMaldives": {
+        "message": "モルディブ"
+    },
+    "countryMali": {
+        "message": "マリ"
+    },
+    "countryMalta": {
+        "message": "マルタ"
+    },
+    "countryMarshallIslands": {
+        "message": "マーシャル諸島"
+    },
+    "countryMartinique": {
+        "message": "マルティニーク島"
+    },
+    "countryMauritania": {
+        "message": "モーリタニア"
+    },
+    "countryMauritius": {
+        "message": "モーリシャス"
+    },
+    "countryMayotte": {
+        "message": "マヨット島"
+    },
+    "countryMexico": {
+        "message": "メキシコ"
+    },
+    "countryMicronesiaFederatedStatesof": {
+        "message": "ミクロネシア、連合させた状態"
+    },
+    "countryMoldovaRepublicof": {
+        "message": "モルドバ共和国"
+    },
+    "countryMonaco": {
+        "message": "モナコ"
+    },
+    "countryMongolia": {
+        "message": "モンゴル国"
+    },
+    "countryMontenegro": {
+        "message": "モンテネグロ"
+    },
+    "countryMontserrat": {
+        "message": "モントセラト"
+    },
+    "countryMorocco": {
+        "message": "モロッコ"
+    },
+    "countryMozambique": {
+        "message": "モザンビーク"
+    },
+    "countryMyanmar": {
+        "message": "ミャンマー"
+    },
+    "countryNamibia": {
+        "message": "ナミビア"
+    },
+    "countryNauru": {
+        "message": "ナウル"
+    },
+    "countryNepal": {
+        "message": "ネパール"
+    },
+    "countryNetherlands": {
+        "message": "オランダ"
+    },
+    "countryNewCaledonia": {
+        "message": "ニューカレドニア"
+    },
+    "countryNewZealand": {
+        "message": "ニュージーランド"
+    },
+    "countryNicaragua": {
+        "message": "ニカラグア"
+    },
+    "countryNiger": {
+        "message": "ニジェール"
+    },
+    "countryNigeria": {
+        "message": "ナイジェリア"
+    },
+    "countryNiue": {
+        "message": "ニウエ島"
+    },
+    "countryNorfolkIsland": {
+        "message": "ノーフォーク島"
+    },
+    "countryNorthernMarianaIslands": {
+        "message": "北マリアナ諸島"
+    },
+    "countryNorway": {
+        "message": "ノルウェー"
+    },
+    "countryOman": {
+        "message": "オマーン"
+    },
+    "countryPakistan": {
+        "message": "パキスタン"
+    },
+    "countryPalau": {
+        "message": "パラオ"
+    },
+    "countryPalestineStateof": {
+        "message": "パレスチナの状態"
+    },
+    "countryPanama": {
+        "message": "パナマ"
+    },
+    "countryPapuaNewGuinea": {
+        "message": "パプア ニューギニア独立国"
+    },
+    "countryParaguay": {
+        "message": "パラグアイ"
+    },
+    "countryPeru": {
+        "message": "ペルー"
+    },
+    "countryPhilippines": {
+        "message": "フィリピン"
+    },
+    "countryPitcairn": {
+        "message": "ピトケアン"
+    },
+    "countryPoland": {
+        "message": "ポーランド"
+    },
+    "countryPortugal": {
+        "message": "ポルトガル"
+    },
+    "countryPuertoRico": {
+        "message": "プエルトリコ"
+    },
+    "countryQatar": {
+        "message": "カタール"
+    },
+    "countryRunion": {
+        "message": "再会"
+    },
+    "countryRomania": {
+        "message": "ルーマニア"
+    },
+    "countryRussianFederation": {
+        "message": "ロシア連邦"
+    },
+    "countryRwanda": {
+        "message": "ルワンダ"
+    },
+    "countrySaintBarthlemy": {
+        "message": "サン ・ バルテルミー島"
+    },
+    "countrySaintHelenaAscensionandTristandaCunha": {
+        "message": "セントヘレナ ・ アセンションおよびトリスタン ・ ダ ・ クーニャ"
+    },
+    "countrySaintKittsandNevis": {
+        "message": "セントクリストファー ・ ネイビス"
+    },
+    "countrySaintLucia": {
+        "message": "セントルシア"
+    },
+    "countrySaintMartinFrenchpart": {
+        "message": "サン ・ マルタン島 (フランス領)"
+    },
+    "countrySaintPierreandMiquelon": {
+        "message": "サンピエール ・ ミクロン"
+    },
+    "countrySaintVincentandtheGrenadines": {
+        "message": "セントビン セントおよびグレナディーン諸島"
+    },
+    "countrySamoa": {
+        "message": "サモア"
+    },
+    "countrySanMarino": {
+        "message": "サンマリノ"
+    },
+    "countrySaoTomeandPrincipe": {
+        "message": "サントメ ・ プリンシペ"
+    },
+    "countrySaudiArabia": {
+        "message": "サウジアラビア"
+    },
+    "countrySenegal": {
+        "message": "セネガル"
+    },
+    "countrySerbia": {
+        "message": "セルビア"
+    },
+    "countrySeychelles": {
+        "message": "セイシェル"
+    },
+    "countrySierraLeone": {
+        "message": "シエラレオネ"
+    },
+    "countrySingapore": {
+        "message": "シンガポール"
+    },
+    "countrySintMaartenDutchpart": {
+        "message": "シント ・ マールテン島 (オランダの一部)"
+    },
+    "countrySlovakia": {
+        "message": "スロバキア"
+    },
+    "countrySlovenia": {
+        "message": "スロベニア"
+    },
+    "countrySolomonIslands": {
+        "message": "ソロモン諸島"
+    },
+    "countrySomalia": {
+        "message": "ソマリア"
+    },
+    "countrySouthAfrica": {
+        "message": "南アフリカ"
+    },
+    "countrySouthGeorgiaandtheSouthSandwichIslands": {
+        "message": "南ジョージア島・南サンドイッチ諸島"
+    },
+    "countrySouthSudan": {
+        "message": "南スーダン"
+    },
+    "countrySpain": {
+        "message": "スペイン"
+    },
+    "countrySriLanka": {
+        "message": "スリランカ"
+    },
+    "countrySudan": {
+        "message": "スーダン"
+    },
+    "countrySuriname": {
+        "message": "スリナム"
+    },
+    "countrySvalbardandJanMayen": {
+        "message": "スバールバル諸島およびヤンマイエン島"
+    },
+    "countrySwaziland": {
+        "message": "スワジランド"
+    },
+    "countrySweden": {
+        "message": "スウェーデン"
+    },
+    "countrySwitzerland": {
+        "message": "スイス"
+    },
+    "countrySyrianArabRepublic": {
+        "message": "シリア ・ アラブ共和国"
+    },
+    "countryTaiwanProvinceofChina": {
+        "message": "台湾、中国の省"
+    },
+    "countryTajikistan": {
+        "message": "タジキスタン"
+    },
+    "countryTanzaniaUnitedRepublicof": {
+        "message": "タンザニア連合共和国"
+    },
+    "countryThailand": {
+        "message": "タイ"
+    },
+    "countryTimorLeste": {
+        "message": "東ティモール"
+    },
+    "countryTogo": {
+        "message": "トーゴ"
+    },
+    "countryTokelau": {
+        "message": "トケラウ諸島"
+    },
+    "countryTonga": {
+        "message": "トンガ"
+    },
+    "countryTrinidadandTobago": {
+        "message": "トリニダード・トバゴ"
+    },
+    "countryTunisia": {
+        "message": "チュニジア"
+    },
+    "countryTurkey": {
+        "message": "トルコ"
+    },
+    "countryTurkmenistan": {
+        "message": "トルクメニスタン"
+    },
+    "countryTurksandCaicosIslands": {
+        "message": "タークス ・ カイコス諸島"
+    },
+    "countryTuvalu": {
+        "message": "ツバル"
+    },
+    "countryUganda": {
+        "message": "ウガンダ"
+    },
+    "countryUkraine": {
+        "message": "ウクライナ"
+    },
+    "countryUnitedArabEmirates": {
+        "message": "アラブ首長国連邦"
+    },
+    "countryUnitedKingdom": {
+        "message": "英国"
+    },
+    "countryUnitedStates": {
+        "message": "米国"
+    },
+    "countryUnitedStatesMinorOutlyingIslands": {
+        "message": "アメリカ合衆国外諸島"
+    },
+    "countryUruguay": {
+        "message": "ウルグアイ"
+    },
+    "countryUzbekistan": {
+        "message": "ウズベキスタン"
+    },
+    "countryVanuatu": {
+        "message": "バヌアツ"
+    },
+    "countryVenezuelaBolivarianRepublicof": {
+        "message": "ベネズエラ ・ ボリバル共和国"
+    },
+    "countryVietnam": {
+        "message": "ベトナム"
+    },
+    "countryVirginIslandsBritish": {
+        "message": "英領バージン諸島"
+    },
+    "countryVirginIslandsUS": {
+        "message": "バージン諸島、米国"
+    },
+    "countryWallisandFutuna": {
+        "message": "ウォリス ・ フツナ"
+    },
+    "countryWesternSahara": {
+        "message": "西サハラ"
+    },
+    "countryYemen": {
+        "message": "イエメン"
+    },
+    "countryZambia": {
+        "message": "ザンビア"
+    },
+    "countryZimbabwe": {
+        "message": "ジンバブエ"
+    },
+    "countryUnitedStatesWorldwide": {
+        "message": "アメリカ合衆国/世界"
+    },
+    "countryMacedonia": {
+        "message": "マケドニア"
+    },
+    "countryRussia": {
+        "message": "ロシア"
+    },
+    "countrySouthKorea": {
+        "message": "韓国"
+    },
+    "countryTaiwan": {
+        "message": "台湾"
+    },
+    "campaignTextInvalid": {
+        "message": "キャンペーン テキストが空白以上含める必要があります。"
+    },
+    "nonzeroLimit": {
+        "message": "0 より大きい制限を選択してください。"
+    },
+    "pleaseSelectPlaylist": {
+        "message": "再生リストを選択してください。"
+    },
+    "noVideoIdsFound": {
+        "message": "ビデオ Id が見つかりました"
+    },
+    "createdCampaign": {
+        "message": "作成したキャンペーン!"
+    },
+    "couldNotShortenUrls": {
+        "message": "Url を短縮できます。"
+    },
+    "errorSingular": {
+        "message": "エラー"
+    },
+    "errorPlural": {
+        "message": "エラー"
+    },
+    "warningSingular": {
+        "message": "警告"
+    },
+    "warningPlural": {
+        "message": "警告"
+    },
+    "currentCampaignTitle": {
+        "message": "現在のキャンペーン"
+    },
+    "archivedCampaignsTitle": {
+        "message": "アーカイブされたキャンペーン"
+    },
+    "dismissWarningsTitle": {
+        "message": "警告を閉じ"
+    },
+    "campaignVideoChoice": {
+        "message": "動画このキャンペーンは上で実行する必要があります?"
+    },
+    "campaignUpgradePrompt": {
+        "message": "説明キャンペーンのすべての機能を取得するプロへのアップグレードします。"
+    },
+    "campaignUpgradeReason1": {
+        "message": "30 のビデオの制限を削除します。"
+    },
+    "campaignUpgradeReason2": {
+        "message": "アップロード日付の動画、プレイリスト、または Id のリストを読み込んでから選択します。"
+    },
+    "campaignUpgradeReason3": {
+        "message": "URL を短縮するを無効にします。"
+    },
+    "campaignTextTitle": {
+        "message": "キャンペーン テキスト"
+    },
+    "shortenUrls": {
+        "message": "Url を短縮します。"
+    },
+    "insertBefore": {
+        "message": "前に挿入します。"
+    },
+    "insertAfter": {
+        "message": "後に挿入します。"
+    },
+    "limitedCampaign": {
+        "message": "このキャンペーンは、あなたの最も最近の $num$ ビデオで実行されます。",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "startCampaignTitle": {
+        "message": "キャンペーンを開始します。"
+    },
+    "stopCampaignTitle": {
+        "message": "キャンペーンを停止します。"
+    },
+    "descriptionCampaignIntro": {
+        "message": "特別なキャンペーン テキストを動画の説明に追加する説明キャンペーンを作成します。説明を元の状態に復元するキャンペーンを実行しているを停止する可能性があります。"
+    },
+    "doneTitle": {
+        "message": "完成です"
+    },
+    "noChannelAccess": {
+        "message": "VidIQ アカウントは、このチャネルへのアクセスを持っていません。"
+    },
+    "legacyCampaignRunning": {
+        "message": "実行しているレガシ説明キャンペーンがあります。"
+    },
+    "pleaseEndCampaign": {
+        "message": "ください続行するこのキャンペーンを終了します。"
+    },
+    "descriptionCampaignsTitle": {
+        "message": "説明キャンペーン"
+    },
+    "modeTitle": {
+        "message": "モード"
+    },
+    "campaignStatusPending": {
+        "message": "保留中"
+    },
+    "campaignStatusRestoring": {
+        "message": "復元します。"
+    },
+    "campaignStatusPreparing": {
+        "message": "準備します。"
+    },
+    "campaignStatusRunning": {
+        "message": "実行しています。"
+    },
+    "campaignStatusEnded": {
+        "message": "終了"
+    },
+    "retryTitle": {
+        "message": "再試行"
+    },
+    "retryAllTitle": {
+        "message": "すべて再試行します。"
+    },
+    "campaignErrorTitle": {
+        "message": "ビデオ $link$ $campaignId$ のために",
+        "placeholders": {
+            "link": {
+                "content": "$1"
+            },
+            "campaignId": {
+                "content": "$2"
+            }
+        }
+    },
+    "campaignErrorTitleCurrent": {
+        "message": "現在のキャンペーン ビデオ $link ドルに"
+    },
+    "campaignProcessFinished": {
+        "message": "処理を完了しました!すべての動画に表示する変更を約 10 分かかることがありますが、変更は今各動画の編集ページに表示する必要があります。"
+    },
+    "basedOnLast30Days": {
+        "message": "過去 30 日間に基づく"
+    },
+    "modalVideoSubsDriven": {
+        "message": "推進潜水艦"
+    },
+    "modalUpsellButton": {
+        "message": "アカウントをアップグレードします。"
+    },
+    "modalErrorUnauthenticatedButton": {
+        "message": "Auth チャンネル"
+    },
+    "modalErrorUnauthenticatedHint": {
+        "message": "あなたのチャネルに認証後このページを更新してください。"
+    },
+    "modalErrorUnknownMessage": {
+        "message": "不明なエラーが発生しました。我々 は通知されてきた、できるだけすぐにそれが解決されます。"
+    },
+    "modalErrorUnknownButton": {
+        "message": "YouTube に戻る"
+    },
+    "competitors": {
+        "message": "競合他社"
+    },
+    "competitorsPast48Hours": {
+        "message": "過去の 48 時間"
+    },
+    "competitorsThisWeek": {
+        "message": "この 1 週間"
+    },
+    "competitorsThisMonth": {
+        "message": "今月"
+    },
+    "competitorsAllTime": {
+        "message": "すべての時間"
+    },
+    "competitorsVph": {
+        "message": "VPH"
+    },
+    "competitorsViews": {
+        "message": "表示モード"
+    },
+    "competitorsDateUploaded": {
+        "message": "アップロードされた日付"
+    },
+    "competitorsCompetitorChannels": {
+        "message": "チャンネル"
+    },
+    "competitorsAdd": {
+        "message": "追加"
+    },
+    "competitorsViewChannel": {
+        "message": "チャンネルの表示"
+    },
+    "competitorsRemoveCompetitor": {
+        "message": "ライバルを削除します。"
+    },
+    "competitorsUpsellMessage": {
+        "message": "$userType$ アカウントの制限に達したの<strong> $limit$ 追跡競合他社 </strong >。さらに多くのチャンネルを追跡するためには、口座をアップグレードしてくださ",
+        "placeholders": {
+            "userType": {
+                "content": "$1"
+            },
+            "limit": {
+                "content": "$2"
+            }
+        }
+    },
+    "competitorsErrorNoCompetitorsFound": {
+        "message": "ない競争相手が見つかりました"
+    },
+    "competitorsErrorNoChannelId": {
+        "message": "チャネル ID が存在しないこと。上記のように YouTube の URL から ID をコピーするかどうかを確認します。"
+    },
+    "competitorsErrorUnableToRemove": {
+        "message": "その競合企業を削除できませんでした。ページを再読み込みして、もう一度やり直してください。"
+    },
+    "competitorsErrorUnauthenticatedMessage": {
+        "message": "あなたの競合他社のトレンド動画を参照して vidIQ のあなたのチャネルを認証する必要があります。"
+    },
+    "competitorsErrorNoCompetitors": {
+        "message": "あなたの競争相手から最新のトレンドのビデオを表示するには、右のフォームを使用していくつかのチャンネルを追加します。"
+    },
+    "competitorsErrorNoTrendingVideosMessage": {
+        "message": "あなたの競争相手は、選択した期間のトレンド動画を持ってないです。上のボタンを使用してください、期間を変更してみるか、後で確認しています。"
+    },
+    "competitorsErrorNoTrendingVideosButton": {
+        "message": "すべての時間のビデオをトレンドを見せてください。"
+    },
+    "topKeywords": {
+        "message": "上位のキーワード"
+    },
+    "occurrences": {
+        "message": "出現"
+    },
+    "topKeywordsUpsell": {
+        "message": "VidIQ Pro にアップグレードすると、すべての上位のキーワードを参照してください。"
+    },
+    "massEditCardsAndEnds": {
+        "message": "大量編集カードと終了画面"
+    },
+    "trendAlerts": {
+        "message": "トレンドアラート"
+    },
+    "trendAlertsWelcome": {
+        "message": "トレンドアラートへようこそ!など多くの有用なものを行うには、これらのアラートを使用することができます。"
+    },
+    "trendAlertsWelcomeIdea1": {
+        "message": "一致する動画をトレンドを追跡します\\\"apple\\」そして\\\"iphone\\\"キーワード"
+    },
+    "trendAlertsWelcomeIdea2": {
+        "message": "あなたの競争相手からトラック トレンド動画"
+    },
+    "trendAlertsWelcomeIdea3": {
+        "message": "以上 500 VPH とトラック ゲーム動画"
+    },
+    "trendAlertsCreateAlert": {
+        "message": "アラートを作成します。"
+    },
+    "trendAlertsCreateNewAlert": {
+        "message": "新しいアラートを作成します。"
+    },
+    "trendAlertsCreateNewTrendAlert": {
+        "message": "新しいトレンドの警告を作成します。"
+    },
+    "trendAlertsCreateFirstAlert": {
+        "message": "あなたの最初の警告を作成します。"
+    },
+    "trendAlertsEditTrendAlert": {
+        "message": "トレンド警告を編集します。"
+    },
+    "trendAlertsEditTrendAlertWithName": {
+        "message": "トレンド警告を編集しま。ため\\[$alertName$\\」",
+        "placeholders": {
+            "alertName": {
+                "content": "$1"
+            }
+        }
+    },
+    "trendAlertsUpdateAlert": {
+        "message": "更新アラート"
+    },
+    "trendAlertsDeleteTrendAlert": {
+        "message": "傾向に警告を削除します。"
+    },
+    "trendAlertsDeleteMsg": {
+        "message": "本当に削除するか、[\\\"$alertName$\\」トレンドの警告?",
+        "placeholders": {
+            "alertName": {
+                "content": "$1"
+            }
+        }
+    },
+    "trendAlertsCancel": {
+        "message": "キャンセル"
+    },
+    "trendAlertsFormAlertNameLabel": {
+        "message": "アラート名"
+    },
+    "trendAlertsFormAlertNamePlaceholder": {
+        "message": "例えば。> 5 K 他社 VPH"
+    },
+    "trendAlertsFormAlertNameHelpText": {
+        "message": "名前を覚えてそれが追跡がこのアラート。名前、\\\"$defaultName$\\ の既定の名前を指定しないかどうか\"が使用されます。",
+        "placeholders": {
+            "defaultName": {
+                "content": "$1"
+            }
+        }
+    },
+    "trendAlertsFormKeywordsLabel": {
+        "message": "キーワード"
+    },
+    "trendAlertsFormKeywordsPlaceholder": {
+        "message": "例えば。モバイル, ios の, android"
+    },
+    "trendAlertsFormKeywordsHelpText": {
+        "message": "このクエリを監視し、トレンドの新しいビデオが表示されるたびに通知します。コンマで区切って別の検索用語。"
+    },
+    "trendAlertsFormChannelTagsLabel": {
+        "message": "あなたのチャネルからキーワードを提案"
+    },
+    "trendAlertsFormCategoryLabel": {
+        "message": "カテゴリ"
+    },
+    "trendAlertsFormCategoryHelpText": {
+        "message": "ビデオは、結果に含まれると一致しなければなりません] カテゴリを選択します。"
+    },
+    "trendAlertsFormCompetitorsLabel": {
+        "message": "競合他社"
+    },
+    "trendAlertsFormCompetitorsHelpText": {
+        "message": "このアラートを制限するチャンネルを選択します。任意のチャンネルを選択しないと、我々 は YouTube のすべてを監視します。"
+    },
+    "trendAlertsFormAddAnotherCompetitor": {
+        "message": "他のライバルを追加します。"
+    },
+    "trendAlertsFormVphThresholdLabel": {
+        "message": "VPH しきい値"
+    },
+    "trendAlertsFormVphThresholdHelpText": {
+        "message": "1 時間あたりどのように多くのビューこのアラートをトリガーする前にビデオが必要を選択します。"
+    },
+    "trendAlertsFormEmailFrequencyLabel": {
+        "message": "メール配信の頻度"
+    },
+    "trendAlertsFormEmailFrequencyHelpText": {
+        "message": "我々 はこのアラートに一致する新しいトレンド動画とメールを送信します。サイドバーにあなたの警告をクリックして新しいトレンド動画のライブフィードを見ることができますも。"
+    },
+    "trendAlertsFormLanguageLabel": {
+        "message": "言語"
+    },
+    "trendAlertsFormLanguageHelpText": {
+        "message": "ビデオする必要があります結果に含まれると一致する言語を選択します。"
+    },
+    "trendAlertsFormUpsellMessage": {
+        "message": "どうぞ< href = \\「$upgradeUrl$ \\」ターゲット = \\\"_blank\\\"rel = \\\"noopener noreferrer\\\">この設定を変更する Pro</a > にアップグレードします。",
+        "placeholders": {
+            "upgradeUrl": {
+                "content": "$1"
+            }
+        }
+    },
+    "trendAlertsPreviewTitle": {
+        "message": "あなたの \\\"$alertName$\\ のプレビュー\"トレンドアラート",
+        "placeholders": {
+            "alertName": {
+                "content": "$1"
+            }
+        }
+    },
+    "trendAlertsPreviewNoResults": {
+        "message": "まだ、動画にはこのアラートがありません。すぐに戻って確認してください!"
+    },
+    "trendAlertsPreviewFooterNoResults": {
+        "message": "このアラートの結果、されていないが、それはすぐにいくつかをあるはず!最新の結果を記載したメールが届きます< strong > $frequency$ </strong >。",
+        "placeholders": {
+            "frequency": {
+                "content": "$1"
+            }
+        }
+    },
+    "trendAlertsPreviewFooterFewResults": {
+        "message": "このアラートは、現在のみ上記 $numResults$ 結果が、それはすぐにより必要!最新の結果を記載したメールが届きます<strong> $frequency$ </strong>。",
+        "placeholders": {
+            "numResults": {
+                "content": "$1"
+            },
+            "frequency": {
+                "content": "$2"
+            }
+        }
+    },
+    "trendAlertsPreviewFooterManyResults": {
+        "message": "これは、この通知の最新 $previewLength$ 結果のプレビューです。このアラートのすべての結果を含む電子メールが届きます<strong> $frequency$ </strong>。",
+        "placeholders": {
+            "previewLength": {
+                "content": "$1"
+            },
+            "frequency": {
+                "content": "$2"
+            }
+        }
+    },
+    "trendAlertsNoTrendAlertsFound": {
+        "message": "見つけたトレンド アラートはありません。"
+    },
+    "trendAlertsUnableToCreateAlert": {
+        "message": "新しい通知を作成できませんでした。ページを再読み込みして、もう一度やり直してください。"
+    },
+    "trendAlertsUnableToUpdateAlert": {
+        "message": "そのアラートを更新できませんでした。ページを再読み込みして、もう一度やり直してください。"
+    },
+    "trendAlertsUnableToDeleteAlert": {
+        "message": "その通知を削除できませんでした。ページを再読み込みして、もう一度やり直してください。"
+    },
+    "trendAlertsUpsellMessage": {
+        "message": "トレンドアラート <strong> $limit$ の $userType$ アカウントの制限を到達した </strong>。多くのアラートを作成するには、あなたのアカウントをアップグレードしてください。",
+        "placeholders": {
+            "limit": {
+                "content": "$1"
+            },
+            "userType": {
+                "content": "$2"
+            }
+        }
+    },
+    "trendAlertsErrorUnauthenticatedMessage": {
+        "message": "トレンドの通知を作成する vidIQ のあなたのチャネルを認証する必要があります。"
+    },
+    "trendAlertsLivePreviewNoResults": {
+        "message": "このアラートに対してどんな試合だろう試して VPH しきい値を下げるまたは検索範囲を広げるにキーワードを変更します。"
+    },
+    "trendAlertsLivePreviewResults": {
+        "message": "これは、このアラートがどのようになるかを最初の $numResultsShown$ 結果のライブ プレビューです。",
+        "placeholders": {
+            "numResultsShown": {
+                "content": "$1"
+            }
+        }
+    },
+    "modalErrorUnauthenticatedMessage": {
+        "message": "この機能を使用する vidIQ のあなたのチャネルを認証する必要があります。"
+    },
+    "modalVideoEngagementRate": {
+        "message": "エンゲージメント率"
+    },
+    "researchErrorNoResults": {
+        "message": "見つかりませんでした。検索オプションを変更してみてください。"
+    },
+    "researchQueryPlaceholder": {
+        "message": "例えば。ゲーム ・音楽"
+    },
+    "researchSearch": {
+        "message": "検索"
+    },
+    "totalEstimatedRevenue": {
+        "message": "推定総収入"
+    },
+    "recentEstimatedRevenueStatLabel": {
+        "message": "売上見込み $period$ 数日します。",
+        "placeholders": {
+            "period": {
+                "content": "$1"
+            }
+        }
+    },
+    "recentVideosStatLabel": {
+        "message": "動画公開最後 $period$ 日",
+        "placeholders": {
+            "period": {
+                "content": "$1"
+            }
+        }
+    },
+    "comparisonLabel": {
+        "message": "$value$ 前期",
+        "placeholders": {
+            "value": {
+                "content": "$1"
+            }
+        }
+    },
+    "avgSubsPerWeek": {
+        "message": "平均週潜水艦"
+    },
+    "avgSubsPerMonth": {
+        "message": "平均毎月潜水艦"
+    },
+    "avgViewsPerWeek": {
+        "message": "平均週ビュー"
+    },
+    "avgViewsPerMonth": {
+        "message": "平均月間ビュー"
+    },
+    "avgRevenuePerDay": {
+        "message": "平均毎日の収入"
+    },
+    "avgRevenuePerWeek": {
+        "message": "平均週収入"
+    },
+    "avgRevenuePerMonth": {
+        "message": "平均月収"
+    },
+    "avgVideosPerDay": {
+        "message": "平均の毎日の動画公開"
+    },
+    "avgVideosPerWeek": {
+        "message": "平均毎週動画公開"
+    },
+    "avgVideosPerMonth": {
+        "message": "平均月額動画公開"
+    },
+    "daysIntervalOption": {
+        "message": "日"
+    },
+    "weeksIntervalOption": {
+        "message": "週間"
+    },
+    "monthsIntervalOption": {
+        "message": "ヶ月"
+    },
+    "pastWeekRangeOption": {
+        "message": "過去 1 週間"
+    },
+    "pastTwoWeeksRangeOption": {
+        "message": "過去 2 週間"
+    },
+    "pastDaysRangeOption": {
+        "message": "過去の $range$ 日",
+        "placeholders": {
+            "range": {
+                "content": "$1"
+            }
+        }
+    },
+    "subscriberRank": {
+        "message": "サブスクライバーのランク"
+    },
+    "viewRank": {
+        "message": "[順位表示"
+    },
+    "researchMostViewedTitle": {
+        "message": "閲覧最多"
+    },
+    "researchMostViewed": {
+        "message": "閲覧最多"
+    },
+    "researchFilterUpsell": {
+        "message": "結果をフィルター処理する <b>Boost </b> 取得"
+    },
+    "categoryAutosAndVehicles": {
+        "message": "自動車と乗り物"
+    },
+    "categoryDocumentary": {
+        "message": "ドキュメンタリー"
+    },
+    "categoryDrama": {
+        "message": "ドラマ"
+    },
+    "categoryEducation": {
+        "message": "教育"
+    },
+    "categoryFilmAndAnimation": {
+        "message": "映画とアニメ"
+    },
+    "categoryGaming": {
+        "message": "ゲーム"
+    },
+    "categoryHorror": {
+        "message": "ホラー"
+    },
+    "categoryHowtoAndStyle": {
+        "message": "ハウツーとスタイル"
+    },
+    "categoryMovies": {
+        "message": "映画"
+    },
+    "categoryNonprofitsAndActivism": {
+        "message": "非営利団体と社会活動"
+    },
+    "categoryPeopleAndBlogs": {
+        "message": "ブログと人"
+    },
+    "categoryPetsAndAnimals": {
+        "message": "ペットと動物"
+    },
+    "categoryShows": {
+        "message": "示しています"
+    },
+    "categoryThriller": {
+        "message": "スリラー"
+    },
+    "categoryTravelAndEvents": {
+        "message": "旅行とイベント"
+    },
+    "estimatedRevenueStatLabel": {
+        "message": "推定売り上げ高"
+    },
+    "videosPublishedStatLabel": {
+        "message": "ビデオ公開"
+    },
+    "checklistPublic": {
+        "message": "公開します。"
+    },
+    "categoryAny": {
+        "message": "すべてのカテゴリ"
+    },
+    "countryTitle": {
+        "message": "国"
+    },
+    "pinCommentTooltip": {
+        "message": "ピンのコメント (vidIQ によって供給)"
+    },
+    "unpinCommentTooltip": {
+        "message": "固定を解除するコメント (vidIQ によって供給)"
+    },
+    "pinCommentTitle": {
+        "message": "このコメントをピンします。"
+    },
+    "unpinCommentTitle": {
+        "message": "このコメントの固定を解除します。"
+    },
+    "pinCommentMessage": {
+        "message": "あなたは既にコメントがピンされている場合これは置き換えられます"
+    },
+    "unpinCommentMessage": {
+        "message": "このコメントが固定されます。"
+    },
+    "avgSubscribers": {
+        "message": "平均サブスクライバー"
+    },
+    "researchSearchUpsell": {
+        "message": "取得<strong> プロ </strong>宛先動画の検索と並べ替え"
+    },
+    "researchSortLockedMessage": {
+        "message": "並べ替え機能を有効にするのにアップグレードしてください。"
+    },
+    "researchSearchOptions": {
+        "message": "検索フィルター"
+    },
+    "researchSearchTerms": {
+        "message": "検索用語"
+    },
+    "researchVidiqScore": {
+        "message": "vidIQ スコアします。"
+    },
+    "researchViews": {
+        "message": "表示モード"
+    },
+    "researchVph": {
+        "message": "時速 ビュー(VPH)"
+    },
+    "researchDuration": {
+        "message": "期間"
+    },
+    "researchChannelSubs": {
+        "message": "チャネルの潜水艦"
+    },
+    "researchVidiqScore2": {
+        "message": "vidIQ スコア"
+    },
+    "researchChannelSubs2": {
+        "message": "チャネルの潜水艦"
+    },
+    "researchEstimatedEarnings": {
+        "message": "見積もり収益額"
+    },
+    "researchFilterPast48Hours": {
+        "message": "過去の 48 時間"
+    },
+    "researchFilterThisWeek": {
+        "message": "この 1 週間"
+    },
+    "researchFilterThisMonth": {
+        "message": "今月"
+    },
+    "researchFilterPast6Months": {
+        "message": "過去 6 ヶ月間"
+    },
+    "researchFilterVph": {
+        "message": "VPH"
+    },
+    "researchFilterViews": {
+        "message": "表示モード"
+    },
+    "researchFilterEngagements": {
+        "message": "契約"
+    },
+    "researchFilterUpTo1k": {
+        "message": "1 k"
+    },
+    "researchFilterOver1k": {
+        "message": "1 k 以上"
+    },
+    "researchFilterOver10k": {
+        "message": "10 k 以上"
+    },
+    "researchFilterOver100k": {
+        "message": "100 k 以上"
+    },
+    "researchFilterOver1m": {
+        "message": "1 m 以上"
+    },
+    "researchFilterOver10m": {
+        "message": "10 m 以上"
+    },
+    "researchFilterOver100m": {
+        "message": "100 m 以上"
+    },
+    "researchFilterOver1b": {
+        "message": "1 b 以上"
+    },
+    "researchFilterUpTo100": {
+        "message": "最大 100"
+    },
+    "researchFilterOver100": {
+        "message": "以上 100"
+    },
+    "researchFilterOver5k": {
+        "message": "5 k 以上"
+    },
+    "researchFilterOver50k": {
+        "message": "50 k 以上"
+    },
+    "researchFilterUpTo30s": {
+        "message": "30 代まで"
+    },
+    "researchFilterOver30s": {
+        "message": "30 代以上"
+    },
+    "researchFilterOver5m": {
+        "message": "5 m 以上"
+    },
+    "researchFilterGraphite": {
+        "message": "グラファイト (最大 1 k 潜水)"
+    },
+    "researchFilterOpal": {
+        "message": "オパール (1-10 k 潜水)"
+    },
+    "researchFilterBronze": {
+        "message": "ブロンズ (10-100 k 潜水)"
+    },
+    "researchFilterSilver": {
+        "message": "銀 (100 k – 1 m 潜水)"
+    },
+    "researchFilterGold": {
+        "message": "ゴールド (以上 1 m 潜水)"
+    },
+    "trendAlertsDefaultName": {
+        "message": "私の警告"
+    },
+    "trendAlertsFilter1k": {
+        "message": "1 k"
+    },
+    "trendAlertsFilter5k": {
+        "message": "5 k"
+    },
+    "trendAlertsFilter10k": {
+        "message": "10 k"
+    },
+    "trendAlertsFilterEveryDay": {
+        "message": "毎日"
+    },
+    "trendAlertsFilterEvery2Days": {
+        "message": "2 日おき"
+    },
+    "trendAlertsFilterEachWeek": {
+        "message": "毎週"
+    },
+    "trendAlertsFilterEachMonth": {
+        "message": "毎月"
+    },
+    "allLanguages": {
+        "message": "すべての言語"
+    },
+    "langBurmese": {
+        "message": "ビルマ"
+    },
+    "langTagalog": {
+        "message": "タガログ語"
+    },
+    "estimatedRevenue": {
+        "message": "推定売り上げ高"
+    },
+    "videosPublished": {
+        "message": "ビデオ公開"
+    },
+    "researchClearAll": {
+        "message": "すべてクリア"
+    },
+    "researchSuggestedSearches": {
+        "message": "候補検索"
+    },
+    "researchTrendingVideosFromEmergingChannels": {
+        "message": "新たなチャンネルからトレンド動画"
+    },
+    "researchTopVidiqScores": {
+        "message": "トップ vidIQ スコア"
+    },
+    "researchTrendingMusicVideos": {
+        "message": "トレンドの音楽ビデオ"
+    },
+    "researchTrendingGamingVideos": {
+        "message": "トレンドのゲーム動画"
+    },
+    "researchLoadMore": {
+        "message": "詳細をロードします。"
+    },
+    "researchAllResultsLoaded": {
+        "message": "読み込まれたすべての結果"
+    },
+    "tagTemplatesTitle": {
+        "message": "タグ テンプレート"
+    },
+    "tagTemplatesNote": {
+        "message": "注: は、汎用テンプレート タグを追加する前にビデオに特定のタグを追加します。"
+    },
+    "newTemplate": {
+        "message": "新しいテンプレート"
+    },
+    "tagTemplatesInputPlaceholder": {
+        "message": "タグまたはカンマで区切ったリスト"
+    },
+    "tagTemplatesCreateMessage": {
+        "message": "タグを追加する新しいテンプレートを作成する!"
+    },
+    "saveChangesTitle": {
+        "message": "変更を保存します。"
+    },
+    "removalNoticePart1": {
+        "message": "次の新しいコンプライアンス ガイドライン認定 YouTube パートナーとしてビデオのスコアカードにいくつかの変更を行っています。"
+    },
+    "removalNoticePart2": {
+        "message": "推定収益と婚約率はどこへ行ったが不思議に思っている場合"
+    },
+    "removalNoticePart3": {
+        "message": "ここにそれについて私たちの記事を読む"
+    },
+    "descWordCountTooltip": {
+        "message": "これは動画の説明から派生した単語の数です。"
+    },
+    "referrersTooltip": {
+        "message": "参照元: この動画にリンクしている外部の ウェブページの数です。"
+    },
+    "embedSrcsTooltip": {
+        "message": "このページにリンクするリンクの量です。"
+    },
+    "subViewsTooltip": {
+        "message": "これらは、契約者からこのビデオで生成されるビューです。"
+    },
+    "organicViewsTooltip": {
+        "message": "オーガニック ビュー: ビューの非宣伝の数。(YouTube の API) からビュー合計数を取り、(YouTube の API) からアドバタイズ ビューからそれを減算することによって計算されます。"
+    },
+    "vidiqGeneratedMetric": {
+        "message": "これは、YouTube アナリティクス メトリックが vidIQ から生成されたものではありません。"
+    },
+    "controversialKeywords": {
+        "message": "物議を醸すキーワード"
+    },
+    "profDemonetizationWord": {
+        "message": "冒涜"
+    },
+    "sexDemonetizationWord": {
+        "message": "性的コンテンツ"
+    },
+    "senshockDemonetizationWord": {
+        "message": "センセーショナルな衝撃的です"
+    },
+    "tragconDemonetizationWord": {
+        "message": "悲劇と競合"
+    },
+    "socDemonetizationWord": {
+        "message": "敏感な社会的な問題"
+    },
+    "noControversialKeywords": {
+        "message": "物議を醸すキーワード、タイトル、説明、タグが見つかりません!"
+    },
+    "controversialKeywordsUpgrade": {
+        "message": "廃貨のフラグが設定されている可能性があります論争のキーワードは、プロへのアップグレードします。"
+    },
+    "keyword": {
+        "message": "キーワード"
+    },
+    "nature": {
+        "message": "自然"
+    },
+    "locations": {
+        "message": "場所"
+    },
+    "dropdownAddCompetitor": {
+        "message": "競合企業を追加します。"
+    },
+    "dropdownRemoveCompetitor": {
+        "message": "ライバルを削除します。"
+    },
+    "negDemonetizationWord": {
+        "message": "否定的な"
+    },
+    "channelCountryStatLabel": {
+        "message": "チャネルの国"
+    },
+    "yearAbbreviation": {
+        "message": "y"
+    },
+    "last12Months": {
+        "message": "最後の 12 ヶ月"
+    },
+    "hoursWatchedTitle": {
+        "message": "時間を見てください。"
+    },
+    "notMonetizableTooltip": {
+        "message": "YouTube パートナー プログラムの対象とするには、必要がある 4,000 時間時計時間と 1,000 の加入者"
+    },
+    "monetizableTooltip": {
+        "message": "YouTube パートナー プログラムのための資格されての 4,000 時間の時計時間の条件を成就した!"
+    },
+    "tagAutocompleteTitle": {
+        "message": "タグのオートコンプリートのヒント"
+    },
+    "seeAllResults": {
+        "message": "すべての結果を参照してください。"
+    },
+    "getVidiqPro": {
+        "message": "今 Pro vidIQ を取得します。"
+    },
+    "instagramFollowersStatLabel": {
+        "message": "instagram の信者"
+    },
+    "twitterFollowersStatLabel": {
+        "message": "twitter のフォロワー"
+    },
+    "facebookFollowersStatLabel": {
+        "message": "facebook のフォロワー"
+    },
+    "ytEngagementsStatTitle": {
+        "message": "YouTube の契約"
+    },
+    "velocityViewHeading": {
+        "message": "最高速度と動画(1 時間あたりの眺め)"
+    },
+    "unexpectedError": {
+        "message": "予期しないエラーが発生しました"
+    },
+    "noVideosFound": {
+        "message": "このチャンネルの動画はありません。"
+    },
+    "lastDays": {
+        "message": "最後の $n$ 日",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "lastMonths": {
+        "message": "最後の $n$ ヶ月",
+        "placeholders": {
+            "n": {
+                "content": "$1"
+            }
+        }
+    },
+    "channelTrendingUpsellMessage": {
+        "message": "VidIQ 速度ですべての動画を見るために プロにアップグレードします。"
+    },
+    "createdAtStatLabel": {
+        "message": "作成"
+    },
+    "engagementRatePopoverText": {
+        "message": "合計ビューの割合として発見された関与の測定"
+    },
+    "videoOptimizationChecklist": {
+        "message": "ビデオの最適化のチェックリスト"
+    },
+    "tooShort": {
+        "message": "あまりにも短い"
+    },
+    "tooLong": {
+        "message": "あまりにも長い"
+    },
+    "customThumbnail": {
+        "message": "カスタムのサムネイル"
+    },
+    "sharedOnFacebook": {
+        "message": "Facebook 上で共有"
+    },
+    "public": {
+        "message": "公共"
+    },
+    "pinnedComment": {
+        "message": "固定コメント"
+    },
+    "heartedComment": {
+        "message": "心コメント"
+    },
+    "checklistTitleRangeTooltip": {
+        "message": "タイトルは 20-60 文字の間でなければなりません"
+    },
+    "checklistDescRangeTooltip": {
+        "message": "説明は 300 文字より長くする必要があります。"
+    },
+    "checklistTagsRangeTooltip": {
+        "message": "結合のすべてのタグは半角 200 文字より長いはず"
+    },
+    "shortcutsOnHomePage": {
+        "message": "ホームページのショートカット"
+    },
+    "shortcutsOnVideoManager": {
+        "message": "動画マネージャーのショートカット"
+    },
+    "translationRequiresVidiqPro": {
+        "message": "翻訳にはvidIQ Proが必要です"
+    },
+    "checkOutVidiqBoost": {
+        "message": "<a href=\\\"$videoUrl$\\\" target=\\\"_blank\\\" rel=\\\"noopener noreferrer\\\"> vidIQ Boost </a>をチェックして下さい。",
+        "placeholders": {
+            "videoUrl": {
+                "content": "$1"
+            }
+        }
+    },
+    "channelAudit": {
+        "message": "チャネル監査"
+    },
+    "channelAuditTitle": {
+        "message": "チャネル監査"
+    },
+    "subscribersGainedTitle": {
+        "message": "登録者が増えました"
+    },
+    "watchTimeTitle": {
+        "message": "時間を見て下さい"
+    },
+    "monthOverMonth": {
+        "message": "毎月"
+    },
+    "channelAuditDoubleDownHeader": {
+        "message": "ダブルダウンするコンテンツ"
+    },
+    "channelAuditDoubleDownInfo": {
+        "message": "これらは過去30日間の動画の中で最もベストな動画です。 この動画のトピック、コンテンツ、制作を見直し、なぜそれが成功し、何回も繰り返されているのかを確認してください。"
+    },
+    "topVphChannelAuditInfo": {
+        "message": "これらの動画は1時間あたりの再生回数が最も多く、これらの動画を2倍にし、さらに多くの動画を作成することをおすすめします。"
+    },
+    "totalWatchTimeTitle": {
+        "message": "合計視聴時間（分）"
+    },
+    "topWatchTimeChannelAuditInfo": {
+        "message": "これらの動画は最も長く視聴されています。このような動画をさらに2倍にして作成することをおすすめします。"
+    },
+    "topSubscribersChannelAuditInfo": {
+        "message": "あなたの最高の印象は動画を見ることです。 タイトルとサムネイルを調べ、これらの動画が最高の成果を上げている理由を確認し、これらの概念を使用して２倍にすることをおすすめします。"
+    },
+    "topEngagementChannelAuditInfo": {
+        "message": "あなたの最も関心のある動画は次のとおりです。 これらの概念を使用し、なぜこれらがより魅力的で２倍になっているのかを確認することをお勧めします。"
+    },
+    "topSearchTermsTitle": {
+        "message": "トップ検索条件"
+    },
+    "topSearchTermsChannelAuditInfo": {
+        "message": "ここにあなたの最も高いランクのキーワードがあります。"
+    },
+    "channelAuditAverageMetricsHeader": {
+        "message": "過去30日間の平均メトリック"
+    },
+    "channelAuditAverageMetricsInfo": {
+        "message": "過去30日間にアップロードした動画の平均測定基準です。 メトリックをクリックすると、これらの値を編集するためのリンク付きの動画リストが表示されます。"
+    },
+    "titleLengthChannelAuditTitle": {
+        "message": "タイトルの長さ"
+    },
+    "titleAverageSubtextGood": {
+        "message": "あなたのタイトルの長さは平均的に良いです！"
+    },
+    "titleAverageSubtextBad": {
+        "message": "あなたのタイトルの長さは平均で$ status $です。 それらを20〜60文字の間で保持してください。",
+        "placeholders": {
+            "_status_": {
+                "content": "$1"
+            }
+        }
+    },
+    "shortLabel": {
+        "message": "短い"
+    },
+    "longLabel": {
+        "message": "長い"
+    },
+    "descLengthChannelAuditTitle": {
+        "message": "説明の長さ"
+    },
+    "descAverageSubtextGood": {
+        "message": "あなたの説明の長さは平均的に良いです！"
+    },
+    "descAverageSubtextBad": {
+        "message": "あなたの説明の長さは平均では短すぎます。 少なくても300文字にする必要があります。"
+    },
+    "tagsLengthChannelAuditTitle": {
+        "message": "タグの長さ"
+    },
+    "keywordsAverageSubtextGood": {
+        "message": "あなたのタグの長さは平均的に良いです！"
+    },
+    "keywordsAverageSubtextBad": {
+        "message": "あなたのタグの長さは平均では短すぎます。 少なくても400文字にする必要があります。"
+    },
+    "addedToPlaylistChannelAuditInfo": {
+        "message": "すべての公開動画は少なくても1つの再生リストに含まれている必要があります"
+    },
+    "addedToPlaylistAverageSubtextGood": {
+        "message": "あなたの動画は十分なプレイリストに追加されました！"
+    },
+    "addedToPlaylistAverageSubtextBad": {
+        "message": "あなたの動画は再生リストには足りません。 各動画を少なくとも1つのプレイリストに追加することをおすすめします。"
+    },
+    "seoScoreChannelAuditInfo": {
+        "message": "動画のタイトル、タグ、説明を最適化することで、コンテンツの視聴率を最大限に高めることができます。 このスコアを40以上に保つようにしてください。\r\n"
+    },
+    "actionableSeoScoreAverageSubtextGood": {
+        "message": "あなたの実行可能なSEOスコアは平均的に良いです！"
+    },
+    "actionableSeoScoreAverageSubtextBad": {
+        "message": "あなたの実行可能なSEOスコアは平均的に低いです。 それぞれの動画のために少なくとも40にする必要があります。"
+    },
+    "channelAuditItemsToImproveHeader": {
+        "message": "改善すべきアイテム"
+    },
+    "channelAuditItemsToImproveInfo": {
+        "message": "これらは、ビデオの成功に貢献する重要な要素です。 これらの問題を修正し、コンテンツをクリックして視聴者をさらに多くの動画にプッシュしましょう！"
+    },
+    "cardsMissingTitle": {
+        "message": "カードなしの動画"
+    },
+    "cardsMissingInfo": {
+        "message": "リストされている動画にはカードがありません。 それらをすべての動画に追加することをおすすめします。"
+    },
+    "cardsMissingSubtextGood": {
+        "message": "あなたの動画に欠けているカードはありません！"
+    },
+    "cardsMissingSubtextBad": {
+        "message": "すべての動画にカードを追加して下さい"
+    },
+    "endscreensMissingTitle": {
+        "message": "エンドスクリーンなしの動画"
+    },
+    "endscreensMissingInfo": {
+        "message": "リストされている動画にはエンドスクリーンはありません。 それらをすべての動画に追加することをおすすめします。"
+    },
+    "endscreensMissingSubtextGood": {
+        "message": "あなたのビデオに欠けているエンドスクリーンはありません！"
+    },
+    "endscreensMissingSubtextBad": {
+        "message": "すべての動画にエンドスクリーンを追加して下さい"
+    },
+    "customThumbnailMissingTitle": {
+        "message": "カスタムサムネイルなしの動画"
+    },
+    "customThumbnailMissingInfo": {
+        "message": "リストされた動画にはカスタムサムネイルがありません。 それらをすべての動画に追加することをおすすめします。"
+    },
+    "customThumbnailMissingSubtextGood": {
+        "message": "あなたのすべての動画にカスタムサムネイルがあります。"
+    },
+    "customThumbnailMissingSubtextBad": {
+        "message": "すべての動画にカスタムサムネイルをアップロードして下さい"
+    },
+    "addedToPlaylistMissingTitle": {
+        "message": "プレイリストに追加されていない動画"
+    },
+    "addedToPlaylistMissingInfo": {
+        "message": "リストされた動画に十分な再生リストがありません。 それらをすべてのプレイリストに追加することをお勧めします。"
+    },
+    "addedToPlaylistMissingSubtextGood": {
+        "message": "すべての動画がプレイリストに追加されました！"
+    },
+    "addedToPlaylistMissingSubtextBad": {
+        "message": "すべての動画を少なくとも1つのプレイリストに追加して下さい"
+    },
+    "postingScheduleTitle": {
+        "message": "投稿スケジュール"
+    },
+    "postingScheduleInfo": {
+        "message": "YouTubeで一貫性は王です！ より多くの動画を投稿するほど、オーディエンスに大きな影響を与えます。 週に一度の投稿は最小限の目標にする必要があります。 毎日投稿出来れば素晴らしいです！"
+    },
+    "postingScheduleText": {
+        "message": "$numVideos$ $videos$ each $range$について",
+        "placeholders": {
+            "numVideos": {
+                "content": "$1"
+            },
+            "videos": {
+                "content": "$2"
+            },
+            "range": {
+                "content": "$3"
+            }
+        }
+    },
+    "postingScheduleSubtextGood": {
+        "message": "素晴らしい、あなたは少なくとも週に一度は動画を投稿していますね！"
+    },
+    "postingScheduleSubtextBad": {
+        "message": "毎週少なくとも1つ新しい動画を投稿してください。"
+    },
+    "day": {
+        "message": "日"
+    },
+    "week": {
+        "message": "週"
+    },
+    "inconsistent": {
+        "message": "不一致"
+    },
+    "titleChannelAuditEdit": {
+        "message": "タイトルの更新"
+    },
+    "descChannelAuditEdit": {
+        "message": "説明の更新"
+    },
+    "keywordsChannelAuditEdit": {
+        "message": "タグの更新"
+    },
+    "addedToPlaylistChannelAuditEdit": {
+        "message": "再生リストの更新"
+    },
+    "actionableSeoScoreChannelAuditEdit": {
+        "message": "アクション可能なSEOスコア"
+    },
+    "cardsChannelAuditEdit": {
+        "message": "カードの更新"
+    },
+    "endscreensChannelAuditEdit": {
+        "message": "エンドスクリーンの更新"
+    },
+    "customThumbnailChannelAuditEdit": {
+        "message": "サムネイルの更新"
+    },
+    "videoStatusGreat": {
+        "message": "素晴らしい！"
+    },
+    "addedToPlaylistChannelAuditMissing": {
+        "message": "プレイリストはありません"
+    },
+    "addedToPlaylistChannelAuditMissingMessage": {
+        "message": "少なくとも1つのプレイリストに動画を追加して下さい"
+    },
+    "addedToPlaylistChannelAuditHas": {
+        "message": "$ numPlaylists $プレイリストに動画が追加されました",
+        "placeholders": {
+            "_numPlaylists_": {
+                "content": "$1"
+            }
+        }
+    },
+    "endscreensChannelAuditMissing": {
+        "message": "エンドスクリーンはありません"
+    },
+    "endscreensChannelAuditMissingMessage": {
+        "message": "少なくとも1つのエンドスクリーンを追加して下さい"
+    },
+    "endscreensChannelAuditHas": {
+        "message": "動画には$ numEndscreens $エンドスクリーンがあります",
+        "placeholders": {
+            "_numEndscreens_": {
+                "content": "$1"
+            }
+        }
+    },
+    "cardsChannelAuditMissing": {
+        "message": "カードはありません"
+    },
+    "cardsChannelAuditMissingMessage": {
+        "message": "少なくとも1枚のカードを追加して下さい"
+    },
+    "cardsChannelAuditHas": {
+        "message": "動画には$ numCards $カードがあります",
+        "placeholders": {
+            "_numCards_": {
+                "content": "$1"
+            }
+        }
+    },
+    "customThumbnailChannelAuditMissing": {
+        "message": "カスタムサムネイルはありません"
+    },
+    "customThumbnailChannelAuditMissingMessage": {
+        "message": "カスタムサムネイルをアップロードして下さい"
+    },
+    "customThumbnailChannelAuditHas": {
+        "message": "カスタムサムネイルをアップロードしました"
+    },
+    "thisMonth": {
+        "message": "今月"
+    },
+    "lastMonth": {
+        "message": "先月"
+    },
+    "minutesWatchedLower": {
+        "message": "視聴時間"
+    },
+    "numCharacters": {
+        "message": "$ stat $：$ num $文字",
+        "placeholders": {
+            "_stat_": {
+                "content": "$1"
+            },
+            "_num_": {
+                "content": "$2"
+            }
+        }
+    },
+    "actionableSeoScore": {
+        "message": "アクション可能なSEOスコア"
+    },
+    "tooLow": {
+        "message": "低すぎる"
+    },
+    "actionableSeoScoreEditTitle": {
+        "message": "アクション可能なSEOスコアは少なくとも40は必要です"
+    },
+    "channelAuditUpsellMessage": {
+        "message": "すべての結果を確認するには、<strong> vidIQ Proにアップグレード</ strong>をお試しください"
+    },
+    "channelAuditError": {
+        "message": "メトリックを取得するのに十分なデータがありません"
+    },
+    "growthChannelAuditError": {
+        "message": "過去30日間の視聴回数、視聴者獲得数、チャンネルの視聴時間の変化率を確認するには、さらに動画をアップロードしてください。<br> <br>注意：予期しないエラーが発生した場合は、広告ブロッカーを無効にしてから再読み込みしてください。"
+    },
+    "doubleDownChannelAuditError": {
+        "message": "過去30日間のトップVPH動画やトップ検索語などの統計情報を表示するには、さらに動画をアップロードしてください"
+    },
+    "averagesChannelAuditError": {
+        "message": "過去30日間の平均タイトルの長さと平均SEOの得点などの統計情報を表示するには、さらに動画をアップロードしてください"
+    },
+    "improvementsChannelAuditError": {
+        "message": "欠落したカードと終了画面の合計数など、過去30日間の動画の改善アイテムを表示するには、さらに動画をアップロードしてください"
+    },
+    "upgradeNow": {
+        "message": "今すぐアップグレードしてください"
+    },
+    "emailSuggestion": {
+        "message": "<strong> </ strong>を意味しましたか？"
+    },
+    "channelAuditShowMoreHeader": {
+        "message": "あなたの$type$ videos for $stat$ over the past $numDays$ 日々、順位",
+        "placeholders": {
+            "type": {
+                "content": "$1"
+            },
+            "stat": {
+                "content": "$2"
+            },
+            "numDays": {
+                "content": "$3"
+            }
+        }
+    },
+    "topStatLabel": {
+        "message": "トップ"
+    },
+    "worstStatLabel": {
+        "message": "ワースト"
+    },
+    "topSuggested": {
+        "message": "トップおすすめ（非所有）"
+    },
+    "topPlaylists": {
+        "message": "トッププレイリスト"
+    },
+    "topAvgWatchtimeNonLive": {
+        "message": "ウォッチタイム"
+    },
+    "topCompetitorVideos": {
+        "message": "競技者（VPHによる）"
+    },
+    "channelAuditContentNotWorking": {
+        "message": "作業を使用できるコンテンツ"
+    },
+    "lowestAvgViewTime": {
+        "message": "最低平均 ウォッチタイム"
+    },
+    "lowestRetention": {
+        "message": "最低保有率"
+    },
+    "lowestViews": {
+        "message": "最低再生回数"
+    },
+    "lowestSubscribers": {
+        "message": "サブを失う動画"
+    },
+    "lowestEngagement": {
+        "message": "最低エンゲージメント"
+    },
+    "channelAuditTimeframe": {
+        "message": "期間：$ numDays $日々",
+        "placeholders": {
+            "_numDays_": {
+                "content": "$1"
+            }
+        }
+    },
+    "avgPercentViewedStatLabel": {
+        "message": "平均再生回数"
+    },
+    "onNumViews": {
+        "message": "$ num $の再生回数",
+        "placeholders": {
+            "_num_": {
+                "content": "$1"
+            }
+        }
+    },
+    "onNumViewSingular": {
+        "message": "1再生回数"
+    },
+    "avgPerViews": {
+        "message": "$値$に付き$numViews$再生回数",
+        "placeholders": {
+            "_": {
+                "content": "$1"
+            },
+            "numViews": {
+                "content": "$2"
+            }
+        }
+    },
+    "avgPerViewSingular": {
+        "message": "$値$再生回数に付き",
+        "placeholders": {
+            "_": {
+                "content": "$1"
+            }
+        }
+    },
+    "avgPerWatchTime": {
+        "message": "$値$に付き$分$視聴した",
+        "placeholders": {
+            "_": {
+                "content": "$2"
+            }
+        }
+    },
+    "topViewsChannelAuditRank": {
+        "message": "トップ再生回数"
+    },
+    "topWatchTimeChannelAuditRank": {
+        "message": "トップ視聴時間"
+    },
+    "topViewsChannelAuditInfo": {
+        "message": "これらはあなたの最も視聴された動画です。 トラフィックの原因を調べ、その原因を理解し、これらの概念を使用して2倍にすることをおすすめします。"
+    },
+    "topCompetitorVideosChannelAuditInfo": {
+        "message": "これらは一時間あたりの再生回数（VPH）に基づいて最もよく視聴された動画です。 これらの動画から学習し、これらの学習内容をチャンネルに適用できるかどうかを確認することをおすすめします。\r\n"
+    },
+    "topAvgViewTimeChannelAuditInfo": {
+        "message": "これらは最も多い視聴時間の動画です。 これらの動画で使用されているコンテンツと動画の制作を検討し、これらの概念を使用して2倍にすることをおすすめします。\r\n"
+    },
+    "topPlaylistsChannelAuditInfo": {
+        "message": "これらは最も多い視聴時間のプレイリストです。 類似のプレイリストを作成することをおすすめします。"
+    },
+    "topSuggestedChannelAuditInfo": {
+        "message": "これらはコンテンツを提案するトップの動画です。 似たようなコンテンツを作成し、相関関係を調べてからダブルダウンすることをおすすめします。"
+    },
+    "lowestAvgViewTimeChannelAuditInfo": {
+        "message": "これらは平均視聴時間が最も短い動画です。 このタイプのコンテンツを作成するか、変更する必要があるかどうかを判断することをおすすめします。\r\n"
+    },
+    "lowestEngagementChannelAuditInfo": {
+        "message": "これらは最も関与度の低い動画です。 なぜそれが低いのかを調べることをおすすめします。 あなたは質問をしましたか？ コンテンツは適切な視聴者に当たったのですか？"
+    },
+    "lowestRetentionChannelAuditInfo": {
+        "message": "これらは保持率が最も低い動画です。 これらの動画を調べて、長さを変更するか、このタイプのコンテンツの制作を停止するかどうかを判断することをおすすめします。"
+    },
+    "lowestViewsChannelAuditInfo": {
+        "message": "これらは最も低い視点の動画です。 この種のコンテンツを引き続き作成する必要があるかどうかを判断するために、これらの動画を検討することをおすすめします。"
+    },
+    "lowestSubscribersChannelAuditInfo": {
+        "message": "これらはほとんどの登録者を失ってしまった動画です。 注意：多くのチャンネルでは、ライブストリームは登録者を失いますが、視聴時間は長くなります。 なぜこのようなことが起こっているのかを理解して調整してください。"
+    },
+    "retentionStatLabel": {
+        "message": "保持"
+    },
+    "subsPer1kViews": {
+        "message": "1000視聴回数あたり$num$ ",
+        "placeholders": {
+            "num": {
+                "content": "$1"
+            }
+        }
+    },
+    "thisPeriod": {
+        "message": "この期間"
+    },
+    "lastPeriod": {
+        "message": "前期"
+    },
+    "bestForViewer": {
+        "message": "視聴者に最適"
+    },
+    "playlistTitle": {
+        "message": "プレイリスト"
+    },
+    "mostRecentUpload": {
+        "message": "最近のアップロード"
+    },
+    "subscribeTitle": {
+        "message": "登録"
+    },
+    "pollTitle": {
+        "message": "投票"
+    },
+    "communityCcTitle": {
+        "message": "コミュニティ寄稿の字幕とCC"
+    },
+    "endscreenClickRates": {
+        "message": "エンドスクリーンクリック率"
+    },
+    "cardClickRates": {
+        "message": "カードクリック率"
+    },
+    "lowestLikeRatio": {
+        "message": "最も低い比率"
+    },
+    "addedToPlaylistAverageSubtextOkay": {
+        "message": "より多くのプレイリストにあなたのビデオを追加することを検討してください。 各動画に2つ以上のプレイリストだと素晴らしいです！"
+    },
+    "videoStatusOkay": {
+        "message": "わかりました"
+    },
+    "channelAuditContentNotWorkingInfo": {
+        "message": "これらは最後の$ numDays $にわたるYouTubeでの最悪な動画です。 その内容を明らかにするために、コンテンツ、コミュニティの反応、聴衆の保持について調べて下さい。",
+        "placeholders": {
+            "_numDays_": {
+                "content": "$1"
+            }
+        }
+    },
+    "viewMoreLabel": {
+        "message": "もっと見る"
+    },
+    "feedbackTextareaPlaceholder": {
+        "message": "あなたの好き嫌いを教えてください。 私達はあなたの為にこれをさらに良くすることができるように、あなたのフィードバックを愛します！\r\n"
+    },
+    "sendFeedbackTitle": {
+        "message": "フィードバックを送信"
+    },
+    "topRetention": {
+        "message": "上位保持率"
+    },
+    "whatDoYouThinkTitle": {
+        "message": "あなたはどう思いますか？"
+    },
+    "channelAuditFeedbackRatingMessage": {
+        "message": "チャンネル監査を使用してどのように評価しますか？"
+    },
+    "channelAuditFeedbackErrorMessage": {
+        "message": "エラーが発生しました。 問題が解決しない場合は、vidIQにログインしてsupport@vidiq.comにご連絡下さい。"
+    },
+    "channelAuditFeedbackSubmittedMessage": {
+        "message": "ありがとうございました！ あなたのフィードバックは送信されました。\r\n"
+    },
+    "topRetentionChannelAuditInfo": {
+        "message": "あなたの視聴者はこれらのビデオを愛し、おそらくこのタイプのコンテンツをもっと見たいと思っているでしょう。 これはプライムのダブルダウンコンテンツです。"
+    },
+    "endscreensChannelAuditInfo": {
+        "message": "視聴者は各ビデオの最後に、あなたが表示したカードをクリックすることができます。"
+    },
+    "cardsChannelAuditInfo": {
+        "message": "動画内に表示されるインタラクティブカードはエンゲージメントに役立ち、セッションの視聴時間を増加させます。"
+    },
+    "lowestLikeRatioChannelAuditInfo": {
+        "message": "あなたの視聴者はこれらの動画に良い反応をしませんでした。 ビデオのトピックを確認し、その理由を知るためにコメントを読んでください。"
+    },
+    "channelAuditStatsUpsellMessage": {
+        "message": "さらに多くのチャネルの洞察を明らかにする為に、VidIQ ProまたはBoostまでレベルアップしてください！"
+    },
+    "limitToRangeOptionText": {
+        "message": "タイムフレームでの動画への制限"
+    },
+    "includeScreenshot": {
+        "message": "スクリーンショットを含める"
+    },
+    "crowdfundingTitle": {
+        "message": "クラウドファンディング"
+    },
+    "donationTitle": {
+        "message": "寄付"
+    },
+    "keywordInspectorFeatureInfo": {
+        "message": " "
+    },
+    "engagementBreakdownTitle": {
+        "message": "エンゲージメント内訳"
+    },
+    "categoryNewsAndPolitics": {
+        "message": "ニュースと政治"
+    },
+    "categoryScienceAndTechnology": {
+        "message": "科学・技術"
+    }
+}
