@@ -42,7 +42,12 @@ from aurora.data.models import (
     VideoInspectionRecord,
 )
 from aurora.llm.prompt_engine import build_prompt, parse_ai_candidates
-from aurora.llm.providers import AIProviderConfig, AIProviderError, generate_text
+from aurora.llm.providers import (
+    AIProviderConfig,
+    AIProviderError,
+    generate_text,
+    is_credit_exhaustion,
+)
 from aurora.llm.vision_classifier import classify_image
 from aurora.methods.strategies import (
     METHODS,
@@ -59,6 +64,10 @@ class ProtectionEncountered(RuntimeError):
     pass
 
 
+class AICreditExhausted(RuntimeError):
+    pass
+
+
 @dataclass(frozen=True)
 class RunnerOptions:
     low_rpm_share: int = 60
@@ -70,7 +79,7 @@ class RunnerOptions:
     validation_depth: int = 2
     regions: str = "US,CA"
     mobile_only: bool = True
-    max_video_minutes: int = 10
+    max_video_minutes: int = 5
     pause_file: Path = Path("aurora.pause")
     ai_guided: bool = False
     ai_every: int = 5
@@ -91,6 +100,7 @@ class ResearchRunner:
         self.last_processed_seed_id: int | None = None
         self.session_processed = 0
         self.metric_incomplete = False
+        self.ai_credit_exhausted = False
 
     def run_once(self) -> list[dict]:
         self.last_processed_seed_id = None
@@ -119,6 +129,10 @@ class ResearchRunner:
             log.warning("%s; progress retained and session stopped", exc)
             self.repository.set_seed_status(seed.id, "pending")
             return []
+        except AICreditExhausted:
+            self.ai_credit_exhausted = True
+            self.repository.set_seed_status(seed.id, "pending")
+            return []
         except Exception:
             self.repository.set_seed_status(seed.id, "pending")
             raise
@@ -131,6 +145,12 @@ class ResearchRunner:
                 log.info("pause file detected at %s; loop stopped between keywords", self.options.pause_file)
                 break
             batch = self.run_once()
+            if self.ai_credit_exhausted:
+                self.options.pause_file.write_text(
+                    "OpenRouter credits exhausted\n", encoding="utf-8"
+                )
+                log.warning("research stopped because OpenRouter credits are exhausted")
+                break
             if self.last_processed_seed_id is None:
                 break
             opportunities.extend(batch)
@@ -141,12 +161,11 @@ class ResearchRunner:
                 and completed % self.options.ai_every == 0
             ):
                 ai_ok = self._ai_expand(completed)
-                if not ai_ok and self.options.stop_on_ai_error:
-                    self.options.pause_file.write_text(
-                        "AI provider error or expired key\n", encoding="utf-8"
+                if not ai_ok:
+                    log.warning(
+                        "transient AI recall failure; research continues until "
+                        "credits are exhausted"
                     )
-                    log.warning("research paused after AI provider failure")
-                    break
         return opportunities
 
     def _ai_expand(self, completed: int) -> bool:
@@ -172,7 +191,11 @@ class ResearchRunner:
                 ),
             )
         except AIProviderError as exc:
-            log.warning("AI-guided expansion skipped after provider error: %s", exc)
+            if is_credit_exhaustion(exc):
+                self.ai_credit_exhausted = True
+                log.warning("AI-guided expansion stopped: credits exhausted")
+            else:
+                log.warning("AI-guided expansion skipped after transient error: %s", exc)
             return False
         values = parse_ai_candidates(output, method)
         if not values:
@@ -335,6 +358,11 @@ class ResearchRunner:
                     len(incomplete_thumbnail_records),
                     len(records),
                 )
+                if any(
+                    thumbnail_ai[record.video_id].status == "credit_exhausted"
+                    for record in incomplete_thumbnail_records
+                ):
+                    raise AICreditExhausted
             if incomplete_subscriber_records:
                 self.metric_incomplete = True
                 log.warning(
@@ -541,6 +569,8 @@ class ResearchRunner:
                 time.sleep(2)
                 sb.cdp.save_screenshot(str(graph_png))
                 graph_ai = classify_image(graph_png, "graph", vision_config)
+                if graph_ai.status == "credit_exhausted":
+                    raise AICreditExhausted
                 inspection_curve = (
                     graph_ai.label
                     if graph_ai.status == "collected"

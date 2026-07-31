@@ -14,6 +14,21 @@ class AIProviderError(RuntimeError):
     pass
 
 
+def is_credit_exhaustion(error: Exception | str) -> bool:
+    text = str(error).lower()
+    return any(
+        marker in text
+        for marker in (
+            "402",
+            "credit",
+            "insufficient balance",
+            "insufficient quota",
+            "payment required",
+            "quota exceeded",
+        )
+    )
+
+
 PROVIDER_ALIASES = {
     "chat": "openai",
     "chatgpt": "openai",

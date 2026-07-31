@@ -3,7 +3,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from aurora.llm.providers import AIProviderConfig, AIProviderError, generate_image_json
+from aurora.llm.providers import (
+    AIProviderConfig,
+    AIProviderError,
+    generate_image_json,
+    is_credit_exhaustion,
+)
 
 THUMBNAIL_PROMPT = """Classify this YouTube thumbnail. HIGH means clearly edited/designed:
 added text, graphics, cutouts, arrows, deliberate composition or strong visual polish.
@@ -45,8 +50,9 @@ def classify_image(
         result = generate_image_json(str(path), prompt, config)
         label = str(result.get("label", "")).strip().lower()
         confidence = max(0, min(100, int(result.get("confidence", 0))))
-    except (AIProviderError, OSError, TypeError, ValueError):
-        return VisionClassification("", 0, config.resolved_model, "error")
+    except (AIProviderError, OSError, TypeError, ValueError) as exc:
+        status = "credit_exhausted" if is_credit_exhaustion(exc) else "error"
+        return VisionClassification("", 0, config.resolved_model, status)
     if label not in allowed:
         return VisionClassification(label, confidence, config.resolved_model, "invalid")
     return VisionClassification(label, confidence, config.resolved_model, "collected")

@@ -90,11 +90,21 @@ Project source and the unpacked extension remain read-only assets in the reposit
 # Last 100 log messages or a full report
 .\scripts\aurora-control.ps1 tail
 .\scripts\aurora-control.ps1 report
+
+# Built-in command reference
+.\scripts\aurora-control.ps1 help
+
+# Pull updates, run tests, and restart if it was running
+.\scripts\aurora-control.ps1 update
 ```
 
 `watch` highlights `DIAMOND` in magenta, `GEMMINE` in cyan, `GOLDMINE` in yellow,
 and collection failures in red. Statistics come directly from SQLite and GitHub; the
 project does not insert sample opportunities or synthetic engagement numbers.
+
+`resume` reports recent log activity when the process is healthy and automatically
+restarts a PID whose log has been silent for ten minutes. Transient AI/API errors do
+not end deep research; exhausted OpenRouter credits create a checkpoint and stop it.
 
 Equivalent direct command:
 
@@ -102,10 +112,10 @@ Equivalent direct command:
 $env:OPENROUTER_API_KEY="..."
 aurora --config config.demo.yaml --storage-root "D:\Aurora-data" research `
   --profile deep --max-keywords 1000000 --regions US,CA `
-  --allow-desktop --max-video-minutes 2 `
+  --allow-desktop --max-video-minutes 5 `
   --ai-guided --ai-every 50 --ai-provider openrouter `
   --ai-model google/gemini-2.5-flash-lite `
-  --vision-model google/gemini-2.5-flash-lite --stop-on-ai-error
+  --vision-model google/gemini-2.5-flash-lite
 ```
 
 Set `OPENAI_API_KEY` before `generate`:
@@ -138,7 +148,7 @@ aurora --config config.yaml research `
   --max-suggestions 8 `
   --max-depth 4 `
   --regions US,CA `
-  --max-video-minutes 8
+  --max-video-minutes 5
 ```
 
 Press `Ctrl+C` for an immediate stop. For a checkpoint stop from another terminal:

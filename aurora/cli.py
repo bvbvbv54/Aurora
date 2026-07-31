@@ -92,7 +92,7 @@ def parser() -> argparse.ArgumentParser:
     research.add_argument("--search-breadth", type=int)
     research.add_argument("--validation-depth", type=int)
     research.add_argument("--regions")
-    research.add_argument("--max-video-minutes", type=int, default=10)
+    research.add_argument("--max-video-minutes", type=int, default=5)
     research.add_argument("--allow-desktop", action="store_true")
     research.add_argument("--pause-file", default="aurora.pause")
     research.add_argument("--ai-guided", action="store_true")
@@ -146,7 +146,7 @@ def runner_options(args, *, max_keywords: int = 1) -> RunnerOptions:
         validation_depth=option("validation_depth", 2),
         regions=option("regions", "US,CA"),
         mobile_only=not getattr(args, "allow_desktop", False),
-        max_video_minutes=getattr(args, "max_video_minutes", 10),
+        max_video_minutes=getattr(args, "max_video_minutes", 5),
         pause_file=Path(getattr(args, "pause_file", "aurora.pause")).resolve(),
         ai_guided=getattr(args, "ai_guided", False),
         ai_every=option("ai_every", 5),

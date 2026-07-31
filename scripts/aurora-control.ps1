@@ -1,9 +1,13 @@
 param(
-    [ValidateSet("start", "status", "watch", "tail", "pause", "resume", "stop", "report")]
+    [ValidateSet(
+        "help", "start", "status", "watch", "tail", "pause", "resume",
+        "restart", "stop", "update", "report"
+    )]
     [string]$Action = "status",
     [string]$StorageRoot = "D:\Aurora-data",
     [string]$Model = "google/gemini-2.5-flash-lite",
-    [string]$VisionModel = "google/gemini-2.5-flash-lite"
+    [string]$VisionModel = "google/gemini-2.5-flash-lite",
+    [int]$MaxVideoMinutes = 5
 )
 
 $ErrorActionPreference = "Stop"
@@ -19,11 +23,32 @@ function Get-AuroraProcess {
     return Get-Process -Id $savedPid -ErrorAction SilentlyContinue
 }
 
+function Stop-AuroraTree {
+    $process = Get-AuroraProcess
+    if ($process) {
+        & taskkill.exe /PID $process.Id /T /F | Out-Null
+    }
+    Remove-Item -LiteralPath $pidPath -ErrorAction SilentlyContinue
+}
+
+function Get-LastActivityMinutes {
+    if (-not (Test-Path -LiteralPath $logPath)) { return [double]::PositiveInfinity }
+    return ((Get-Date) - (Get-Item -LiteralPath $logPath).LastWriteTime).TotalMinutes
+}
+
 function Start-Aurora {
     $existing = Get-AuroraProcess
     if ($existing) {
-        Write-Host "AURORA already running (PID $($existing.Id))." -ForegroundColor Yellow
-        return
+        $idleMinutes = Get-LastActivityMinutes
+        if ($idleMinutes -lt 10) {
+            Write-Host (
+                "AURORA is active (PID $($existing.Id)); last log activity " +
+                "$([math]::Round($idleMinutes, 1)) minute(s) ago."
+            ) -ForegroundColor Green
+            return
+        }
+        Write-Host "Stale AURORA process detected; restarting it." -ForegroundColor Yellow
+        Stop-AuroraTree
     }
     New-Item -ItemType Directory -Force -Path $StorageRoot | Out-Null
     Remove-Item -LiteralPath $pausePath -ErrorAction SilentlyContinue
@@ -32,7 +57,8 @@ function Start-Aurora {
         "-File", "`"$launcher`"",
         "-StorageRoot", "`"$StorageRoot`"",
         "-Model", "`"$Model`"",
-        "-VisionModel", "`"$VisionModel`""
+        "-VisionModel", "`"$VisionModel`"",
+        "-MaxVideoMinutes", $MaxVideoMinutes
     )
     $process = Start-Process powershell.exe -ArgumentList $arguments `
         -WindowStyle Hidden -PassThru -WorkingDirectory $project
@@ -40,6 +66,7 @@ function Start-Aurora {
     Write-Host "AURORA started (PID $($process.Id))." -ForegroundColor Green
     Write-Host "Text model:   $Model"
     Write-Host "Vision model: $VisionModel"
+    Write-Host "Maximum video duration: $MaxVideoMinutes minutes"
     Write-Host "Monitor: .\scripts\aurora-control.ps1 watch" -ForegroundColor Cyan
 }
 
@@ -77,6 +104,32 @@ function Write-ColoredLine([string]$line) {
 
 Set-Location -LiteralPath $project
 switch ($Action) {
+    "help" {
+        @"
+AURORA terminal control
+
+  .\scripts\aurora-control.ps1 help       Show this help
+  .\scripts\aurora-control.ps1 start      Start; stale processes auto-restart
+  .\scripts\aurora-control.ps1 status     PID, models, real DB metrics, completeness
+  .\scripts\aurora-control.ps1 watch      Colored live log and opportunity flags
+  .\scripts\aurora-control.ps1 tail       Last 100 log lines
+  .\scripts\aurora-control.ps1 pause      Finish current keyword, then checkpoint
+  .\scripts\aurora-control.ps1 resume     Resume or auto-restart if stale/stopped
+  .\scripts\aurora-control.ps1 restart    Immediate process-tree restart
+  .\scripts\aurora-control.ps1 stop       Immediate process-tree stop
+  .\scripts\aurora-control.ps1 update     Pull, test, and restart if previously running
+  .\scripts\aurora-control.ps1 report     Write full JSON/CSV/Markdown report
+
+Options:
+  -StorageRoot D:\Aurora-data
+  -Model google/gemini-2.5-flash-lite
+  -VisionModel google/gemini-2.5-flash-lite
+  -MaxVideoMinutes 5
+
+Research continues through transient AI/API failures. It checkpoints only when
+OpenRouter reports exhausted credits, or when pause/stop is explicitly requested.
+"@ | Write-Host
+    }
     "start" { Start-Aurora }
     "status" { Show-Status }
     "tail" {
@@ -100,13 +153,33 @@ switch ($Action) {
         Remove-Item -LiteralPath $pausePath -ErrorAction SilentlyContinue
         Start-Aurora
     }
+    "restart" {
+        Stop-AuroraTree
+        Remove-Item -LiteralPath $pausePath -ErrorAction SilentlyContinue
+        Start-Aurora
+    }
     "stop" {
-        $process = Get-AuroraProcess
-        if ($process) {
-            & taskkill.exe /PID $process.Id /T /F | Out-Null
-            Remove-Item -LiteralPath $pidPath -ErrorAction SilentlyContinue
-        }
+        Stop-AuroraTree
         Write-Host "AURORA stopped." -ForegroundColor Yellow
+    }
+    "update" {
+        $wasRunning = [bool](Get-AuroraProcess)
+        if ($wasRunning) {
+            Set-Content -LiteralPath $pausePath -Value "update requested"
+            Write-Host "Waiting for the current keyword checkpoint..." -ForegroundColor Yellow
+            $deadline = (Get-Date).AddMinutes(10)
+            while ((Get-AuroraProcess) -and (Get-Date) -lt $deadline) {
+                Start-Sleep -Seconds 5
+            }
+            if (Get-AuroraProcess) { Stop-AuroraTree }
+        }
+        & git pull --ff-only
+        if ($LASTEXITCODE -ne 0) { throw "git pull failed" }
+        & python -m pytest
+        if ($LASTEXITCODE -ne 0) { throw "tests failed after update" }
+        Remove-Item -LiteralPath $pausePath -ErrorAction SilentlyContinue
+        Write-Host "AURORA scripts updated and tests passed." -ForegroundColor Green
+        if ($wasRunning) { Start-Aurora }
     }
     "report" {
         & python -m aurora.cli --config config.demo.yaml `

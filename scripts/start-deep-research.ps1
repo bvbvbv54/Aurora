@@ -5,7 +5,8 @@ param(
     [int]$AiEvery = 50,
     [string]$Regions = "US,CA",
     [string]$StorageRoot = "D:\Aurora-data",
-    [string]$VisionModel = "google/gemini-2.5-flash-lite"
+    [string]$VisionModel = "google/gemini-2.5-flash-lite",
+    [int]$MaxVideoMinutes = 5
 )
 
 $ErrorActionPreference = "Stop"
@@ -40,7 +41,7 @@ try {
         vision_model = $VisionModel
         storage_root = $StorageRoot
         regions = $Regions
-        max_video_minutes = 2
+        max_video_minutes = $MaxVideoMinutes
         ai_recall_every = $AiEvery
     } | ConvertTo-Json | Set-Content -LiteralPath (
         Join-Path $StorageRoot "runtime-config.json"
@@ -84,13 +85,12 @@ try {
         --max-keywords $MaxKeywords `
         --regions $Regions `
         --allow-desktop `
-        --max-video-minutes 2 `
+        --max-video-minutes $MaxVideoMinutes `
         --ai-guided `
         --ai-every $AiEvery `
         --ai-provider openrouter `
         --ai-model $Model `
-        --vision-model $VisionModel `
-        --stop-on-ai-error 2>&1 | Tee-Object -FilePath $logPath -Append
+        --vision-model $VisionModel 2>&1 | Tee-Object -FilePath $logPath -Append
     exit $LASTEXITCODE
 }
 finally {

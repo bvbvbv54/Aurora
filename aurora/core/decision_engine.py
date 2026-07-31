@@ -261,11 +261,25 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
         and evidence.mobile_producible
     )
     gold_gate = (
-        final >= 70
-        and strong_65 >= 6
+        final >= 78
+        and strong_65 >= 7
         and evidence.simplified_validation
-        and trend >= 60
-        and evergreen >= 55
+        and focus.subscribers is not None
+        and focus.subscribers < 10_000
+        and 10_000 <= focus.views <= 100_000
+        and focus.days_ago >= 365
+        and evidence.recent_comments
+        and evidence.newest_comment_days is not None
+        and evidence.newest_comment_days <= 90
+        and trend >= 75
+        and demand >= 65
+        and competition >= 65
+        and small_creator >= 70
+        and evergreen >= 65
+        and content_gap >= 65
+        and search_intent >= 65
+        and longtail >= 65
+        and evidence.mobile_producible
     )
     if diamond_gate:
         classification = "Diamond"

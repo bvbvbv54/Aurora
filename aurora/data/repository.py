@@ -190,6 +190,17 @@ class Repository:
 
     def save_goldmine(self, row: GoldmineKeyword) -> None:
         with self.sessions.begin() as session:
+            existing = list(
+                session.scalars(
+                    select(GoldmineKeyword).where(
+                        GoldmineKeyword.seed_keyword_id == row.seed_keyword_id
+                    )
+                )
+            )
+            if existing and max(item.score for item in existing) >= row.score:
+                return
+            for item in existing:
+                session.delete(item)
             session.add(row)
 
     def save_evaluation(self, row: KeywordEvaluation) -> None:
@@ -451,30 +462,44 @@ class Repository:
                 })
             return evaluations, goldmines
 
-    def metrics(self) -> dict[str, int]:
+    def metrics(self) -> dict[str, int | float]:
         with self.sessions() as session:
-            return {
-                "keywords": session.scalar(select(func.count(SeedKeyword.id))) or 0,
-                "analyzed": session.scalar(
-                    select(func.count(SeedKeyword.id)).where(SeedKeyword.status == "analyzed")
+            analyzed = session.scalar(
+                select(func.count(SeedKeyword.id)).where(
+                    SeedKeyword.status == "analyzed"
                 )
-                or 0,
-                "goldmines": session.scalar(select(func.count(GoldmineKeyword.id))) or 0,
-                "goldmine_seeds": session.scalar(
-                    select(func.count(SeedKeyword.id)).where(SeedKeyword.status == "goldmine")
+            ) or 0
+            goldmine_seeds = session.scalar(
+                select(func.count(SeedKeyword.id)).where(
+                    SeedKeyword.status == "goldmine"
                 )
-                or 0,
-                "serp_results": session.scalar(select(func.count(SerpResult.id))) or 0,
-                "opportunity_scores": session.scalar(
-                    select(func.count(OpportunityScoreRecord.id))
-                )
-                or 0,
-                "scored_goldmines": session.scalar(
+            ) or 0
+            evaluated = (
+                session.scalar(select(func.count(OpportunityScoreRecord.id))) or 0
+            )
+            scored_goldmines = (
+                session.scalar(
                     select(func.count(OpportunityScoreRecord.id)).where(
                         OpportunityScoreRecord.classification == "Goldmine"
                     )
                 )
+                or 0
+            )
+            return {
+                "keywords": session.scalar(select(func.count(SeedKeyword.id))) or 0,
+                "analyzed": analyzed,
+                "completed_seeds": analyzed + goldmine_seeds,
+                "goldmines": session.scalar(
+                    select(func.count(GoldmineKeyword.id))
+                )
                 or 0,
+                "goldmine_seeds": goldmine_seeds,
+                "serp_results": session.scalar(select(func.count(SerpResult.id))) or 0,
+                "opportunity_scores": evaluated,
+                "scored_goldmines": scored_goldmines,
+                "goldmine_rate_percent": round(
+                    scored_goldmines / max(1, evaluated) * 100, 1
+                ),
                 "scored_gemmines": session.scalar(
                     select(func.count(OpportunityScoreRecord.id)).where(
                         OpportunityScoreRecord.classification == "GEMmine"

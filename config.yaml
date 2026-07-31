@@ -26,7 +26,7 @@ research:
   high_rpm_share: 40
   audience_regions: "US,CA"
   mobile_only: true
-  max_video_minutes: 10
+  max_video_minutes: 5
   max_suggestions_per_keyword: 6
   min_wait_between_keywords_seconds: 30
   max_wait_between_keywords_seconds: 120
