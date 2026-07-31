@@ -1,9 +1,43 @@
 # AURORA
 
+[![Tests](https://github.com/bvbvbv54/Aurora/actions/workflows/aurora.yml/badge.svg)](https://github.com/bvbvbv54/Aurora/actions/workflows/aurora.yml)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![YouTube Research](https://img.shields.io/badge/YouTube-keyword%20research-FF0000?logo=youtube)](https://github.com/bvbvbv54/Aurora)
+[![VidIQ Evidence](https://img.shields.io/badge/VidIQ-All--history%20evidence-2563EB)](https://github.com/bvbvbv54/Aurora)
+[![GitHub stars](https://img.shields.io/github/stars/bvbvbv54/Aurora?style=flat&logo=github)](https://github.com/bvbvbv54/Aurora/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/bvbvbv54/Aurora?style=flat&logo=github)](https://github.com/bvbvbv54/Aurora/forks)
+[![GitHub issues](https://img.shields.io/github/issues/bvbvbv54/Aurora)](https://github.com/bvbvbv54/Aurora/issues)
+[![Last commit](https://img.shields.io/github/last-commit/bvbvbv54/Aurora)](https://github.com/bvbvbv54/Aurora/commits/main)
+
 AURORA is a paced, resumable YouTube keyword-research pipeline. It uses a visible
 SeleniumBase CDP browser, extracts search-result metadata, applies the requested exact
 low-RPM scoring tree plus fix/high-RPM modifiers, certifies candidates with a stripped-title
 search, and persists every completed stage to SQLite.
+
+It is built for evidence-first discovery of short, practical tutorial opportunities:
+Windows fixes, desktop and mobile app problems, operating-system issues, game fixes,
+iPhone workflows, and phone-recordable banking/insurance actions targeting the US and
+Canada. It never treats VidIQ keyword Volume or Competition as evidence.
+
+## How it works
+
+```mermaid
+flowchart LR
+    A["Gemini 2.5 seed discovery"] --> B["YouTube autocomplete + space"]
+    B --> C["24 organic-result evidence window"]
+    C --> D["Subscribers, views, age, verification"]
+    C --> E["Gemini 2.5 thumbnail classification"]
+    D --> F["Comments sorted by Newest"]
+    E --> F
+    F --> G["VidIQ All-history SVG + AI curve"]
+    G --> H["Simplified keyword re-search"]
+    H --> I["10-component Opportunity Score"]
+    I --> J["Potential / Opportunity"]
+    I --> K["Goldmine / GEMmine / Diamond flag"]
+```
+
+Every displayed counter comes from the live SQLite database or GitHub API. Incomplete
+records are quarantined and requeued; they are not converted into invented zeroes.
 
 The browser layer uses declared browser settings and stops a session when a CAPTCHA,
 challenge page, or unusual-traffic response is detected. It does not alter fingerprint
@@ -29,11 +63,36 @@ Project source and the unpacked extension remain read-only assets in the reposit
 ```powershell
 .\scripts\start-deep-research.ps1 `
   -StorageRoot "D:\Aurora-data" `
-  -Model "google/gemini-3.6-flash" `
+  -Model "google/gemini-2.5-flash-lite" `
   -VisionModel "google/gemini-2.5-flash-lite" `
   -AiEvery 50 `
   -Regions "US,CA"
 ```
+
+## One-command control and monitoring
+
+```powershell
+# Start in the background
+.\scripts\aurora-control.ps1 start
+
+# Show process, queue, Goldmine counts, and completeness health
+.\scripts\aurora-control.ps1 status
+
+# Follow the live research log with colored Diamond/GEMmine/Goldmine flags
+.\scripts\aurora-control.ps1 watch
+
+# Clean checkpoint pause / resume
+.\scripts\aurora-control.ps1 pause
+.\scripts\aurora-control.ps1 resume
+
+# Last 100 log messages or a full report
+.\scripts\aurora-control.ps1 tail
+.\scripts\aurora-control.ps1 report
+```
+
+`watch` highlights `DIAMOND` in magenta, `GEMMINE` in cyan, `GOLDMINE` in yellow,
+and collection failures in red. Statistics come directly from SQLite and GitHub; the
+project does not insert sample opportunities or synthetic engagement numbers.
 
 Equivalent direct command:
 
@@ -43,7 +102,7 @@ aurora --config config.demo.yaml --storage-root "D:\Aurora-data" research `
   --profile deep --max-keywords 1000000 --regions US,CA `
   --allow-desktop --max-video-minutes 2 `
   --ai-guided --ai-every 50 --ai-provider openrouter `
-  --ai-model google/gemini-3.6-flash `
+  --ai-model google/gemini-2.5-flash-lite `
   --vision-model google/gemini-2.5-flash-lite --stop-on-ai-error
 ```
 
@@ -107,7 +166,7 @@ $env:OPENAI_API_KEY="..."
 aurora generate --provider chatgpt --model gpt-4o --method method1
 
 $env:GEMINI_API_KEY="..."
-aurora generate --provider gemini --model gemini-3.6-flash --method method1
+aurora generate --provider gemini --model gemini-2.5-flash-lite --method method1
 
 $env:OPENROUTER_API_KEY="..."
 aurora research --profile deep --ai-guided --ai-provider openrouter `

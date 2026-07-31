@@ -488,3 +488,49 @@ class Repository:
                 )
                 or 0,
             }
+
+    def metric_health(self) -> dict[str, int | bool]:
+        complete_subscriber_statuses = {"collected", "hidden_by_channel", "not_public"}
+        with self.sessions() as session:
+            serp_rows = session.scalar(select(func.count(SerpResult.id))) or 0
+            subscriber_incomplete = (
+                session.scalar(
+                    select(func.count(SerpResult.id)).where(
+                        SerpResult.subscriber_collection_status.not_in(
+                            complete_subscriber_statuses
+                        )
+                    )
+                )
+                or 0
+            )
+            thumbnail_incomplete = (
+                session.scalar(
+                    select(func.count(SerpResult.id)).where(
+                        SerpResult.thumbnail_ai_status != "collected"
+                    )
+                )
+                or 0
+            )
+            inspections = (
+                session.scalar(select(func.count(VideoInspectionRecord.id))) or 0
+            )
+            inspection_incomplete = (
+                session.scalar(
+                    select(func.count(VideoInspectionRecord.id)).where(
+                        VideoInspectionRecord.metric_complete.is_(False)
+                    )
+                )
+                or 0
+            )
+            return {
+                "serp_rows": serp_rows,
+                "subscriber_incomplete": subscriber_incomplete,
+                "thumbnail_ai_incomplete": thumbnail_incomplete,
+                "inspections": inspections,
+                "inspection_incomplete": inspection_incomplete,
+                "all_retained_evidence_complete": (
+                    subscriber_incomplete == 0
+                    and thumbnail_incomplete == 0
+                    and inspection_incomplete == 0
+                ),
+            }

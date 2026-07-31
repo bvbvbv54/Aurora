@@ -6,7 +6,7 @@ from aurora.llm.providers import AIProviderConfig, AIProviderError
 def test_provider_aliases_and_default_models():
     assert AIProviderConfig(provider="chatgpt").canonical_provider == "openai"
     assert AIProviderConfig(provider="chat").resolved_model == "gpt-4o"
-    assert AIProviderConfig(provider="gemini").resolved_model == "gemini-3.6-flash"
+    assert AIProviderConfig(provider="gemini").resolved_model == "gemini-2.5-flash-lite"
     assert AIProviderConfig(provider="openrouter").resolved_key_env == "OPENROUTER_API_KEY"
 
 

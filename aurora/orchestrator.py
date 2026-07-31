@@ -688,6 +688,13 @@ class ResearchRunner:
                 )
                 if opportunity.classification not in {"Goldmine", "GEMmine", "Diamond"}:
                     continue
+                log.warning(
+                    "FLAG[%s] score=%.2f keyword=%s video=%s",
+                    opportunity.classification.upper(),
+                    opportunity.final_score,
+                    keyword,
+                    record.video_url,
+                )
                 item = {
                     "rpm_category": method.rpm_category,
                     "keyword": keyword,

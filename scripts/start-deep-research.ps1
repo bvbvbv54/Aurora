@@ -1,6 +1,6 @@
 param(
     [string]$Config = "config.demo.yaml",
-    [string]$Model = "google/gemini-3.6-flash",
+    [string]$Model = "google/gemini-2.5-flash-lite",
     [int]$MaxKeywords = 1000000,
     [int]$AiEvery = 50,
     [string]$Regions = "US,CA",
@@ -12,9 +12,10 @@ $ErrorActionPreference = "Stop"
 $project = Split-Path -Parent $PSScriptRoot
 $credentialPath = Join-Path $project "secrets\openrouter.key.dpapi"
 $logPath = Join-Path $StorageRoot "reports\deep-session.log"
-$seedMarker = Join-Path $project "reports\demo\deep-ai-seeded.marker"
-$lowSeedMarker = Join-Path $project "reports\demo\deep-ai-low.marker"
-$highSeedMarker = Join-Path $project "reports\demo\deep-ai-high.marker"
+$modelTag = $Model -replace '[^A-Za-z0-9.-]', '_'
+$seedMarker = Join-Path $StorageRoot "reports\deep-ai-seeded-$modelTag.marker"
+$lowSeedMarker = Join-Path $StorageRoot "reports\deep-ai-low-$modelTag.marker"
+$highSeedMarker = Join-Path $StorageRoot "reports\deep-ai-high-$modelTag.marker"
 
 if (-not (Test-Path -LiteralPath $credentialPath)) {
     throw "Encrypted OpenRouter credential not found: $credentialPath"
@@ -27,6 +28,17 @@ try {
     $env:OPENROUTER_API_KEY = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
     Set-Location -LiteralPath $project
     New-Item -ItemType Directory -Force -Path (Split-Path $logPath) | Out-Null
+    @{
+        started_at = (Get-Date).ToUniversalTime().ToString("o")
+        text_model = $Model
+        vision_model = $VisionModel
+        storage_root = $StorageRoot
+        regions = $Regions
+        max_video_minutes = 2
+        ai_recall_every = $AiEvery
+    } | ConvertTo-Json | Set-Content -LiteralPath (
+        Join-Path $StorageRoot "runtime-config.json"
+    )
     if (-not (Test-Path -LiteralPath $seedMarker)) {
         if (-not (Test-Path -LiteralPath $lowSeedMarker)) {
             & python -m aurora.cli --config $Config --storage-root $StorageRoot generate `

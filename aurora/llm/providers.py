@@ -23,7 +23,7 @@ PROVIDER_ALIASES = {
 
 DEFAULT_MODELS = {
     "openai": "gpt-4o",
-    "gemini": "gemini-3.6-flash",
+    "gemini": "gemini-2.5-flash-lite",
     "openrouter": "openai/gpt-4o-mini",
 }
 

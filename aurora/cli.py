@@ -281,6 +281,7 @@ def main(argv: list[str] | None = None) -> int:
                     "paused": pause_file.exists(),
                     "pause_file": str(pause_file),
                     "metrics": repository.metrics(),
+                    "metric_health": repository.metric_health(),
                 },
                 indent=2,
             )

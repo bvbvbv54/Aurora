@@ -7,7 +7,7 @@ llm:
   provider: "openai"
   model: "gpt-4o"
   api_key_env: "OPENAI_API_KEY"
-  # Gemini: provider "gemini", model "gemini-3.6-flash", env "GEMINI_API_KEY"
+  # Gemini: provider "gemini", model "gemini-2.5-flash-lite", env "GEMINI_API_KEY"
   # OpenRouter: provider "openrouter", model "anthropic/claude-sonnet-4",
   # env "OPENROUTER_API_KEY", base_url "https://openrouter.ai/api/v1"
   temperature: 0.4
