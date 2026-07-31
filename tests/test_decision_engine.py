@@ -187,3 +187,22 @@ def test_two_minute_fix_is_producible():
     )
     assert result.mobile_producible
     assert result.estimated_minutes <= 2
+
+
+def test_broad_git_sync_workflow_exceeds_short_video_limit():
+    result = assess_mobile_production(
+        "Use Obsidian Git to sync your notes for free across devices",
+        max_minutes=2,
+        allow_desktop=True,
+    )
+    assert not result.mobile_producible
+    assert "multi-device/setup workflow" in result.reasons[0]
+
+
+def test_specific_sync_failure_can_still_be_a_short_fix():
+    result = assess_mobile_production(
+        "Fix Obsidian Git sync not working on iPhone",
+        max_minutes=2,
+        allow_desktop=True,
+    )
+    assert result.mobile_producible

@@ -356,6 +356,22 @@ QUICK_ACTIONS = {
     "upload",
     "use",
 }
+COMPLEX_WORKFLOWS = {
+    "all platforms",
+    "across devices",
+    "complete setup",
+    "full guide",
+    "git-backed",
+    "git sync",
+    "self-hosted",
+    "setup and configure",
+    "sync using git",
+    "sync devices",
+    "syncthing",
+    "use git to sync",
+    "using git to sync",
+    "ultimate setup",
+}
 
 
 def assess_mobile_production(
@@ -372,6 +388,16 @@ def assess_mobile_production(
         return ProductionAssessment(False, None, ("promotional/review content is not a fix",))
     if " vs " in text or "compare " in text:
         return ProductionAssessment(False, None, ("comparison is not a fast screen-recording tutorial",))
+    painpoint = any(
+        term in text
+        for term in ("fix", "error", "not working", "crash", "stuck", "missing")
+    )
+    if not painpoint and any(term in text for term in COMPLEX_WORKFLOWS):
+        return ProductionAssessment(
+            False,
+            None,
+            ("multi-device/setup workflow exceeds the short-video limit",),
+        )
     explicit_mobile = any(
         term in text for term in ("android", "iphone", "ios", "mobile", " app", "phone")
     )

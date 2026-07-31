@@ -121,6 +121,7 @@ def browser_session(settings):
         "uc": True,
         "locale": str(browser.get("locale", "en-US")),
         "incognito": True,
+        "ad_block_on": True,
     }
     if headed:
         kwargs["headed"] = True

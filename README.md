@@ -245,6 +245,9 @@ signal that drives Trend Persistence. VPH may be recorded for audit but has zero
 - Ad click protection disables YouTube ad surfaces, blocks external-link click events and
   `window.open`, pauses/mutes playback, closes any external tab that still appears, and
   restores focus to YouTube.
+- SeleniumBase's native network ad blocker is enabled in addition to the click/navigation
+  guard. Broad multi-device, Git-backed, self-hosted, full-guide, and setup workflows are
+  rejected unless the query is a specific pain-point fix.
 - Old candidates record newest-comment age, vidIQ VPH, engagement, outlier, total views,
   and a curve classification. vidIQ Competition is never used.
 - Final reports exclude expensive/physical/comparison concepts and broad tutorials that

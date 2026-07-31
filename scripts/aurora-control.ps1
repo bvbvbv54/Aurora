@@ -103,7 +103,7 @@ switch ($Action) {
     "stop" {
         $process = Get-AuroraProcess
         if ($process) {
-            Stop-Process -Id $process.Id -Force
+            & taskkill.exe /PID $process.Id /T /F | Out-Null
             Remove-Item -LiteralPath $pidPath -ErrorAction SilentlyContinue
         }
         Write-Host "AURORA stopped." -ForegroundColor Yellow
