@@ -31,16 +31,18 @@ def test_curve_comes_from_svg_evidence_not_vph():
         @staticmethod
         def evaluate(_script):
             return {
-                "shape": "historical growth, recent plateau",
-                "evidence": "svg overall=0.800, recent=0.001, samples=21",
+                "shape": "recurring peaks",
+                "evidence": "svg overall=0.800, peaks=3,12, samples=21",
+                "metrics": {"peak_count": 2, "recent_vs_middle": 1.7},
             }
 
     class Browser:
         cdp = CDP()
 
-    shape, evidence = extract_vidiq_curve(Browser())
-    assert shape == "historical growth, recent plateau"
+    shape, evidence, metrics = extract_vidiq_curve(Browser())
+    assert shape == "recurring peaks"
     assert "samples=21" in evidence
+    assert metrics["peak_count"] == 2
 
 
 def test_keyword_volume_and_multiplier_are_parsed_but_competition_is_ignored():

@@ -306,6 +306,9 @@ unavailable channel panels are neutral.
 - The scheduler targets 60% low-RPM/high-volume and 40% high-RPM/buyer-intent research.
 - All loaded first-page organic videos are scored for views, subscribers, verification,
   age, thumbnail evidence, big-channel saturation, and channel dominance.
+- With a five-minute production target, only videos with a confirmed duration of six
+  minutes or less enter subscriber enrichment, thumbnail scoring, VidIQ inspection, or
+  Opportunity scoring; longer and unknown-duration results are counted and skipped.
 - Ad click protection disables YouTube ad surfaces, blocks external-link click events and
   `window.open`, pauses/mutes playback, closes any external tab that still appears, and
   restores focus to YouTube.
@@ -313,7 +316,9 @@ unavailable channel panels are neutral.
   guard. Broad multi-device, Git-backed, self-hosted, full-guide, and setup workflows are
   rejected unless the query is a specific pain-point fix.
 - Old candidates record newest-comment age, vidIQ VPH, engagement, outlier, total views,
-  and a curve classification. vidIQ Competition is never used.
+  and a velocity-based curve classification. The curve analysis measures early/middle/recent
+  accumulation, recent share, active segments, acceleration, plateaus, and separated peaks;
+  it does not reward every cumulative curve merely for rising. VidIQ Competition is never used.
 - Final reports exclude expensive/physical/comparison concepts and workflows unsuitable for
   a five-minute Windows/Desktop, iPhone/iOS, or MacBook/macOS screen recording.
 - Maximum results, recursion, production time, regions, and pacing are configurable.

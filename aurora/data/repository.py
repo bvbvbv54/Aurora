@@ -40,6 +40,7 @@ class Repository:
                 "mobile_action": "TEXT NULL",
             },
             "serp_results": {
+                "duration_seconds": "INTEGER NULL",
                 "subscriber_collection_status": (
                     "VARCHAR(32) NOT NULL DEFAULT 'legacy_missing'"
                 ),
@@ -480,6 +481,14 @@ class Repository:
                 select(GoldmineKeyword).order_by(GoldmineKeyword.score.desc())
             ):
                 inspection = inspections.get((row.seed_keyword_id, row.original_video_id))
+                source_serp = next(
+                    (
+                        item
+                        for item in reversed(serp_by_seed.get(row.seed_keyword_id, []))
+                        if item.video_id == row.original_video_id
+                    ),
+                    None,
+                )
                 opportunity_score = scores.get(row.seed_keyword_id)
                 keyword_metric = keyword_metrics.get(row.seed_keyword_id)
                 goldmines.append({
@@ -489,6 +498,9 @@ class Repository:
                     "subscribers": row.original_channel_subscribers,
                     "views": row.original_view_count,
                     "age_days": row.original_upload_days,
+                    "duration_seconds": (
+                        source_serp.duration_seconds if source_serp else None
+                    ),
                     "score": row.score,
                     "classification": (
                         opportunity_score.classification

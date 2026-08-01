@@ -12,6 +12,7 @@ from aurora.core.browser_manager import harden_youtube_page
 from aurora.core.decision_engine import Candidate
 from aurora.core.parsers import (
     parse_age_days,
+    parse_duration_seconds,
     parse_subscribers,
     parse_views,
     thumbnail_quality,
@@ -44,6 +45,7 @@ class VideoRecord:
     candidate: Candidate
     video_id: str
     video_url: str
+    duration_seconds: int | None = None
     channel_url: str = ""
     subscriber_status: str = "not_attempted"
 
@@ -53,6 +55,14 @@ class SearchSelection:
     typed_query: str
     selected_query: str
     suggestions: tuple[str, ...]
+
+
+def source_duration_eligible(record: VideoRecord, max_video_minutes: int) -> bool:
+    """Allow source evidence up to one minute above the production target."""
+    return (
+        record.duration_seconds is not None
+        and 0 < record.duration_seconds <= (max_video_minutes + 1) * 60
+    )
 
 
 def first_element(parent, selectors):
@@ -83,6 +93,10 @@ def extract_results(sb, limit: int = 20) -> list[VideoRecord]:
         element.querySelectorAll('#metadata-line span, span.inline-metadata-item')
       ).map((item) => (item.innerText || '').trim());
       const image = element.querySelector('img');
+      const duration = element.querySelector(
+        'ytd-thumbnail-overlay-time-status-renderer, #time-status, ' +
+        'yt-thumbnail-overlay-badge-view-model badge-shape'
+      );
       return {
         title: ((title && (title.innerText || title.title)) || '').trim(),
         url: (title && title.href) || '',
@@ -91,6 +105,9 @@ def extract_results(sb, limit: int = 20) -> list[VideoRecord]:
         blob: element.innerText || '',
         metadata: metadata,
         thumb_url: (image && (image.currentSrc || image.src)) || '',
+        duration: ((duration && (
+          duration.innerText || duration.getAttribute('aria-label') || ''
+        )) || '').trim(),
         promoted: Boolean(element.closest(
           'ytd-promoted-video-renderer, ytd-ad-slot-renderer, ytd-display-ad-renderer'
         )) || Boolean(element.querySelector(
@@ -135,6 +152,9 @@ def extract_results(sb, limit: int = 20) -> list[VideoRecord]:
             date_text = match.group(0) if match else ""
         views = parse_views(view_text)
         age = parse_age_days(date_text)
+        duration = parse_duration_seconds(str(snapshot.get("duration") or ""))
+        if duration is None:
+            duration = parse_duration_seconds(blob)
         thumb_url = str(snapshot.get("thumb_url") or "")
         verified = bool(snapshot.get("verified"))
         if url.startswith("/"):
@@ -156,6 +176,7 @@ def extract_results(sb, limit: int = 20) -> list[VideoRecord]:
                 ),
                 video_id,
                 url,
+                duration,
                 channel_url or "",
             )
         )
@@ -431,6 +452,7 @@ def enrich_top_subscribers(sb, records: list[VideoRecord], base_url: str, limit:
                 candidate,
                 record.video_id,
                 record.video_url,
+                record.duration_seconds,
                 record.channel_url,
                 status,
             )

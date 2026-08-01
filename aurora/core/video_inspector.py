@@ -141,6 +141,7 @@ def inspect_video(sb, video_url: str, vidiq_timeout: int = 20) -> VideoInspectio
         and vidiq.history_all_selected
         and vidiq.curve_shape is not None
         and vidiq.curve_evidence is not None
+        and bool(vidiq.curve_metrics)
         and vidiq.views_per_hour is not None
     )
     return VideoInspection(

@@ -43,6 +43,26 @@ def parse_age_days(text: str | None) -> int:
     return count * factors[match.group(2)]
 
 
+def parse_duration_seconds(text: str | None) -> int | None:
+    """Parse a YouTube duration label such as ``5:42`` or ``1:02:03``."""
+    if not text:
+        return None
+    match = re.search(r"(?<!\d)(\d{1,3}:)?\d{1,2}:\d{2}(?!\d)", text.strip())
+    if not match:
+        return None
+    try:
+        parts = [int(part) for part in match.group(0).split(":")]
+    except ValueError:
+        return None
+    if len(parts) == 2:
+        minutes, seconds = parts
+        return minutes * 60 + seconds if seconds < 60 else None
+    hours, minutes, seconds = parts
+    if minutes >= 60 or seconds >= 60:
+        return None
+    return hours * 3600 + minutes * 60 + seconds
+
+
 def video_id_from_url(url: str) -> str:
     match = re.search(r"(?:v=|youtu\.be/|/shorts/)([\w-]{6,})", url)
     return match.group(1) if match else ""

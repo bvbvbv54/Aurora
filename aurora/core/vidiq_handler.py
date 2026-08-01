@@ -33,6 +33,7 @@ class VidiqData:
     total_views: float | None = None
     curve_shape: str | None = None
     curve_evidence: str | None = None
+    curve_metrics: dict[str, float | int | str] | None = None
     history_all_selected: bool = False
     channel_metrics: VidiqChannelMetrics = VidiqChannelMetrics()
 
@@ -148,8 +149,10 @@ def channel_signal(metrics: VidiqChannelMetrics) -> float:
     return sum(signals) / len(signals) if signals else 50.0
 
 
-def extract_vidiq_curve(sb) -> tuple[str | None, str | None]:
-    """Read the actual right-side vidIQ SVG history curve; no volume/competition fields."""
+def extract_vidiq_curve(
+    sb,
+) -> tuple[str | None, str | None, dict[str, float | int | str]]:
+    """Measure view-accumulation velocity, plateaus, accelerations, and peaks."""
     script = r"""
     (() => {
       const roots = document.querySelectorAll(
@@ -208,16 +211,66 @@ def extract_vidiq_curve(sb) -> tuple[str | None, str | None]:
       const selected = lines[0];
       const points = selected.points;
       const height = Math.max(1, selected.box.height);
-      const overall = (points[0].y - points[20].y) / height;
-      const recent = (points[15].y - points[20].y) / height;
-      let shape = 'flat';
-      if (overall > 0.20 && recent > 0.02) shape = 'increasing';
-      else if (overall > 0.20 && recent >= -0.02) shape = 'historical growth, recent plateau';
-      else if (overall < -0.15) shape = 'declining';
-      else if (recent > 0.05) shape = 'recently increasing';
+      const gains = points.slice(1).map((point, index) =>
+        Math.max(0, (points[index].y - point.y) / height)
+      );
+      const sum = values => values.reduce((total, value) => total + value, 0);
+      const mean = values => values.length ? sum(values) / values.length : 0;
+      const overall = sum(gains);
+      const earlyMean = mean(gains.slice(0, 5));
+      const middleMean = mean(gains.slice(5, 15));
+      const recentMean = mean(gains.slice(15));
+      const overallMean = mean(gains);
+      const earlyShare = overall > 0 ? sum(gains.slice(0, 5)) / overall : 0;
+      const recentShare = overall > 0 ? sum(gains.slice(15)) / overall : 0;
+      const activeRatio = gains.filter(gain => gain > overallMean * 0.18).length / gains.length;
+      const peakThreshold = Math.max(overallMean * 1.8, 0.015);
+      const peakIndexes = gains.map((gain, index) => ({gain, index})).filter(
+        ({gain, index}) => gain >= peakThreshold
+          && gain >= (gains[index - 1] || 0)
+          && gain >= (gains[index + 1] || 0)
+      ).map(item => item.index);
+      const separatedPeaks = peakIndexes.filter(
+        (index, position) => position === 0 || index - peakIndexes[position - 1] >= 3
+      );
+      const recentVsMiddle = middleMean > 0 ? recentMean / middleMean : 0;
+      let shape = 'dormant';
+      if (overall <= 0.035 || recentMean <= 0.0005) shape = 'dormant';
+      else if (
+        separatedPeaks.length >= 2
+        && separatedPeaks.some(index => index >= 10)
+      ) shape = 'recurring peaks';
+      else if (recentVsMiddle >= 1.6 && recentShare >= 0.22) {
+        shape = 'recent acceleration';
+      } else if (earlyShare >= 0.65 && recentMean < overallMean * 0.20) {
+        shape = 'launch spike then plateau';
+      } else if (activeRatio >= 0.65 && recentMean >= overallMean * 0.45) {
+        shape = 'steady evergreen';
+      } else if (recentMean < overallMean * 0.25) {
+        shape = 'historical growth, recent plateau';
+      } else {
+        shape = 'decelerating growth';
+      }
+      const metrics = {
+        overall_gain: Number(overall.toFixed(4)),
+        early_share: Number(earlyShare.toFixed(4)),
+        recent_share: Number(recentShare.toFixed(4)),
+        early_velocity: Number(earlyMean.toFixed(4)),
+        middle_velocity: Number(middleMean.toFixed(4)),
+        recent_velocity: Number(recentMean.toFixed(4)),
+        recent_vs_middle: Number(recentVsMiddle.toFixed(3)),
+        active_segment_ratio: Number(activeRatio.toFixed(3)),
+        peak_count: separatedPeaks.length,
+        peak_segments: separatedPeaks.join(',')
+      };
       return {
         shape,
-        evidence: `svg overall=${overall.toFixed(3)}, recent=${recent.toFixed(3)}, ` +
+        metrics,
+        evidence: `svg shape=${shape}, overall=${overall.toFixed(3)}, ` +
+          `early_share=${earlyShare.toFixed(3)}, recent_share=${recentShare.toFixed(3)}, ` +
+          `velocities=${earlyMean.toFixed(4)}/${middleMean.toFixed(4)}/` +
+          `${recentMean.toFixed(4)}, recent_vs_middle=${recentVsMiddle.toFixed(2)}, ` +
+          `active=${activeRatio.toFixed(2)}, peaks=${separatedPeaks.join(',') || 'none'}, ` +
           `samples=${points.length}, monotonic=${selected.monotonic}/20, ` +
           `stroke=${selected.stroke}`
       };
@@ -226,10 +279,15 @@ def extract_vidiq_curve(sb) -> tuple[str | None, str | None]:
     try:
         result = sb.cdp.evaluate(script)
     except (TypeError, ValueError):
-        return None, None
+        return None, None, {}
     if not isinstance(result, dict):
-        return None, None
-    return result.get("shape"), result.get("evidence")
+        return None, None, {}
+    metrics = result.get("metrics")
+    return (
+        result.get("shape"),
+        result.get("evidence"),
+        metrics if isinstance(metrics, dict) else {},
+    )
 
 
 def dismiss_vidiq_promotions(sb) -> int:
@@ -390,7 +448,7 @@ def extract_vidiq(sb, timeout_seconds: int = 20) -> VidiqData:
                 terms.append(value)
         if terms:
             break
-    curve_shape, curve_evidence = extract_vidiq_curve(sb)
+    curve_shape, curve_evidence, curve_metrics = extract_vidiq_curve(sb)
     channel_metrics = parse_vidiq_channel_metrics(source)
     return VidiqData(
         True,
@@ -401,6 +459,7 @@ def extract_vidiq(sb, timeout_seconds: int = 20) -> VidiqData:
         total_views=total_views,
         curve_shape=curve_shape,
         curve_evidence=curve_evidence,
+        curve_metrics=curve_metrics,
         history_all_selected=history_all_selected,
         channel_metrics=channel_metrics,
     )

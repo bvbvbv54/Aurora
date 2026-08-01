@@ -29,8 +29,10 @@ score can independently produce a Goldmine.
 - vidIQ **Competition**: excluded.
 - Optional vidIQ channel metrics: at most a +/-1.5 final-score modifier; unavailable is neutral.
 - vidIQ video-history graph: sampled from the actual SVG curve shown in the free extension.
-- Curve shapes: `increasing`, `recently increasing`, `historical growth, recent plateau`,
-  `flat`, `declining`, or `unconfirmed`.
+- Curve shapes use accumulation velocity rather than raw direction: `steady evergreen`,
+  `recent acceleration`, `recurring peaks`, `launch spike then plateau`, `historical growth,
+  recent plateau`, `decelerating growth`, `dormant`, or `unconfirmed`. Numeric evidence stores
+  early/middle/recent velocities, view-share timing, active-segment ratio, and peak locations.
 - VPH: audit-only with zero Opportunity Score weight.
 - Matching Terms: recursion input only, never a scoring input.
 

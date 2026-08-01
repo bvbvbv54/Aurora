@@ -15,10 +15,13 @@ added text, graphics, cutouts, arrows, deliberate composition or strong visual p
 LOW means a default/raw video frame, plain screenshot, weak crop, or little editing.
 Return only {"label":"high|low","confidence":0-100}."""
 
-GRAPH_PROMPT = """Inspect only the blue VidIQ All-history total-views curve on the right.
-Classify its release-to-present shape. Return only
-{"label":"increasing|historical growth, recent plateau|flat|declining|unreadable",
-"confidence":0-100}. Do not use VidIQ keyword volume or competition."""
+GRAPH_PROMPT = """Inspect only the blue VidIQ All-history cumulative-views curve.
+Do not label it merely increasing: cumulative totals normally rise. Compare early, middle,
+and recent slope/velocity; identify dormant plateaus, a launch spike followed by a plateau,
+steady evergreen accumulation, recent acceleration, separated recurring peaks/resurgences,
+or decelerating growth. Return only
+{"label":"steady evergreen|recent acceleration|recurring peaks|launch spike then plateau|historical growth, recent plateau|decelerating growth|dormant|unreadable",
+"confidence":0-100}. Ignore VidIQ keyword competition."""
 
 
 @dataclass(frozen=True)
@@ -39,10 +42,13 @@ def classify_image(
         {"high", "low"}
         if task == "thumbnail"
         else {
-            "increasing",
+            "steady evergreen",
+            "recent acceleration",
+            "recurring peaks",
+            "launch spike then plateau",
             "historical growth, recent plateau",
-            "flat",
-            "declining",
+            "decelerating growth",
+            "dormant",
             "unreadable",
         }
     )

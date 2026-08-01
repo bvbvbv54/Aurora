@@ -214,12 +214,23 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
         buyer = 50
 
     curve = evidence.vidiq_curve.lower()
-    if "recently increasing" in curve or curve == "increasing":
+    if curve in {"recent acceleration", "recurring peaks"}:
+        trend = 95
+    elif curve == "steady evergreen":
         trend = 90
+    elif curve == "decelerating growth":
+        trend = 65
+    elif curve == "launch spike then plateau":
+        trend = 45
     elif "historical growth" in curve and "plateau" in curve:
+        trend = 40
+    elif curve == "dormant":
+        trend = 15
+    # Backward compatibility for already-collected records.
+    elif "recently increasing" in curve or curve == "increasing":
         trend = 75
     elif curve == "flat":
-        trend = 35
+        trend = 20
     elif curve == "declining":
         trend = 10
     else:

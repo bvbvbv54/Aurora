@@ -18,6 +18,7 @@ def goldmine_alert(item: dict) -> str:
             f"Source Video: {item['video_url']}",
             f"Channel: {item['channel']} ({item.get('subscribers', 'unknown')} subs)",
             f"Video Age: {item['days_ago']} days",
+            f"Source duration: {item.get('duration_seconds', 'unknown')} seconds",
             f"Views: {item['views']}",
             f"Score: {item['score']}",
             f"Audience target: {item.get('audience_regions', 'US,CA')}",
@@ -25,7 +26,7 @@ def goldmine_alert(item: dict) -> str:
             f"vidIQ Volume: {item.get('vidiq_volume', 'unavailable')} (4% weight)",
             f"vidIQ channel evidence: {item.get('vidiq_channel_metrics_status', 'unavailable')}",
             f"Estimated production: {item.get('estimated_minutes', 'unknown')} minutes",
-            f"Recommended Action: Record the Windows/iPhone 11/MacBook Air M4 steps for \"{item['keyword']}\"",
+            f"Recommended Action: Record the Windows/iPhone/MacBook steps for \"{item['keyword']}\"",
         ]
     )
 
@@ -116,7 +117,8 @@ def write_full_report(
         "",
         "- Scheduling target: 60% low-RPM/high-volume and 40% high-RPM/buyer-intent.",
         "- Target regions: US and Canada.",
-        "- Final shortlist prioritizes Windows 10/11, iPhone 11, and MacBook Air M4 workflows under five minutes.",
+        "- Any Windows/Desktop, iPhone/iOS, and MacBook/macOS version is eligible.",
+        "- With a five-minute target, source videos must have a confirmed duration at or below six minutes.",
         "- Pages dominated by verified or 100K+ subscriber channels are rejected.",
         "- vidIQ Volume has a capped 4% weight; the Competition metric is always ignored.",
         "- Optional vidIQ channel metrics apply at most a +/-1.5 point modifier; unavailable is neutral.",
@@ -125,7 +127,7 @@ def write_full_report(
         "",
         *(f"- {key}: {value}" for key, value in metrics.items()),
         "",
-        "## Selective Windows/iPhone 11/MacBook Air M4 video shortlist",
+        "## Selective Windows/iPhone/MacBook video shortlist",
         "",
     ]
     if not shortlist:
@@ -138,6 +140,7 @@ def write_full_report(
                 f"- Video: {item['video_url']}",
                 f"- Channel/subscribers: {item['channel']} / {item['subscribers']}",
                 f"- Views/age: {item['views']} / {item['age_days']} days",
+                f"- Source duration: {item.get('duration_seconds')} seconds",
                 f"- Score: {item['score']}",
                 f"- Classification: {item.get('classification', 'Goldmine')}",
                 f"- Components: {json.dumps(item.get('score_components', {}))}",

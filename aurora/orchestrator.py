@@ -31,6 +31,7 @@ from aurora.core.serp_analyzer import (
     regional_drift_ratio,
     saturated_early,
     search_url,
+    source_duration_eligible,
 )
 from aurora.core.video_inspector import inspect_video
 from aurora.core.vidiq_handler import (
@@ -329,14 +330,47 @@ class ResearchRunner:
                 debug_dir = self.settings.section("output").get("directory", "./reports")
                 sb.cdp.save_screenshot(f"{debug_dir}/empty-serp.png")
                 log.warning("empty SERP screenshot saved to %s/empty-serp.png", debug_dir)
-            records = extract_results(sb, max_results)
-            log.info("captured %s SERP result(s) for %r", len(records), seed.keyword)
+            all_records = extract_results(sb, max_results)
+            source_duration_cap = (self.options.max_video_minutes + 1) * 60
+            records = [
+                record
+                for record in all_records
+                if source_duration_eligible(record, self.options.max_video_minutes)
+            ]
+            long_records = [
+                record
+                for record in all_records
+                if record.duration_seconds is not None
+                and record.duration_seconds > source_duration_cap
+            ]
+            unknown_duration = sum(
+                record.duration_seconds is None for record in all_records
+            )
+            log.info(
+                "duration gate <=%ss: raw=%s eligible=%s long_skipped=%s "
+                "unknown_skipped=%s",
+                source_duration_cap,
+                len(all_records),
+                len(records),
+                len(long_records),
+                unknown_duration,
+            )
+            log.info(
+                "captured %s duration-eligible SERP result(s) for %r",
+                len(records),
+                seed.keyword,
+            )
             drift_ratio = regional_drift_ratio(records)
             early_reason = (
                 f"regional drift {drift_ratio:.0%}; results are not US/Canada-focused"
                 if drift_ratio >= 0.25
                 else ""
             )
+            if not records:
+                early_reason = (
+                    f"no source videos at or below {source_duration_cap // 60} minutes "
+                    "with a confirmed duration"
+                )
             records = enrich_top_subscribers(
                 sb,
                 records,
@@ -431,12 +465,13 @@ class ResearchRunner:
                 candidate = record.candidate
                 log.info(
                     "organic #%02d | views=%s | subscribers=%s | verified=%s | "
-                    "age_days=%s | thumbnail=%s | %s",
+                    "age_days=%s | duration=%ss | thumbnail=%s | %s",
                     candidate.position,
                     candidate.views,
                     candidate.subscribers,
                     candidate.verified,
                     candidate.days_ago,
+                    record.duration_seconds,
                     candidate.thumbnail_quality,
                     candidate.title,
                 )
@@ -459,6 +494,7 @@ class ResearchRunner:
                     is_verified=r.candidate.verified,
                     view_count=r.candidate.views,
                     upload_date_approx_days=r.candidate.days_ago,
+                    duration_seconds=r.duration_seconds,
                     thumbnail_quality=r.candidate.thumbnail_quality,
                     thumbnail_ai_confidence=thumbnail_ai[r.video_id].confidence,
                     thumbnail_ai_model=thumbnail_ai[r.video_id].model,
@@ -634,12 +670,14 @@ class ResearchRunner:
                 graph_ai = classify_image(graph_png, "graph", vision_config)
                 if graph_ai.status == "credit_exhausted":
                     raise AICreditExhausted
-                inspection_curve = (
-                    graph_ai.label
-                    if graph_ai.status == "collected"
-                    and graph_ai.label != "unreadable"
-                    else "unconfirmed"
-                )
+                inspection_curve = inspection.vidiq.curve_trend
+                if inspection_curve == "unconfirmed":
+                    inspection_curve = (
+                        graph_ai.label
+                        if graph_ai.status == "collected"
+                        and graph_ai.label != "unreadable"
+                        else "unconfirmed"
+                    )
                 inspection_complete = (
                     inspection.metric_complete
                     and graph_ai.status == "collected"
@@ -655,6 +693,7 @@ class ResearchRunner:
                             "keyword": keyword,
                             "video_id": record.video_id,
                             "video_url": record.video_url,
+                            "duration_seconds": record.duration_seconds,
                             "history_range": (
                                 "All (release-to-present)"
                                 if inspection.vidiq.history_all_selected
@@ -668,6 +707,7 @@ class ResearchRunner:
                             "keyword_volume_weight": 0.04,
                             "curve": inspection.vidiq.curve_trend,
                             "curve_evidence": inspection.vidiq.curve_evidence,
+                            "curve_metrics": inspection.vidiq.curve_metrics or {},
                             "ai_curve": graph_ai.label,
                             "ai_curve_confidence": graph_ai.confidence,
                             "ai_curve_model": graph_ai.model,
@@ -798,6 +838,8 @@ class ResearchRunner:
                             "vidiq_ai_curve": graph_ai.label,
                             "vidiq_ai_curve_confidence": graph_ai.confidence,
                             "vidiq_curve_evidence": inspection.vidiq.curve_evidence,
+                            "vidiq_curve_metrics": inspection.vidiq.curve_metrics or {},
+                            "duration_seconds": record.duration_seconds,
                             "vidiq_vph_supporting": inspection.vidiq.views_per_hour,
                             "vidiq_volume": vidiq_keyword.volume,
                             "vidiq_volume_multiplier": vidiq_keyword.multiplier,

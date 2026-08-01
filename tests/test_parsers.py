@@ -5,6 +5,7 @@ from PIL import Image
 from aurora.core.parsers import (
     classify_thumbnail_images,
     parse_age_days,
+    parse_duration_seconds,
     parse_subscribers,
     parse_views,
     thumbnail_quality,
@@ -23,6 +24,13 @@ def test_dates():
     assert parse_age_days("Streamed 2 days ago") == 2
     assert parse_age_days("11 months ago") == 330
     assert parse_age_days("Premiered 1 hour ago") == 0
+
+
+def test_video_durations():
+    assert parse_duration_seconds("5:59") == 359
+    assert parse_duration_seconds("Duration 12:04") == 724
+    assert parse_duration_seconds("1:02:03") == 3723
+    assert parse_duration_seconds("LIVE") is None
 
 
 def test_thumbnail_quality():

@@ -39,6 +39,7 @@ class SerpResult(Base):
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
     view_count: Mapped[int] = mapped_column(Integer, default=0)
     upload_date_approx_days: Mapped[int] = mapped_column(Integer, default=0)
+    duration_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
     thumbnail_quality: Mapped[str] = mapped_column(String(16), default="unknown")
     thumbnail_ai_confidence: Mapped[int] = mapped_column(Integer, default=0)
     thumbnail_ai_model: Mapped[str] = mapped_column(String(96), default="")

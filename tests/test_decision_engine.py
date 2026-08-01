@@ -10,6 +10,7 @@ from aurora.core.decision_engine import (
     score_video,
     strip_title,
 )
+from aurora.core.serp_analyzer import VideoRecord, source_duration_eligible
 
 
 def candidate(**overrides):
@@ -25,6 +26,15 @@ def candidate(**overrides):
     }
     values.update(overrides)
     return Candidate(**values)
+
+
+def test_source_video_duration_gate_is_six_minutes_for_five_minute_target():
+    short = VideoRecord(candidate(), "short1", "https://youtube.test/short1", 359)
+    long = VideoRecord(candidate(), "long12", "https://youtube.test/long12", 721)
+    unknown = VideoRecord(candidate(), "unknown", "https://youtube.test/unknown")
+    assert source_duration_eligible(short, 5)
+    assert not source_duration_eligible(long, 5)
+    assert not source_duration_eligible(unknown, 5)
 
 
 def test_exact_low_rpm_positive_path():
@@ -128,7 +138,7 @@ def test_multi_signal_goldmine_requires_alignment_and_validation():
             recent_comments=True,
             newest_comment_days=7,
             vidiq_vph=8,
-            vidiq_curve="increasing",
+            vidiq_curve="steady evergreen",
             simplified_validation=True,
             mobile_producible=True,
         )
@@ -172,6 +182,27 @@ def test_actual_curve_changes_trend_persistence():
     )
     flat = score_opportunity(OpportunityEvidence(**base, vidiq_curve="flat"))
     assert rising.trend_persistence > flat.trend_persistence
+
+
+def test_curve_velocity_taxonomy_rewards_persistent_demand_not_any_rise():
+    focus = candidate(days_ago=1000)
+    base = {
+        "keyword": "fix APP error on iPhone",
+        "category": "low_rpm",
+        "videos": (focus,),
+        "focus": focus,
+    }
+    evergreen = score_opportunity(
+        OpportunityEvidence(**base, vidiq_curve="steady evergreen")
+    )
+    launch_plateau = score_opportunity(
+        OpportunityEvidence(**base, vidiq_curve="launch spike then plateau")
+    )
+    dormant = score_opportunity(
+        OpportunityEvidence(**base, vidiq_curve="dormant")
+    )
+    assert evergreen.trend_persistence > launch_plateau.trend_persistence
+    assert launch_plateau.trend_persistence > dormant.trend_persistence
 
 
 def test_vidiq_volume_is_low_weight_and_channel_unavailable_is_neutral():

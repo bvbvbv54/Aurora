@@ -32,6 +32,7 @@ def load_candidate(database: str | Path, seed_id: int | None = None) -> dict:
         f"""SELECT o.*, s.keyword, s.category, s.pain_point, s.mobile_action,
             r.title AS source_title, r.video_url, r.channel_name,
             r.channel_subscribers, r.view_count, r.upload_date_approx_days,
+            r.duration_seconds,
             i.newest_comment_days, i.vidiq_curve, i.vidiq_channel_metrics_json,
             e.vidiq_volume, e.vidiq_volume_multiplier
             FROM opportunity_scores o
@@ -81,6 +82,7 @@ def build_tutorial_prompt(candidate: dict, platform: str) -> str:
             "view_count",
             "channel_subscribers",
             "upload_date_approx_days",
+            "duration_seconds",
             "newest_comment_days",
             "vidiq_curve",
             "vidiq_volume",
