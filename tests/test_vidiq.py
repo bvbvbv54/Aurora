@@ -1,4 +1,10 @@
-from aurora.core.vidiq_handler import VidiqData, extract_vidiq_curve
+from aurora.core.vidiq_handler import (
+    VidiqData,
+    channel_signal,
+    extract_vidiq_curve,
+    parse_vidiq_channel_metrics,
+    parse_vidiq_keyword_metrics,
+)
 
 
 def test_old_video_with_positive_vph_is_still_active():
@@ -35,3 +41,25 @@ def test_curve_comes_from_svg_evidence_not_vph():
     shape, evidence = extract_vidiq_curve(Browser())
     assert shape == "historical growth, recent plateau"
     assert "samples=21" in evidence
+
+
+def test_keyword_volume_and_multiplier_are_parsed_but_competition_is_ignored():
+    metrics = parse_vidiq_keyword_metrics(
+        "Search Volume\n72\nVolume Multiplier\n1.8x\nCompetition\nVery Low"
+    )
+    assert metrics.volume == 72
+    assert metrics.multiplier == 1.8
+    assert metrics.status == "collected"
+    assert metrics.competition_present_ignored
+
+
+def test_optional_channel_metrics_are_neutral_when_absent():
+    absent = parse_vidiq_channel_metrics("No channel panel for this creator")
+    assert not absent.available
+    assert channel_signal(absent) == 50
+    available = parse_vidiq_channel_metrics(
+        "Views last 30 days\n25K\nSubscribers gained last 30 days\n300"
+    )
+    assert available.available
+    assert available.views_last_30_days == 25_000
+    assert channel_signal(available) > 50

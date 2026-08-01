@@ -22,8 +22,10 @@ def goldmine_alert(item: dict) -> str:
             f"Score: {item['score']}",
             f"Audience target: {item.get('audience_regions', 'US,CA')}",
             f"vidIQ curve: {item.get('vidiq_curve', 'unconfirmed')}",
+            f"vidIQ Volume: {item.get('vidiq_volume', 'unavailable')} (4% weight)",
+            f"vidIQ channel evidence: {item.get('vidiq_channel_metrics_status', 'unavailable')}",
             f"Estimated production: {item.get('estimated_minutes', 'unknown')} minutes",
-            f"Recommended Action: Record the mobile steps for \"{item['keyword']}\"",
+            f"Recommended Action: Record the Windows/iPhone 11/MacBook Air M4 steps for \"{item['keyword']}\"",
         ]
     )
 
@@ -56,7 +58,9 @@ def write_full_report(
     csv_path = directory / f"research-analytics-{stamp}.csv"
     shortlist = []
     for item in goldmines:
-        production = assess_mobile_production(item["keyword"])
+        production = assess_mobile_production(
+            item["keyword"], max_minutes=5, allow_desktop=True
+        )
         if production.mobile_producible:
             shortlist.append(
                 {
@@ -71,6 +75,7 @@ def write_full_report(
         "metrics": metrics,
         "keyword_analytics": evaluations,
         "certified_candidates": goldmines,
+        "selective_pc_iphone_video_shortlist": shortlist,
         "selective_mobile_video_shortlist": shortlist,
     }
     json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
@@ -93,6 +98,10 @@ def write_full_report(
         "classification",
         "score_components",
         "score_explanations",
+        "vidiq_volume",
+        "vidiq_volume_multiplier",
+        "vidiq_volume_status",
+        "vidiq_competition_ignored",
     ]
     with csv_path.open("w", newline="", encoding="utf-8-sig") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
@@ -107,15 +116,16 @@ def write_full_report(
         "",
         "- Scheduling target: 60% low-RPM/high-volume and 40% high-RPM/buyer-intent.",
         "- Target regions: US and Canada.",
-        "- Final video shortlist requires a fast mobile screen recording workflow.",
+        "- Final shortlist prioritizes Windows 10/11, iPhone 11, and MacBook Air M4 workflows under five minutes.",
         "- Pages dominated by verified or 100K+ subscriber channels are rejected.",
-        "- vidIQ keyword Volume and Competition are excluded; only the actual video-history curve is scored.",
+        "- vidIQ Volume has a capped 4% weight; the Competition metric is always ignored.",
+        "- Optional vidIQ channel metrics apply at most a +/-1.5 point modifier; unavailable is neutral.",
         "",
         "## Totals",
         "",
         *(f"- {key}: {value}" for key, value in metrics.items()),
         "",
-        "## Selective mobile video shortlist",
+        "## Selective Windows/iPhone 11/MacBook Air M4 video shortlist",
         "",
     ]
     if not shortlist:
@@ -134,6 +144,8 @@ def write_full_report(
                 f"- Latest comments present: {item['recent_comments']}",
                 f"- vidIQ VPH (audit only, zero score weight): {item['vidiq_vph']}",
                 f"- vidIQ graph curve: {item['vidiq_curve']}",
+                f"- vidIQ Volume (4% weight): {item.get('vidiq_volume')}",
+                f"- vidIQ channel evidence: {json.dumps(item.get('vidiq_channel_metrics', {}))}",
                 f"- Estimated production: {item['estimated_minutes']} minutes",
                 "",
             ]

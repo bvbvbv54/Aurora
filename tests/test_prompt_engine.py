@@ -24,7 +24,8 @@ def test_adaptive_prompt_includes_regions_mobile_and_findings():
         exclude="cars",
     )
     assert "US,CA" in prompt
-    assert "Android or iPhone" in prompt
+    assert "Windows desktop, any iPhone/iOS version" in prompt
+    assert "any MacBook/macOS version" in prompt
     assert "Big channels saturated" in prompt
     assert "fast account fixes" in prompt
 
@@ -90,7 +91,7 @@ def test_markdown_fragments_are_not_candidates():
 def test_overpopular_apps_filtered():
     raw = """{"items": [
         {"name": "CapCut", "category": "low_rpm", "platform": "android",
-         "pain_point": "video export failing", "mobile_action": "export video now",
+         "pain_point": "general help", "mobile_action": "export video now",
          "popularity_tier": "wide"},
         {"name": "Notion", "category": "low_rpm", "platform": "ios",
          "pain_point": "database not syncing", "mobile_action": "sync database now",
@@ -100,6 +101,16 @@ def test_overpopular_apps_filtered():
     names = [candidate["name"] for candidate in candidates]
     assert "CapCut" not in names
     assert "Notion" in names
+
+
+def test_popular_app_with_specific_pain_point_is_allowed():
+    raw = """{"items": [
+        {"name": "CapCut", "category": "low_rpm", "platform": "windows",
+         "pain_point": "desktop export freezes at ninety percent",
+         "mobile_action": "retry export safely", "popularity_tier": "wide"}
+    ]}"""
+    candidates = parse_ai_candidates(raw, method="method1")
+    assert candidates[0]["name"] == "CapCut"
 
 
 def test_category_and_context_preserved_not_hardcoded():

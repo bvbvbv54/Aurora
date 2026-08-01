@@ -132,6 +132,10 @@ class KeywordEvaluation(Base):
     estimated_minutes: Mapped[int | None] = mapped_column(Integer, nullable=True)
     page_passed: Mapped[bool] = mapped_column(Boolean, default=False)
     rejection_reasons: Mapped[str] = mapped_column(Text, default="[]")
+    vidiq_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
+    vidiq_volume_multiplier: Mapped[float | None] = mapped_column(Float, nullable=True)
+    vidiq_volume_status: Mapped[str] = mapped_column(String(24), default="unavailable")
+    vidiq_competition_ignored: Mapped[bool] = mapped_column(Boolean, default=True)
     evaluated_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
 
 
@@ -161,6 +165,11 @@ class VideoInspectionRecord(Base):
     vidiq_outlier: Mapped[str | None] = mapped_column(String(32), nullable=True)
     vidiq_total_views: Mapped[float | None] = mapped_column(Float, nullable=True)
     vidiq_matching_terms: Mapped[str] = mapped_column(Text, default="[]")
+    vidiq_channel_metrics_json: Mapped[str] = mapped_column(Text, default="{}")
+    vidiq_channel_metrics_status: Mapped[str] = mapped_column(
+        String(24), default="unavailable"
+    )
+    vidiq_channel_signal: Mapped[float] = mapped_column(Float, default=50.0)
     inspected_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
 
 
@@ -181,6 +190,8 @@ class OpportunityScoreRecord(Base):
     longtail_precision_score: Mapped[int] = mapped_column(Integer)
     buyer_intent_score: Mapped[int] = mapped_column(Integer)
     trend_persistence_score: Mapped[int] = mapped_column(Integer)
+    vidiq_volume_score: Mapped[int] = mapped_column(Integer, default=50)
+    vidiq_channel_modifier: Mapped[float] = mapped_column(Float, default=0.0)
     final_score: Mapped[float] = mapped_column(Float)
     classification: Mapped[str] = mapped_column(String(20), index=True)
     simplified_validation: Mapped[bool] = mapped_column(Boolean, default=False)

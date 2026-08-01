@@ -6,6 +6,24 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
+class VidiqKeywordMetrics:
+    volume: float | None = None
+    multiplier: float | None = None
+    status: str = "unavailable"
+    competition_present_ignored: bool = False
+
+
+@dataclass(frozen=True)
+class VidiqChannelMetrics:
+    available: bool = False
+    views_last_30_days: int | None = None
+    subscribers_last_30_days: int | None = None
+    average_daily_views: int | None = None
+    average_daily_subscribers: int | None = None
+    raw: dict[str, str] | None = None
+
+
+@dataclass(frozen=True)
 class VidiqData:
     loaded: bool
     views_per_hour: float | None
@@ -16,6 +34,7 @@ class VidiqData:
     curve_shape: str | None = None
     curve_evidence: str | None = None
     history_all_selected: bool = False
+    channel_metrics: VidiqChannelMetrics = VidiqChannelMetrics()
 
     @property
     def still_getting_views(self) -> bool:
@@ -24,6 +43,109 @@ class VidiqData:
     @property
     def curve_trend(self) -> str:
         return self.curve_shape or "unconfirmed"
+
+
+def _human_number(value: str) -> int | None:
+    match = re.search(r"(-?[\d,.]+)\s*([KMB])?", value, re.IGNORECASE)
+    if not match:
+        return None
+    factor = {"K": 1_000, "M": 1_000_000, "B": 1_000_000_000}.get(
+        (match.group(2) or "").upper(), 1
+    )
+    try:
+        return round(float(match.group(1).replace(",", "")) * factor)
+    except ValueError:
+        return None
+
+
+def parse_vidiq_keyword_metrics(text: str) -> VidiqKeywordMetrics:
+    """Parse VidIQ Volume/multiplier while explicitly ignoring Competition."""
+    volume_match = re.search(
+        r"(?:search\s+)?volume(?:\s+score)?\s*[:\n]?\s*(\d+(?:\.\d+)?)",
+        text,
+        re.IGNORECASE,
+    )
+    multiplier_match = re.search(
+        r"(?:volume\s+)?multiplier\s*[:\n]?\s*(\d+(?:\.\d+)?)\s*x?",
+        text,
+        re.IGNORECASE,
+    ) or re.search(
+        r"(\d+(?:\.\d+)?)\s*x\s*(?:volume|search)", text, re.IGNORECASE
+    )
+    volume = float(volume_match.group(1)) if volume_match else None
+    multiplier = float(multiplier_match.group(1)) if multiplier_match else None
+    if volume is not None:
+        volume = max(0.0, min(100.0, volume))
+    return VidiqKeywordMetrics(
+        volume=volume,
+        multiplier=multiplier,
+        status="collected" if volume is not None else "unavailable",
+        competition_present_ignored=bool(
+            re.search(r"\bcompetition\b", text, re.IGNORECASE)
+        ),
+    )
+
+
+def extract_vidiq_keyword_metrics(sb) -> VidiqKeywordMetrics:
+    """Read keyword Volume from the VidIQ search panel; Competition is never returned."""
+    script = r"""
+    (() => {
+      const scopes = [...document.querySelectorAll(
+        '#vidiq-body, [data-testid*="vidiq"], [class*="vidiq-"]'
+      )].filter(node => node.getBoundingClientRect().width > 0);
+      return scopes.map(node => node.innerText || '').join('\n').slice(0, 30000);
+    })()
+    """
+    try:
+        text = str(sb.cdp.evaluate(script) or "")
+    except (TypeError, ValueError):
+        return VidiqKeywordMetrics(status="error")
+    return parse_vidiq_keyword_metrics(text)
+
+
+def parse_vidiq_channel_metrics(text: str) -> VidiqChannelMetrics:
+    """Parse optional VidIQ channel statistics without penalizing missing panels."""
+    patterns = {
+        "views_last_30_days": (
+            r"(?:views|video\s+views)(?:\s+gained)?\s*(?:last|in)\s*30\s*days"
+            r"\s*[:\n]?\s*([^\n]+)"
+        ),
+        "subscribers_last_30_days": (
+            r"subscribers?(?:\s+gained)?\s*(?:last|in)\s*30\s*days"
+            r"\s*[:\n]?\s*([^\n]+)"
+        ),
+        "average_daily_views": r"average\s+daily\s+views\s*[:\n]?\s*([^\n]+)",
+        "average_daily_subscribers": (
+            r"average\s+daily\s+subscribers?\s*[:\n]?\s*([^\n]+)"
+        ),
+    }
+    parsed: dict[str, int | None] = {}
+    raw: dict[str, str] = {}
+    for name, pattern in patterns.items():
+        match = re.search(pattern, text, re.IGNORECASE)
+        value = match.group(1).strip() if match else ""
+        parsed[name] = _human_number(value) if value else None
+        if value:
+            raw[name] = value
+    available = any(value is not None for value in parsed.values())
+    return VidiqChannelMetrics(available=available, raw=raw, **parsed)
+
+
+def channel_signal(metrics: VidiqChannelMetrics) -> float:
+    """Return a neutral-centred 0-100 signal; absent metrics always return 50."""
+    if not metrics.available:
+        return 50.0
+    signals: list[float] = []
+    if metrics.views_last_30_days is not None:
+        views = metrics.views_last_30_days
+        signals.append(80 if views >= 100_000 else 68 if views >= 20_000 else 58 if views >= 5_000 else 45)
+    if metrics.subscribers_last_30_days is not None:
+        subscribers = metrics.subscribers_last_30_days
+        signals.append(78 if subscribers >= 1_000 else 65 if subscribers >= 200 else 55 if subscribers > 0 else 45)
+    if metrics.average_daily_views is not None:
+        daily = metrics.average_daily_views
+        signals.append(75 if daily >= 3_000 else 62 if daily >= 500 else 52 if daily > 0 else 45)
+    return sum(signals) / len(signals) if signals else 50.0
 
 
 def extract_vidiq_curve(sb) -> tuple[str | None, str | None]:
@@ -269,6 +391,7 @@ def extract_vidiq(sb, timeout_seconds: int = 20) -> VidiqData:
         if terms:
             break
     curve_shape, curve_evidence = extract_vidiq_curve(sb)
+    channel_metrics = parse_vidiq_channel_metrics(source)
     return VidiqData(
         True,
         vph,
@@ -279,4 +402,5 @@ def extract_vidiq(sb, timeout_seconds: int = 20) -> VidiqData:
         curve_shape=curve_shape,
         curve_evidence=curve_evidence,
         history_all_selected=history_all_selected,
+        channel_metrics=channel_metrics,
     )

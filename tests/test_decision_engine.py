@@ -82,7 +82,7 @@ def test_big_channel_saturation_is_measured_and_rejected():
 def test_opportunity_weights_are_balanced_and_sum_to_one():
     assert sum(OPPORTUNITY_WEIGHTS.values()) == 1
     assert max(OPPORTUNITY_WEIGHTS.values()) <= 0.13
-    assert "volume" not in OPPORTUNITY_WEIGHTS
+    assert OPPORTUNITY_WEIGHTS["vidiq_volume"] == 0.04
     assert "vidiq_competition" not in OPPORTUNITY_WEIGHTS
 
 
@@ -134,7 +134,7 @@ def test_multi_signal_goldmine_requires_alignment_and_validation():
         )
     )
     assert score.classification in {"Goldmine", "GEMmine", "Diamond"}
-    assert len(score.components) == 10
+    assert len(score.components) == 11
     assert score.trend_persistence >= 90
 
 
@@ -174,6 +174,29 @@ def test_actual_curve_changes_trend_persistence():
     assert rising.trend_persistence > flat.trend_persistence
 
 
+def test_vidiq_volume_is_low_weight_and_channel_unavailable_is_neutral():
+    focus = candidate()
+    base = {
+        "keyword": "fix APP error on Windows 11",
+        "category": "low_rpm",
+        "videos": (focus,),
+        "focus": focus,
+        "vidiq_curve": "increasing",
+    }
+    low = score_opportunity(OpportunityEvidence(**base, vidiq_volume=0))
+    high = score_opportunity(OpportunityEvidence(**base, vidiq_volume=100))
+    assert 3.9 <= high.final_score - low.final_score <= 4.1
+    absent = score_opportunity(OpportunityEvidence(**base))
+    neutral = score_opportunity(
+        OpportunityEvidence(**base, vidiq_channel_signal=50)
+    )
+    strongest = score_opportunity(
+        OpportunityEvidence(**base, vidiq_channel_signal=100)
+    )
+    assert absent.final_score == neutral.final_score
+    assert strongest.final_score - neutral.final_score <= 1.5
+
+
 def test_promotional_review_is_not_a_two_minute_fix():
     result = assess_mobile_production(
         "Mercury Bank Exposed Surprising Truth", allow_desktop=True, max_minutes=2
@@ -187,6 +210,14 @@ def test_two_minute_fix_is_producible():
     )
     assert result.mobile_producible
     assert result.estimated_minutes <= 2
+
+
+def test_macbook_air_m4_fix_is_producible():
+    result = assess_mobile_production(
+        "fix APP crash on MacBook Air M4", allow_desktop=True, max_minutes=5
+    )
+    assert result.mobile_producible
+    assert "explicit target-device context" in result.reasons
 
 
 def test_broad_git_sync_workflow_exceeds_short_video_limit():

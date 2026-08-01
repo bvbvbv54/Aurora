@@ -17,9 +17,11 @@ low-RPM scoring tree plus fix/high-RPM modifiers, certifies candidates with a st
 search, and persists every completed stage to SQLite.
 
 It is built for evidence-first discovery of short, practical tutorial opportunities:
-Windows fixes, desktop and mobile app problems, operating-system issues, game fixes,
-iPhone workflows, and phone-recordable banking/insurance actions targeting the US and
-Canada. It never treats VidIQ keyword Volume or Competition as evidence.
+Windows/Desktop fixes, iPhone/iOS workflows, MacBook/macOS applications, operating-system
+issues, game fixes, and screen-recordable banking/insurance actions targeting the US and
+Canada. Every device/software version is eligible; Windows 10/11, iPhone 11, and MacBook Air
+M4 are useful long-tail examples rather than hard limits. VidIQ Volume is low-weight;
+Competition is never used.
 
 ## How it works
 
@@ -33,7 +35,7 @@ flowchart LR
     E --> F
     F --> G["VidIQ All-history SVG + AI curve"]
     G --> H["Simplified keyword re-search"]
-    H --> I["10-component Opportunity Score"]
+    H --> I["11-component Opportunity Score"]
     I --> J["Potential / Opportunity"]
     I --> K["Goldmine / GEMmine / Diamond flag"]
 ```
@@ -56,9 +58,10 @@ The `aurora.discovery` package adds three opt-in foundations alongside the brows
 - `OpportunityScorer` ranks harvested clusters by evidence depth, demand gap, RPM signal,
   relative volume, and long-tail specificity.
 
-The current browser Opportunity Score remains the final Goldmine/GEMmine decision engine;
-the discovery scorer supplies additional evidence and does not use VidIQ competition or
-keyword-volume metrics. See [`docs/ITERATION_2_ROADMAP.md`](docs/ITERATION_2_ROADMAP.md).
+The current browser Opportunity Score remains the final Goldmine/GEMmine decision engine.
+VidIQ Volume contributes only 4%; optional channel evidence is capped at +/-1.5 points and
+missing panels are neutral. VidIQ Competition stays excluded. See
+[`docs/ITERATION_2_ROADMAP.md`](docs/ITERATION_2_ROADMAP.md).
 
 The browser layer uses declared browser settings and stops a session when a CAPTCHA,
 challenge page, or unusual-traffic response is detected. It does not alter fingerprint
@@ -149,13 +152,38 @@ Set `OPENAI_API_KEY` before `generate`:
 - `seed`: inserts deduplicated manual keywords.
 - `generate`: generates and stores seeds through the configured OpenAI model.
 - `run-once`: processes one 60/40-scheduled pending seed.
-- `research`: recursively processes multiple autocomplete, vidIQ, and specific mobile branches.
+- `research`: recursively processes autocomplete, VidIQ, and Windows/iPhone/MacBook branches.
 - `pause`: requests a clean stop between keywords.
 - `resume`: clears the pause marker; interrupted `processing` work is recovered on restart.
 - `status`: shows queue metrics and pause state.
 - `report --full`: writes Markdown, JSON, and CSV analytics plus a selective video shortlist.
 - `repair-metrics`: removes uncertifiable legacy evidence and requeues its seeds for complete
   collection rather than filling missing values with guesses.
+- `analyze-data`: Phase 1 database QA, readiness checks, production queue, CSV, and PNG charts.
+- `tutorial-plan`: Phases 2-3 evidence-to-script, step plan, and voice-over package.
+- `record-tutorial`: Phase 4 validated dry-run or explicit screen-action recording.
+
+## Phase 1-4 production workflow
+
+```powershell
+# Phase 1: real database analysis and charts
+aurora --storage-root D:\Aurora-data analyze-data
+
+# Phases 2-3: inspect the evidence-grounded model prompt without spending credits
+aurora --storage-root D:\Aurora-data tutorial-plan --seed-id SEED_ID `
+  --platform "MacBook Air M4" --model MODEL --dry-run
+
+# Generate a structured plan and local WAV voice-over
+aurora --storage-root D:\Aurora-data tutorial-plan --seed-id SEED_ID `
+  --provider openrouter --model MODEL --api-key-env OPENROUTER_API_KEY --synthesize
+
+# Phase 4: validate without touching the screen, then explicitly execute when ready
+aurora record-tutorial --plan PLAN.json --output capture.mp4
+aurora record-tutorial --plan PLAN.json --output capture.mp4 --execute
+```
+
+Phase 4 accepts only click, double-click, text, hotkey, keypress, wait, scroll, and HTTP(S)
+open actions. There is no arbitrary shell action. Phase 5 merging/publishing is not included.
 
 ## Custom recursive research
 
@@ -243,7 +271,7 @@ Profiles never change Opportunity Score weights, thresholds, gates, or classific
 
 ## Opportunity Score
 
-Every searched keyword receives ten independent 0–100 component scores:
+Every searched keyword receives eleven independent 0–100 component scores:
 
 1. Demand
 2. Competition derived from YouTube channels/results
@@ -255,21 +283,26 @@ Every searched keyword receives ten independent 0–100 component scores:
 8. Long-tail Precision
 9. Buyer Intent
 10. Trend Persistence from the actual vidIQ video-history SVG curve
+11. VidIQ Volume (4% weight, neutral when unavailable)
 
-The weighted result is classified as `Rejected`, `Potential`, `Opportunity`, `Goldmine`, or
-`GEMmine`. The largest component weight is 13%, so no single signal can decide the result.
+The weighted result is classified as `Rejected`, `Potential`, `Opportunity`, `Goldmine`,
+`GEMmine`, or `Diamond`. The largest component weight is 12%, so no single signal decides it.
 Goldmine/GEMmine additionally require multi-component alignment, simplified-query validation,
 evergreen evidence, and a persistent vidIQ history curve.
 
-vidIQ keyword Volume and vidIQ Competition are excluded. Matching Terms may create recursive
-research branches, while the actual free-extension video history curve is the only vidIQ
-signal that drives Trend Persistence. VPH may be recorded for audit but has zero score weight.
+VidIQ Volume is normalized to 0–100 and weighted at 4%. Its multiplier can move that component
+by at most five points. VidIQ Competition is detected only to prove it was ignored. Matching
+Terms may create recursive branches, the release-history curve drives Trend Persistence, and
+VPH remains audit-only. Optional channel metrics apply at most a +/-1.5 final-score modifier;
+unavailable channel panels are neutral.
 
 ## Operational properties
 
-- Every Method 1 app expands into how/why/what/when/who/where/which/vs/how-much/fix families.
+- Every Method 1 app expands into problem-specific long tails plus useful generic actions for
+  any Windows/Desktop, iPhone/iOS, and MacBook/macOS version. Named models and OS versions
+  remain useful long-tail variants.
 - Several relevant YouTube autocomplete branches are queued instead of only the first.
-- vidIQ Matching Terms and mobile-specific branches recurse to a configurable depth.
+- VidIQ Matching Terms and device-specific branches recurse to a configurable depth.
 - The scheduler targets 60% low-RPM/high-volume and 40% high-RPM/buyer-intent research.
 - All loaded first-page organic videos are scored for views, subscribers, verification,
   age, thumbnail evidence, big-channel saturation, and channel dominance.
@@ -281,8 +314,8 @@ signal that drives Trend Persistence. VPH may be recorded for audit but has zero
   rejected unless the query is a specific pain-point fix.
 - Old candidates record newest-comment age, vidIQ VPH, engagement, outlier, total views,
   and a curve classification. vidIQ Competition is never used.
-- Final reports exclude expensive/physical/comparison concepts and broad tutorials that
-  are unsuitable for a quick phone screen recording with AI voiceover.
+- Final reports exclude expensive/physical/comparison concepts and workflows unsuitable for
+  a five-minute Windows/Desktop, iPhone/iOS, or MacBook/macOS screen recording.
 - Maximum results, recursion, production time, regions, and pacing are configurable.
 - Transactions commit after seed, SERP, and goldmine stages.
 - Challenge detection returns the current seed to `pending`.

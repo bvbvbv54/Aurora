@@ -19,8 +19,9 @@ def test_pain_point_generates_platform_variants():
     queries = expand_method_one_seed(
         "Discord", pain_point="audio cutting out during calls"
     )
-    assert any("android" in query for query in queries)
-    assert any("iphone" in query for query in queries)
+    assert any("on Windows" in query for query in queries)
+    assert any("on iPhone" in query for query in queries)
+    assert any("on MacBook" in query for query in queries)
 
 
 def test_mobile_action_queries_generated():
@@ -44,7 +45,7 @@ def test_problem_specific_fallbacks_are_bounded_and_unique():
         pain_point="subscription billing not showing on dashboard",
         mobile_action="manage recurring payments on iphone",
     )
-    assert len(queries) <= 13
+    assert len(queries) <= 18
     assert len({query.lower() for query in queries}) == len(queries)
     fallback = expand_method_one_seed("Slack")
     assert all("tutorial" not in query.lower() for query in fallback)
@@ -54,7 +55,7 @@ def test_problem_specific_fallbacks_are_bounded_and_unique():
 def test_backward_compatible_and_pain_point_followups():
     assert all(isinstance(query, str) for query in expand_method_one_seed("Photoshop"))
     results = pain_point_followups("TradingView", "chart not moving after close")
-    assert len(results) == 7
+    assert len(results) == 8
     assert all("TradingView" in result for result in results)
     assert all("chart not moving" in result for result in results)
     assert pain_point_followups("Discord", "bad") == []
@@ -77,8 +78,14 @@ def test_recursive_suggestions_keep_multiple_specific_branches():
 def test_specific_followups_are_mobile_and_bounded():
     values = specific_mobile_followups("fix APP login error")
     assert len(values) == 4
-    assert values[0].endswith("on mobile")
-    assert "iPhone" not in " ".join(values)
+    assert values[0].endswith("on Windows 11")
+    assert "iPhone 11" in " ".join(values)
+
+
+def test_macbook_followups_keep_macbook_air_m4_context():
+    values = specific_mobile_followups("fix APP crash on MacBook Air M4")
+    assert values[0].endswith("on MacBook Air M4")
+    assert any("macOS" in value for value in values)
 
 
 def test_starting_query_is_intent_plus_product_not_full_problem():

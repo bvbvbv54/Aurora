@@ -11,6 +11,9 @@ from aurora.llm.prompt_engine import build_prompt, parse_ai_candidates
 from aurora.llm.providers import AIProviderConfig, generate_text
 from aurora.methods.strategies import expand_method_one_seed
 from aurora.orchestrator import ResearchRunner, RunnerOptions
+from aurora.phases.analysis import analyze_database
+from aurora.phases.recording import run_recording
+from aurora.phases.tutorial import generate_tutorial_package, synthesize_voiceover
 from aurora.reporting import goldmine_alert, write_daily_report, write_full_report
 from aurora.scoring_service import rescore_collected_keywords
 
@@ -99,7 +102,10 @@ def parser() -> argparse.ArgumentParser:
     research.add_argument("--ai-every", type=int)
     research.add_argument(
         "--ai-subject",
-        default="mobile apps with frequent bugs, updates, and confusing settings",
+        default=(
+            "desktop, Windows 10/11, iPhone 11, and MacBook Air M4 apps with "
+            "frequent bugs, updates, confusing settings, and useful generic actions"
+        ),
     )
     research.add_argument("--ai-model")
     research.add_argument(
@@ -125,6 +131,27 @@ def parser() -> argparse.ArgumentParser:
     status.add_argument("--pause-file", default="aurora.pause")
     commands.add_parser("rescore")
     commands.add_parser("repair-metrics")
+    analyze = commands.add_parser("analyze-data")
+    analyze.add_argument("--output")
+    tutorial = commands.add_parser("tutorial-plan")
+    tutorial.add_argument("--seed-id", type=int)
+    tutorial.add_argument("--platform", default="auto")
+    tutorial.add_argument(
+        "--provider",
+        choices=("openai", "chatgpt", "chat", "gemini", "openrouter"),
+        default="openai",
+    )
+    tutorial.add_argument("--model", default="gpt-5.6-sol")
+    tutorial.add_argument("--api-key-env")
+    tutorial.add_argument("--base-url")
+    tutorial.add_argument("--output")
+    tutorial.add_argument("--dry-run", action="store_true")
+    tutorial.add_argument("--synthesize", action="store_true")
+    recording = commands.add_parser("record-tutorial")
+    recording.add_argument("--plan", required=True)
+    recording.add_argument("--output", required=True)
+    recording.add_argument("--framerate", type=int, default=30)
+    recording.add_argument("--execute", action="store_true")
     return root
 
 
@@ -153,7 +180,8 @@ def runner_options(args, *, max_keywords: int = 1) -> RunnerOptions:
         ai_subject=getattr(
             args,
             "ai_subject",
-            "mobile apps with frequent bugs, updates, and confusing settings",
+            "desktop, Windows 10/11, iPhone 11, and MacBook Air M4 apps with "
+            "frequent bugs, updates, confusing settings, and useful generic actions",
         ),
         ai_model=getattr(args, "ai_model", None),
         ai_provider=getattr(args, "ai_provider", "openai"),
@@ -309,6 +337,39 @@ def main(argv: list[str] | None = None) -> int:
         print(f"rescored {count} keyword(s) with the invariant Opportunity Scoring Engine")
     elif args.command == "repair-metrics":
         print(json.dumps(repository.quarantine_incomplete_metrics(), indent=2))
+    elif args.command == "analyze-data":
+        result = analyze_database(
+            repository.db_path,
+            args.output or settings.report_dir / "phase1",
+        )
+        print(json.dumps(result, indent=2))
+    elif args.command == "tutorial-plan":
+        result = generate_tutorial_package(
+            repository.db_path,
+            args.output or settings.report_dir / "production",
+            provider=args.provider,
+            model=args.model,
+            api_key_env=args.api_key_env,
+            base_url=args.base_url,
+            seed_id=args.seed_id,
+            platform=args.platform,
+            dry_run=args.dry_run,
+        )
+        if args.synthesize and not args.dry_run:
+            wave = synthesize_voiceover(
+                result["voiceover"],
+                Path(result["output_directory"]) / "voiceover.wav",
+            )
+            result["voiceover_wave"] = str(wave)
+        print(json.dumps(result, indent=2))
+    elif args.command == "record-tutorial":
+        result = run_recording(
+            args.plan,
+            args.output,
+            execute=args.execute,
+            framerate=args.framerate,
+        )
+        print(json.dumps(result, indent=2))
     return 0
 
 

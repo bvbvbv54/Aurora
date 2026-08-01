@@ -38,8 +38,9 @@ def expand_method_one_seed(
         queries += [
             f"{name} {pp_short} fix",
             f"how to fix {pp_core} in {name}",
-            f"{name} {pp_short} on android",
-            f"{name} {pp_short} on iphone",
+            f"{name} {pp_short} on Windows",
+            f"{name} {pp_short} on iPhone",
+            f"{name} {pp_short} on MacBook",
             f"why is {name} {pp_short}",
             f"fix {name} {pp_short}",
             f"{name} {pp_short} after update",
@@ -49,20 +50,25 @@ def expand_method_one_seed(
         ma_short = " ".join(ma.split()[:4])
         queries += [
             f"how to {ma} in {name}",
-            f"{ma_short} {name} on iphone",
+            f"{ma_short} {name} on iPhone 11",
             f"{ma_short} {name} step by step",
-            f"{ma_short} {name} on android",
+            f"{ma_short} {name} on Windows 11",
+            f"{ma_short} {name} on MacBook Air M4",
         ]
 
     queries += [
         f"{name} not working fix",
         f"{name} keeps crashing fix",
-        f"{name} not loading on android",
+        f"{name} not loading on Windows 11",
+        f"{name} not loading on MacBook Air M4",
         f"{name} error fix",
         f"{name} login not working fix",
         f"{name} notifications not working",
-        f"how to setup {name} on iphone",
+        f"how to setup {name} on iPhone 11",
         f"how to reset {name}",
+        f"how to use {name} on Windows 11",
+        f"how to use {name} on iPhone 11",
+        f"how to use {name} on MacBook Air M4",
     ]
 
     seen: set[str] = set()
@@ -72,7 +78,7 @@ def expand_method_one_seed(
         if key not in seen:
             seen.add(key)
             result.append(query)
-        if len(result) == 13:
+        if len(result) == 18:
             break
     return result
 
@@ -89,8 +95,9 @@ def pain_point_followups(app_name: str, pain_point: str) -> list[str]:
         f"{name} {pp_short} keeps happening",
         f"{name} {pp_short} after update",
         f"why does {name} {pp_short}",
-        f"{name} {pp_short} android fix",
-        f"{name} {pp_short} iphone fix",
+        f"{name} {pp_short} Windows 11 fix",
+        f"{name} {pp_short} iPhone 11 fix",
+        f"{name} {pp_short} MacBook Air M4 fix",
         f"{name} {pp_short} not responding",
     ]
 
@@ -163,14 +170,20 @@ def specific_mobile_followups(keyword: str, limit: int = 4) -> list[str]:
         return []
     base = " ".join(keyword.split())
     lower = base.lower()
-    if "android" in lower or "grapheneos" in lower:
-        device_queries = [f"{base} on Android", f"{base} on Android phone"]
+    if "macbook" in lower or "macos" in lower:
+        device_queries = [f"{base} on MacBook Air M4", f"{base} on macOS"]
+    elif "windows" in lower or " pc" in lower or "desktop" in lower:
+        device_queries = [f"{base} on Windows 11", f"{base} on Windows 10"]
     elif "iphone" in lower or "ios" in lower:
-        device_queries = [f"{base} on iPhone", f"{base} on iOS"]
+        device_queries = [f"{base} on iPhone 11", f"{base} on iOS"]
     else:
-        device_queries = [f"{base} on mobile", f"{base} using a phone"]
+        device_queries = [
+            f"{base} on Windows 11",
+            f"{base} on iPhone 11",
+            f"{base} on MacBook Air M4",
+        ]
     return [
         *device_queries,
-        f"{base} using phone screen recorder",
+        f"{base} using desktop screen recorder",
         f"{base} step by step",
     ][:limit]

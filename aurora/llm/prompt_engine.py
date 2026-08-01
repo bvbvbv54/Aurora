@@ -5,15 +5,18 @@ import re
 from datetime import UTC, datetime
 
 PROMPTS = {
-    "method1": """Generate 20 widely-used or tier-2 software, mobile apps, Windows tools,
-and videogames updated in the last 12 months. Prioritize recurring bugs, crashes, login,
+    "method1": """Generate 30 widely-used or tier-2 Windows desktop software across any
+Windows version, iPhone/iOS apps across any iPhone version, MacBook/macOS tools including
+MacBook Air M4, operating-system tools, and PC videogames updated in the last 12 months.
+Prioritize recurring bugs, crashes, login,
 update, graphics, controller, connection, sync, and confusing-setting problems that create
 strong fix/how-to demand. Return JSON only:
-{{"items":[{{"name":"APP","category":"CATEGORY","platform":"Android/iOS/Windows",
+{{"items":[{{"name":"APP","category":"CATEGORY","platform":"Windows/iOS/macOS",
 "pain_point":"SPECIFIC PROBLEM","mobile_action":"FAST SCREEN-RECORDABLE ACTION",
 "popularity_tier":"widespread or tier-2"}}]}}. No markdown. Current date: {today}.""",
-    "method2": """Generate 30 long-tail YouTube queries for {subject}. Use why/what/when/where,
-how much, how to fix, not working, crashing, error, comparison, and specific-action patterns.
+    "method2": """Generate 30 long-tail YouTube queries for {subject} on Windows 10/11,
+iPhone 11, or MacBook Air M4. Use why/what/when/where, how much, how to fix, not working,
+crashing, error, generic device-specific how-to, and specific-action patterns.
 Each query must be 5-10 words and at least five must be fix/not-working queries. Current date:
 {today}. Output a numbered list only.""",
     "method3": """Generate 50 buyer-intent US/Canada queries for audiences aged 30+. Focus
@@ -74,10 +77,13 @@ def build_prompt(
     )
     production = (
         "Every low-RPM idea must be a fast screen-recording tutorial reproducible on "
-        "Android or iPhone in at most 10 minutes with AI voiceover. Exclude physical "
+        "a Windows desktop, any iPhone/iOS version, or any MacBook/macOS version in at "
+        "most 5 minutes "
+        "with AI voiceover. "
+        "Exclude physical "
         "products, costly demonstrations, and luxury-vehicle comparisons."
         if mobile_only
-        else "Prefer ideas with simple, reproducible production."
+        else "Prioritize reproducible Windows desktop, iPhone/iOS, and MacBook/macOS actions under 5 minutes."
     )
     adaptive = (
         f"\nTarget audience regions: {regions}.\n{production}\n"
@@ -133,11 +139,22 @@ def parse_ai_candidates(text: str, method: str | int) -> list[dict[str, str] | s
             name = str(item.get("name", "")).strip()
             platform = str(item.get("platform", "")).lower()
             action = str(item.get("mobile_action", "")).strip()
+            pain_point = str(item.get("pain_point", "")).strip()
             tier = str(item.get("popularity_tier", "")).lower()
             if (
                 not name
                 or not any(
-                    word in platform for word in ("android", "ios", "mobile", "windows")
+                    word in platform
+                    for word in (
+                        "android",
+                        "ios",
+                        "iphone",
+                        "mobile",
+                        "windows",
+                        "macos",
+                        "macbook",
+                        "desktop",
+                    )
                 )
                 or len(action.split()) < 2
                 or not any(
@@ -148,7 +165,10 @@ def parse_ai_candidates(text: str, method: str | int) -> list[dict[str, str] | s
                 )
             ):
                 continue
-            if name.lower() in {app.lower() for app in OVERPOPULAR_APPS}:
+            if (
+                name.lower() in {app.lower() for app in OVERPOPULAR_APPS}
+                and len(pain_point.split()) < 3
+            ):
                 continue
             values.append(
                 {
@@ -156,7 +176,7 @@ def parse_ai_candidates(text: str, method: str | int) -> list[dict[str, str] | s
                     "category": str(item.get("category", "low_rpm")).strip()
                     or "low_rpm",
                     "platform": str(item.get("platform", "")).strip(),
-                    "pain_point": str(item.get("pain_point", "")).strip(),
+                    "pain_point": pain_point,
                     "mobile_action": action,
                 }
             )

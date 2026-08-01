@@ -62,6 +62,23 @@ class Repository:
                 "vidiq_ai_status": (
                     "VARCHAR(24) NOT NULL DEFAULT 'legacy_missing'"
                 ),
+                "vidiq_channel_metrics_json": "TEXT NOT NULL DEFAULT '{}'",
+                "vidiq_channel_metrics_status": (
+                    "VARCHAR(24) NOT NULL DEFAULT 'unavailable'"
+                ),
+                "vidiq_channel_signal": "FLOAT NOT NULL DEFAULT 50.0",
+            },
+            "keyword_evaluations": {
+                "vidiq_volume": "FLOAT NULL",
+                "vidiq_volume_multiplier": "FLOAT NULL",
+                "vidiq_volume_status": (
+                    "VARCHAR(24) NOT NULL DEFAULT 'unavailable'"
+                ),
+                "vidiq_competition_ignored": "BOOLEAN NOT NULL DEFAULT 1",
+            },
+            "opportunity_scores": {
+                "vidiq_volume_score": "INTEGER NOT NULL DEFAULT 50",
+                "vidiq_channel_modifier": "FLOAT NOT NULL DEFAULT 0.0",
             },
         }
         schema = inspect(self.engine)
@@ -340,6 +357,10 @@ class Repository:
                 row.seed_keyword_id: row
                 for row in session.scalars(select(OpportunityScoreRecord))
             }
+            keyword_metrics = {
+                row.seed_keyword_id: row
+                for row in session.scalars(select(KeywordEvaluation))
+            }
             evaluations = []
             evaluated_ids: set[int] = set()
             for item, seed in session.execute(
@@ -364,6 +385,10 @@ class Repository:
                     "estimated_minutes": item.estimated_minutes,
                     "page_passed": item.page_passed,
                     "rejection_reasons": item.rejection_reasons,
+                    "vidiq_volume": item.vidiq_volume,
+                    "vidiq_volume_multiplier": item.vidiq_volume_multiplier,
+                    "vidiq_volume_status": item.vidiq_volume_status,
+                    "vidiq_competition_ignored": item.vidiq_competition_ignored,
                     "opportunity_score": score.final_score if score else None,
                     "classification": score.classification if score else "Unscored",
                     "score_components": {
@@ -377,6 +402,8 @@ class Repository:
                         "longtail_precision": score.longtail_precision_score,
                         "buyer_intent": score.buyer_intent_score,
                         "trend_persistence": score.trend_persistence_score,
+                        "vidiq_volume": score.vidiq_volume_score,
+                        "vidiq_channel_modifier": score.vidiq_channel_modifier,
                     }
                     if score
                     else {},
@@ -422,6 +449,10 @@ class Repository:
                         len(big) / max(1, len(rows)) >= 0.45
                     ),
                     "rejection_reasons": "[]",
+                    "vidiq_volume": None,
+                    "vidiq_volume_multiplier": None,
+                    "vidiq_volume_status": "legacy_missing",
+                    "vidiq_competition_ignored": True,
                     "opportunity_score": score.final_score,
                     "classification": score.classification,
                     "score_components": {
@@ -435,6 +466,8 @@ class Repository:
                         "longtail_precision": score.longtail_precision_score,
                         "buyer_intent": score.buyer_intent_score,
                         "trend_persistence": score.trend_persistence_score,
+                        "vidiq_volume": score.vidiq_volume_score,
+                        "vidiq_channel_modifier": score.vidiq_channel_modifier,
                     },
                     "score_explanations": json.loads(score.explanation_json),
                 })
@@ -448,6 +481,7 @@ class Repository:
             ):
                 inspection = inspections.get((row.seed_keyword_id, row.original_video_id))
                 opportunity_score = scores.get(row.seed_keyword_id)
+                keyword_metric = keyword_metrics.get(row.seed_keyword_id)
                 goldmines.append({
                     "keyword": row.certified_keyword,
                     "video_url": f"https://www.youtube.com/watch?v={row.original_video_id}",
@@ -481,6 +515,10 @@ class Repository:
                             "trend_persistence": (
                                 opportunity_score.trend_persistence_score
                             ),
+                            "vidiq_volume": opportunity_score.vidiq_volume_score,
+                            "vidiq_channel_modifier": (
+                                opportunity_score.vidiq_channel_modifier
+                            ),
                         }
                         if opportunity_score
                         else {}
@@ -491,9 +529,28 @@ class Repository:
                     ),
                     "vidiq_vph": row.vidiq_views_per_hour,
                     "vidiq_curve": inspection.vidiq_curve if inspection else "unconfirmed",
+                    "vidiq_volume": (
+                        keyword_metric.vidiq_volume if keyword_metric else None
+                    ),
+                    "vidiq_volume_multiplier": (
+                        keyword_metric.vidiq_volume_multiplier if keyword_metric else None
+                    ),
                     "vidiq_engagement": inspection.vidiq_engagement if inspection else None,
                     "vidiq_outlier": inspection.vidiq_outlier if inspection else None,
                     "vidiq_total_views": inspection.vidiq_total_views if inspection else None,
+                    "vidiq_channel_metrics": (
+                        json.loads(inspection.vidiq_channel_metrics_json)
+                        if inspection and inspection.vidiq_channel_metrics_json
+                        else {}
+                    ),
+                    "vidiq_channel_metrics_status": (
+                        inspection.vidiq_channel_metrics_status
+                        if inspection
+                        else "unavailable"
+                    ),
+                    "vidiq_channel_signal": (
+                        inspection.vidiq_channel_signal if inspection else 50.0
+                    ),
                     "matching_terms": row.vidiq_matching_terms,
                     "rpm_category": row.rpm_category,
                 })

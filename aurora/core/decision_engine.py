@@ -43,16 +43,17 @@ class ProductionAssessment:
 
 
 OPPORTUNITY_WEIGHTS = {
-    "demand": 0.13,
-    "competition": 0.12,
+    "demand": 0.10,
+    "competition": 0.11,
     "small_creator_success": 0.12,
     "evergreen": 0.10,
     "content_gap": 0.09,
-    "thumbnail_weakness": 0.08,
+    "thumbnail_weakness": 0.07,
     "search_intent": 0.10,
-    "longtail_precision": 0.08,
-    "buyer_intent": 0.08,
+    "longtail_precision": 0.10,
+    "buyer_intent": 0.07,
     "trend_persistence": 0.10,
+    "vidiq_volume": 0.04,
 }
 
 
@@ -66,6 +67,9 @@ class OpportunityEvidence:
     newest_comment_days: int | None = None
     vidiq_vph: float | None = None
     vidiq_curve: str = "unconfirmed"
+    vidiq_volume: float | None = None
+    vidiq_volume_multiplier: float | None = None
+    vidiq_channel_signal: float | None = None
     simplified_validation: bool = False
     mobile_producible: bool = False
 
@@ -82,6 +86,8 @@ class OpportunityScore:
     longtail_precision: int
     buyer_intent: int
     trend_persistence: int
+    vidiq_volume: int
+    channel_evidence_modifier: float
     final_score: float
     classification: str
     explanations: tuple[str, ...]
@@ -99,6 +105,7 @@ class OpportunityScore:
             "longtail_precision": self.longtail_precision,
             "buyer_intent": self.buyer_intent,
             "trend_persistence": self.trend_persistence,
+            "vidiq_volume": self.vidiq_volume,
         }
 
 
@@ -110,8 +117,13 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
     videos = list(evidence.videos)
     focus = evidence.focus or (videos[0] if videos else None)
     if not videos or focus is None:
-        zeros = [0] * 10
-        return OpportunityScore(*zeros, 0.0, "Rejected", ("no organic evidence",))
+        return OpportunityScore(
+            *([0] * 11),
+            0.0,
+            0.0,
+            "Rejected",
+            ("no organic evidence",),
+        )
 
     views = [max(0, video.views) for video in videos]
     median_views = max(1, statistics.median(views))
@@ -216,6 +228,17 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
         trend += 5
     trend = _bounded(trend)
 
+    volume = 50.0 if evidence.vidiq_volume is None else evidence.vidiq_volume
+    if evidence.vidiq_volume_multiplier is not None:
+        volume += max(-5.0, min(5.0, (evidence.vidiq_volume_multiplier - 1) * 2))
+    volume = _bounded(volume)
+    channel_modifier = 0.0
+    if evidence.vidiq_channel_signal is not None:
+        channel_modifier = round(
+            max(-1.5, min(1.5, (evidence.vidiq_channel_signal - 50) * 0.05)),
+            2,
+        )
+
     components = {
         "demand": demand,
         "competition": competition,
@@ -227,58 +250,72 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
         "longtail_precision": longtail,
         "buyer_intent": buyer,
         "trend_persistence": trend,
+        "vidiq_volume": volume,
     }
     final = round(
-        sum(components[name] * weight for name, weight in OPPORTUNITY_WEIGHTS.items()),
+        sum(components[name] * weight for name, weight in OPPORTUNITY_WEIGHTS.items())
+        + channel_modifier,
         2,
     )
-    strong_65 = sum(value >= 65 for value in components.values())
-    strong_75 = sum(value >= 75 for value in components.values())
+    core_components = {
+        name: value for name, value in components.items() if name != "vidiq_volume"
+    }
+    strong_65 = sum(value >= 65 for value in core_components.values())
+    strong_75 = sum(value >= 75 for value in core_components.values())
     gem_gate = (
-        final >= 85
-        and strong_75 >= 8
+        final >= 80
+        and strong_65 >= 7
         and evidence.simplified_validation
+        and focus.subscribers is not None
+        and focus.subscribers < 15_000
+        and focus.views >= 10_000
+        and focus.days_ago >= 365
+        and evidence.newest_comment_days is not None
+        and evidence.newest_comment_days <= 180
         and trend >= 80
-        and evergreen >= 75
-        and small_creator >= 75
-        and content_gap >= 70
+        and demand >= 65
+        and competition >= 60
+        and small_creator >= 70
+        and content_gap >= 60
+        and evidence.mobile_producible
     )
     diamond_gate = (
-        final >= 75
-        and strong_65 >= 7
+        final >= 86
+        and strong_75 >= 7
         and evidence.simplified_validation
         and focus.subscribers is not None
         and focus.subscribers < 5_000
-        and focus.views >= 10_000
+        and focus.views >= 20_000
         and focus.days_ago >= 365
-        and evidence.recent_comments
         and evidence.newest_comment_days is not None
         and evidence.newest_comment_days <= 90
-        and focus.thumbnail_quality == "low"
-        and trend >= 75
-        and demand >= 65
-        and competition >= 60
+        and trend >= 85
+        and demand >= 70
+        and competition >= 65
+        and small_creator >= 75
+        and content_gap >= 65
         and evidence.mobile_producible
     )
+    evergreen_proof = (
+        evidence.newest_comment_days is not None
+        and evidence.newest_comment_days <= 365
+    ) or trend >= 85
     gold_gate = (
-        final >= 78
-        and strong_65 >= 7
+        final >= 72
+        and strong_65 >= 5
         and evidence.simplified_validation
         and focus.subscribers is not None
-        and focus.subscribers < 10_000
-        and 10_000 <= focus.views <= 100_000
-        and focus.days_ago >= 365
-        and evidence.recent_comments
-        and evidence.newest_comment_days is not None
-        and evidence.newest_comment_days <= 90
-        and trend >= 75
-        and demand >= 65
-        and competition >= 65
-        and small_creator >= 70
-        and evergreen >= 65
-        and content_gap >= 65
-        and search_intent >= 65
-        and longtail >= 65
+        and focus.subscribers < 50_000
+        and focus.views >= 5_000
+        and focus.days_ago >= 180
+        and evergreen_proof
+        and trend >= 70
+        and demand >= 55
+        and competition >= 55
+        and small_creator >= 55
+        and content_gap >= 50
+        and search_intent >= 60
+        and longtail >= 60
         and evidence.mobile_producible
     )
     if diamond_gate:
@@ -299,6 +336,8 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
         f"focus channel subscribers={subscribers}; view/subscriber ratio={focus.views / max(1, subscribers or 1):.2f}",
         f"age={focus.days_ago} days; newest comment={evidence.newest_comment_days}",
         f"vidIQ curve={evidence.vidiq_curve}; VPH={evidence.vidiq_vph} (audit only, zero weight)",
+        f"vidIQ Volume={evidence.vidiq_volume}; multiplier={evidence.vidiq_volume_multiplier}; weighted at 4%",
+        f"optional VidIQ channel modifier={channel_modifier:+.2f}; unavailable is neutral",
         f"simplified re-search validation={evidence.simplified_validation}",
         f"strong components >=65: {strong_65}/10; >=75: {strong_75}/10",
     )
@@ -313,6 +352,8 @@ def score_opportunity(evidence: OpportunityEvidence) -> OpportunityScore:
         longtail,
         buyer,
         trend,
+        volume,
+        channel_modifier,
         final,
         classification,
         explanations,
@@ -346,21 +387,27 @@ QUICK_ACTIONS = {
     "backup",
     "change",
     "clear",
+    "connect",
     "create",
     "delete",
     "disable",
     "download",
+    "disconnect",
     "enable",
     "export",
+    "find",
     "fix",
     "hide",
     "install",
     "login",
+    "move",
     "not working",
     "recover",
+    "rename",
     "remove",
     "reset",
     "save",
+    "select",
     "set up",
     "setup",
     "transfer",
@@ -369,6 +416,8 @@ QUICK_ACTIONS = {
     "update",
     "upload",
     "use",
+    "uninstall",
+    "verify",
 }
 COMPLEX_WORKFLOWS = {
     "all platforms",
@@ -391,7 +440,7 @@ COMPLEX_WORKFLOWS = {
 def assess_mobile_production(
     keyword: str,
     title: str = "",
-    max_minutes: int = 10,
+    max_minutes: int = 5,
     allow_desktop: bool = False,
 ) -> ProductionAssessment:
     text = f"{keyword} {title}".lower()
@@ -412,10 +461,25 @@ def assess_mobile_production(
             None,
             ("multi-device/setup workflow exceeds the short-video limit",),
         )
-    explicit_mobile = any(
-        term in text for term in ("android", "iphone", "ios", "mobile", " app", "phone")
+    explicit_target = any(
+        term in text
+        for term in (
+            "windows 11",
+            "windows 10",
+            " desktop",
+            " pc",
+            "iphone 11",
+            "macbook air m4",
+            "macbook",
+            "macos",
+            "iphone",
+            "ios",
+            "mobile",
+            " app",
+            "phone",
+        )
     )
-    if not allow_desktop and not explicit_mobile and any(
+    if not allow_desktop and not explicit_target and any(
         term in text
         for term in (
             " windows",
@@ -428,7 +492,7 @@ def assess_mobile_production(
         )
     ):
         return ProductionAssessment(False, None, ("desktop-only workflow detected",))
-    if not explicit_mobile and any(
+    if not explicit_target and any(
         term in text
         for term in (
             "full tutorial",
@@ -447,10 +511,10 @@ def assess_mobile_production(
     if estimate > max_minutes:
         return ProductionAssessment(False, estimate, ("exceeds production time limit",))
     reasons.append(f"screen-recordable action: {actions[0]}")
-    if explicit_mobile:
-        reasons.append("explicit mobile context")
+    if explicit_target:
+        reasons.append("explicit target-device context")
     else:
-        reasons.append("mobile feasibility requires final device check")
+        reasons.append("platform feasibility requires final device check")
     return ProductionAssessment(True, estimate, tuple(reasons))
 
 

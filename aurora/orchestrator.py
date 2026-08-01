@@ -33,7 +33,11 @@ from aurora.core.serp_analyzer import (
     search_url,
 )
 from aurora.core.video_inspector import inspect_video
-from aurora.core.vidiq_handler import dismiss_vidiq_promotions
+from aurora.core.vidiq_handler import (
+    channel_signal,
+    dismiss_vidiq_promotions,
+    extract_vidiq_keyword_metrics,
+)
 from aurora.data.models import (
     GoldmineKeyword,
     KeywordEvaluation,
@@ -312,6 +316,15 @@ class ResearchRunner:
                 target_results=max_results,
             )
             log.info("loaded %s video renderer(s) after first-page scrolling", loaded_count)
+            vidiq_keyword = extract_vidiq_keyword_metrics(sb)
+            log.info(
+                "VidIQ keyword evidence: volume=%s multiplier=%s status=%s; "
+                "Competition present=%s and ignored",
+                vidiq_keyword.volume,
+                vidiq_keyword.multiplier,
+                vidiq_keyword.status,
+                vidiq_keyword.competition_present_ignored,
+            )
             if not loaded_count:
                 debug_dir = self.settings.section("output").get("directory", "./reports")
                 sb.cdp.save_screenshot(f"{debug_dir}/empty-serp.png")
@@ -476,6 +489,10 @@ class ResearchRunner:
                     estimated_minutes=production.estimated_minutes,
                     page_passed=page_passed and not page_analysis.saturated,
                     rejection_reasons=json.dumps(list(dict.fromkeys(evaluation_reasons))),
+                    vidiq_volume=vidiq_keyword.volume,
+                    vidiq_volume_multiplier=vidiq_keyword.multiplier,
+                    vidiq_volume_status=vidiq_keyword.status,
+                    vidiq_competition_ignored=True,
                 )
             )
             if incomplete_subscriber_records or incomplete_thumbnail_records:
@@ -498,6 +515,8 @@ class ResearchRunner:
                     category=method.category,
                     videos=tuple(record.candidate for record in records),
                     focus=focus.candidate if focus else None,
+                    vidiq_volume=vidiq_keyword.volume,
+                    vidiq_volume_multiplier=vidiq_keyword.multiplier,
                     mobile_producible=production.mobile_producible,
                 )
             )
@@ -509,8 +528,11 @@ class ResearchRunner:
                 evidence={
                     "query": actual_query,
                     "page_failures": list(failures),
-                    "vidiq_excluded": ["keyword volume", "competition score"],
-                    "vidiq_used": ["actual video history curve"],
+                    "vidiq_volume": vidiq_keyword.volume,
+                    "vidiq_volume_multiplier": vidiq_keyword.multiplier,
+                    "vidiq_volume_weight": 0.04,
+                    "vidiq_competition_ignored": True,
+                    "vidiq_used": ["keyword volume", "actual video history curve"],
                 },
             )
             if early_reason:
@@ -623,6 +645,9 @@ class ResearchRunner:
                     and graph_ai.status == "collected"
                     and graph_ai.label != "unreadable"
                 )
+                vidiq_channel_score = channel_signal(
+                    inspection.vidiq.channel_metrics
+                )
                 graph_json.write_text(
                     json.dumps(
                         {
@@ -638,6 +663,9 @@ class ResearchRunner:
                             "history_all_selected": inspection.vidiq.history_all_selected,
                             "vidiq_loaded": inspection.vidiq.loaded,
                             "vph_audit_only": inspection.vidiq.views_per_hour,
+                            "keyword_volume": vidiq_keyword.volume,
+                            "keyword_volume_multiplier": vidiq_keyword.multiplier,
+                            "keyword_volume_weight": 0.04,
                             "curve": inspection.vidiq.curve_trend,
                             "curve_evidence": inspection.vidiq.curve_evidence,
                             "ai_curve": graph_ai.label,
@@ -645,8 +673,15 @@ class ResearchRunner:
                             "ai_curve_model": graph_ai.model,
                             "ai_curve_status": graph_ai.status,
                             "comment_collection_status": inspection.comment_status,
+                            "channel_metrics": (
+                                inspection.vidiq.channel_metrics.raw or {}
+                            ),
+                            "channel_metrics_available": (
+                                inspection.vidiq.channel_metrics.available
+                            ),
+                            "channel_signal": vidiq_channel_score,
                             "metric_complete": inspection_complete,
-                            "keyword_volume_used": False,
+                            "keyword_volume_used": vidiq_keyword.volume is not None,
                             "vidiq_competition_used": False,
                             "screenshot": str(graph_png.resolve()),
                         },
@@ -694,6 +729,15 @@ class ResearchRunner:
                         vidiq_outlier=inspection.vidiq.outlier,
                         vidiq_total_views=inspection.vidiq.total_views,
                         vidiq_matching_terms=json.dumps(inspection.vidiq.matching_terms),
+                        vidiq_channel_metrics_json=json.dumps(
+                            inspection.vidiq.channel_metrics.raw or {}
+                        ),
+                        vidiq_channel_metrics_status=(
+                            "collected"
+                            if inspection.vidiq.channel_metrics.available
+                            else "unavailable"
+                        ),
+                        vidiq_channel_signal=vidiq_channel_score,
                     )
                 )
                 if not inspection_complete:
@@ -727,6 +771,13 @@ class ResearchRunner:
                         newest_comment_days=inspection.newest_comment_days,
                         vidiq_vph=inspection.vidiq.views_per_hour,
                         vidiq_curve=inspection_curve,
+                        vidiq_volume=vidiq_keyword.volume,
+                        vidiq_volume_multiplier=vidiq_keyword.multiplier,
+                        vidiq_channel_signal=(
+                            vidiq_channel_score
+                            if inspection.vidiq.channel_metrics.available
+                            else None
+                        ),
                         simplified_validation=certified,
                         mobile_producible=production.mobile_producible,
                     )
@@ -748,7 +799,16 @@ class ResearchRunner:
                             "vidiq_ai_curve_confidence": graph_ai.confidence,
                             "vidiq_curve_evidence": inspection.vidiq.curve_evidence,
                             "vidiq_vph_supporting": inspection.vidiq.views_per_hour,
-                            "vidiq_excluded": ["keyword volume", "competition score"],
+                            "vidiq_volume": vidiq_keyword.volume,
+                            "vidiq_volume_multiplier": vidiq_keyword.multiplier,
+                            "vidiq_volume_weight": 0.04,
+                            "vidiq_channel_metrics": (
+                                inspection.vidiq.channel_metrics.raw or {}
+                            ),
+                            "vidiq_channel_modifier": (
+                                opportunity.channel_evidence_modifier
+                            ),
+                            "vidiq_competition_ignored": True,
                         },
                     )
                 log.info(
@@ -781,6 +841,16 @@ class ResearchRunner:
                     "recent_comments": inspection.recent_comments,
                     "vidiq_vph": inspection.vidiq.views_per_hour,
                     "vidiq_curve": inspection_curve,
+                    "vidiq_volume": vidiq_keyword.volume,
+                    "vidiq_volume_multiplier": vidiq_keyword.multiplier,
+                    "vidiq_channel_metrics": (
+                        inspection.vidiq.channel_metrics.raw or {}
+                    ),
+                    "vidiq_channel_metrics_status": (
+                        "collected"
+                        if inspection.vidiq.channel_metrics.available
+                        else "unavailable"
+                    ),
                     "matching_terms": list(inspection.vidiq.matching_terms),
                     "mobile_producible": production.mobile_producible,
                     "estimated_minutes": production.estimated_minutes,
@@ -867,6 +937,8 @@ class ResearchRunner:
                 longtail_precision_score=components["longtail_precision"],
                 buyer_intent_score=components["buyer_intent"],
                 trend_persistence_score=components["trend_persistence"],
+                vidiq_volume_score=components["vidiq_volume"],
+                vidiq_channel_modifier=score.channel_evidence_modifier,
                 final_score=score.final_score,
                 classification=score.classification,
                 simplified_validation=simplified_validation,

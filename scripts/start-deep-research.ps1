@@ -14,9 +14,9 @@ $project = Split-Path -Parent $PSScriptRoot
 $credentialPath = Join-Path $project "secrets\openrouter.key.dpapi"
 $logPath = Join-Path $StorageRoot "reports\deep-session.log"
 $modelTag = $Model -replace '[^A-Za-z0-9.-]', '_'
-$seedMarker = Join-Path $StorageRoot "reports\deep-ai-seeded-$modelTag.marker"
-$lowSeedMarker = Join-Path $StorageRoot "reports\deep-ai-low-$modelTag.marker"
-$highSeedMarker = Join-Path $StorageRoot "reports\deep-ai-high-$modelTag.marker"
+$seedMarker = Join-Path $StorageRoot "reports\deep-ai-seeded-platform-v3-$modelTag.marker"
+$lowSeedMarker = Join-Path $StorageRoot "reports\deep-ai-low-platform-v3-$modelTag.marker"
+$highSeedMarker = Join-Path $StorageRoot "reports\deep-ai-high-platform-v3-$modelTag.marker"
 
 if (-not (Test-Path -LiteralPath $credentialPath)) {
     throw "Encrypted OpenRouter credential not found: $credentialPath"
@@ -53,9 +53,9 @@ try {
                 --model $Model `
                 --method method1 `
                 --regions $Regions `
-                --subject "niche mobile apps with frequent bugs, confusing settings, backup, sync, login, upload, privacy, and account problems" `
-                --include "specific fast phone screen-recording fixes and how-to actions" `
-                --exclude "desktop-only software, broad tutorials, physical products, cars"
+                --subject "desktop apps for any Windows version, apps for any iPhone or iOS version, apps for any MacBook or macOS version including MacBook Air M4, operating systems, and PC games" `
+                --include "specific long-tail fixes plus useful generic device-specific how-to actions reproducible in under five minutes" `
+                --exclude "physical products, hardware repair, cars, and tutorials longer than five minutes"
             if ($LASTEXITCODE -ne 0) { throw "Initial low-RPM AI seed generation failed." }
             Set-Content -LiteralPath $lowSeedMarker -Value "Schema-validated low-RPM OpenRouter batch created."
         }
@@ -67,7 +67,7 @@ try {
                 --method method3 `
                 --regions $Regions `
                 --subject "US and Canadian finance, insurance, banking, tax, fintech, and business apps" `
-                --include "specific mobile account actions, document downloads, settings, fees, claims, deposits, and verification problems" `
+                --include "specific Windows desktop, iPhone/iOS, and MacBook/macOS account actions, document downloads, settings, fees, claims, deposits, and verification problems" `
                 --exclude "physical demonstrations, luxury products, generic comparisons"
             if ($LASTEXITCODE -ne 0) { throw "Initial high-RPM AI seed generation failed." }
             Set-Content -LiteralPath $highSeedMarker -Value "Schema-validated high-RPM OpenRouter batch created."
