@@ -4,7 +4,8 @@
   searches_per_session_max: 4
   subscriber_enrichment_limit: 24
 browser:
-  headed: true
+  headed: false
+  headless: true
   locale: "en-US"
   timezone: "America/New_York"
   extension_dirs: ["./extensions/vidiq"]
@@ -15,6 +16,18 @@ vidiq:
 research:
   min_wait_between_keywords_seconds: 2
   max_wait_between_keywords_seconds: 4
+  workers: "auto"
+  workers_headless: true
+  # Fraction of total RAM permanently reserved for your other applications.
+  # Workers are sized only from RAM left after this headroom (0.0-0.95,
+  # default 0.40 = keep at least 40% of RAM free).
+  workers_ram_headroom: 0.40
+  apps:
+    # Extra apps to allow beyond the built-in catalog (lightweight, installed,
+    # or trivially downloadable software; VALORANT is the only allowed game).
+    include: []
+    # Extra software to forbid on top of the built-in blocklist (e.g. "obsidian").
+    exclude: []
 scoring:
   goldmine_threshold_low_rpm: 60
   goldmine_threshold_high_rpm: 50

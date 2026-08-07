@@ -9,7 +9,9 @@ def test_profiles_change_exploration_not_scoring():
     assert quick.max_keywords == 5
     assert quick.validation_depth == 1
     assert deep.max_keywords == 100
-    assert deep.validation_depth == 5
+    assert deep.validation_depth == 6
+    assert deep.max_depth == 6
+    assert deep.max_suggestions == 14
     assert sum(OPPORTUNITY_WEIGHTS.values()) == 1
 
 

@@ -25,6 +25,26 @@ class Settings:
         value = Path(self.section("output").get("directory", "./reports"))
         return value if value.is_absolute() else (self.source.parent / value).resolve()
 
+    @property
+    def research_apps(self) -> dict[str, Any]:
+        """Config overrides for the app catalog (include/exclude names)."""
+        return dict(self.section("research").get("apps", {}))
+
+    @property
+    def worker_ram_headroom(self) -> float:
+        """Fraction of total RAM permanently reserved for other apps.
+
+        Reads ``research.workers_ram_headroom`` (0.0-0.9, default 0.40).
+        Workers are sized only from the RAM left after this headroom, so the
+        user's other applications never get starved by the research fleet.
+        """
+        default = 0.40
+        try:
+            value = float(self.section("research").get("workers_ram_headroom", default))
+        except (TypeError, ValueError):
+            return default
+        return min(max(value, 0.0), 0.95)
+
 
 def load_settings(path: str | Path = "config.yaml") -> Settings:
     source = Path(path).resolve()
@@ -47,4 +67,15 @@ def apply_storage_root(settings: Settings, root: str | Path | None) -> Settings:
     raw.setdefault("browser", {})["user_data_dir"] = str(storage / "browser-profile")
     raw.setdefault("storage", {})["root"] = str(storage)
     raw["storage"]["thumbnails"] = str(storage / "thumbnails")
+    return Settings(raw=raw, source=settings.source)
+
+
+def with_browser_profile(settings: Settings, profile: str | Path) -> Settings:
+    """Return a copy of settings pointing at a dedicated browser profile.
+
+    Each fleet worker gets its own profile (Chrome locks a profile directory),
+    so they never share cookies, login, or the extension state.
+    """
+    raw = deepcopy(settings.raw)
+    raw.setdefault("browser", {})["user_data_dir"] = str(Path(profile).resolve())
     return Settings(raw=raw, source=settings.source)

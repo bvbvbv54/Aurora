@@ -20,8 +20,11 @@ It is built for evidence-first discovery of short, practical tutorial opportunit
 Windows/Desktop fixes, iPhone/iOS workflows, MacBook/macOS applications, operating-system
 issues, game fixes, and screen-recordable banking/insurance actions targeting the US and
 Canada. Every device/software version is eligible; Windows 10/11, iPhone 11, and MacBook Air
-M4 are useful long-tail examples rather than hard limits. VidIQ Volume is low-weight;
-Competition is never used.
+M4 are useful long-tail examples rather than hard limits. The YouTube creator ecosystem
+itself is a first-class research area — "youtube niche finder for beginners",
+"youtube monetization rules", "youtube shorts monetization requirements", and similar
+long-tail queries seed their own autocomplete, VidIQ, and scoring chains. VidIQ Volume is
+low-weight; Competition is never used.
 
 ## How it works
 
@@ -90,8 +93,14 @@ Project source and the unpacked extension remain read-only assets in the reposit
   -Model "google/gemini-2.5-flash-lite" `
   -VisionModel "google/gemini-2.5-flash-lite" `
   -AiEvery 50 `
-  -Regions "US,CA"
+  -Regions "US,CA" `
+  -Workers auto `
+  -Headless
 ```
+
+`-Workers auto` sizes the parallel research fleet to your machine (cores, RAM with a
+guaranteed 40% headroom, free disk, GPU) and `-Headless` keeps every Chrome worker
+invisible while screenshots still work (they are captured over CDP).
 
 ## One-command control and monitoring
 
@@ -101,6 +110,9 @@ Project source and the unpacked extension remain read-only assets in the reposit
 
 # Show process, queue, Goldmine counts, and completeness health
 .\scripts\aurora-control.ps1 status
+
+# Watch the live parallel research fleet and its per-worker browser status
+.\scripts\aurora-control.ps1 browsers
 
 # Follow the live research log with colored Diamond/GEMmine/Goldmine flags
 .\scripts\aurora-control.ps1 watch
@@ -128,6 +140,62 @@ project does not insert sample opportunities or synthetic engagement numbers.
 restarts a PID whose log has been silent for ten minutes. Transient AI/API errors do
 not end deep research; exhausted OpenRouter credits create a checkpoint and stop it.
 
+## Parallel research fleet
+
+Single-process research becomes a fleet of independent Chrome workers with
+`--workers N` (or `auto` to size it from the live machine). Each worker:
+
+- Claims a pending seed with an atomic SQLite `UPDATE` (WAL mode), so two workers
+  never research the same keyword.
+- Owns a dedicated browser profile under `browser-profiles/worker-<id>` (Chrome locks
+  a profile directory, so workers never share cookies or the extension state).
+- Runs headless by default (`--headless`), or visibly with `--headed`; thumbnail and
+  VidIQ screenshots still work headless because they go through CDP.
+- Writes `workers/worker-<id>.json` at every stage change; `aurora browsers` renders
+  the live fleet table (worker, stage, age, headless mode, current keyword).
+
+The `auto` sizing reserves a configurable RAM headroom for whatever else you are
+running: `research.workers_ram_headroom` (default `0.40` = keep at least 40% of total
+RAM free) sizes the fleet only from the RAM left over, and it also reads cores,
+currently-free RAM, free disk on the storage drive (a 20 GB minimum is preserved), and
+whether a display GPU is present. Raise the headroom to 0.60/0.70 when you want the
+research fleet to be even gentler on a busy machine. Crashed workers are restarted up
+to three times; `Ctrl+C` asks workers to finish between keywords. Only worker 0 runs
+AI-guided discovery, so N parallel browsers never duplicate LLM spend.
+
+```powershell
+# Fleet sized by the machine, headless (default)
+.\scripts\aurora-control.ps1 start -Workers auto -Headless
+
+# Force a specific number of visible (headed) workers
+.\scripts\aurora-control.ps1 start -Workers 4 -Headed
+
+# Inspect the live fleet while it runs
+.\scripts\aurora-control.ps1 browsers
+```
+
+Equivalent direct command:
+
+```powershell
+aurora --config config.demo.yaml --storage-root "D:\Aurora-data" research `
+  --profile deep --workers auto --headless --fleet
+```
+
+## Research scope catalog
+
+Seeds, scheduler picks, and AI-discovered candidates are all filtered by a research
+catalog: blocked software is never queued, game fixes are limited to VALORANT, and
+AI-generated app candidates must come from the configurable allowlist
+(`research.apps.include` / `research.apps.exclude`). Pending seeds that do not match
+can be reviewed and marked once:
+
+```powershell
+aurora --config config.demo.yaml --storage-root "D:\Aurora-data" topics --reject-catalog
+```
+
+Legacy pending rows remain safely skipped by the scheduler until you run that
+cleanup, so nothing off-scope ever gets researched accidentally.
+
 Equivalent direct command:
 
 ```powershell
@@ -152,10 +220,16 @@ Set `OPENAI_API_KEY` before `generate`:
 - `seed`: inserts deduplicated manual keywords.
 - `generate`: generates and stores seeds through the configured OpenAI model.
 - `run-once`: processes one 60/40-scheduled pending seed.
-- `research`: recursively processes autocomplete, VidIQ, and Windows/iPhone/MacBook branches.
+- `research`: recursively processes autocomplete, VidIQ, and Windows/iPhone/MacBook branches;
+  with `--workers N` or `--fleet` it runs a parallel Chrome fleet.
+- `browsers`: shows the live parallel-fleet worker table (headless mode, stage, age, keyword).
 - `pause`: requests a clean stop between keywords.
 - `resume`: clears the pause marker; interrupted `processing` work is recovered on restart.
 - `status`: shows queue metrics and pause state.
+- `topics`: reviews current pending research topics grouped by normalized context,
+  flags contexts already covered by researched/deferred seeds, and with `--dedupe`
+  defers pending seeds that duplicate an already-covered research context and with
+  `--reject-catalog` marks pending seeds that violate the research scope catalog.
 - `report --full`: writes Markdown, JSON, and CSV analytics plus a selective video shortlist.
 - `repair-metrics`: removes uncertifiable legacy evidence and requeues its seeds for complete
   collection rather than filling missing values with guesses.
@@ -264,7 +338,9 @@ confirmed, VPH is present, and both SVG and AI graph classifications are readabl
 
 - `--profile quick`: 5 keywords, depth 1, 3 suggestions, 2 scroll passes, 1 detailed validation.
 - `--profile normal`: 25 keywords, depth 3, 6 suggestions, 5 scroll passes, 2 validations.
-- `--profile deep`: 100 keywords, depth 5, 10 suggestions, 8 scroll passes, 5 validations.
+- `--profile deep`: 100 keywords, depth 6, 14 suggestions, 10 scroll passes, 6 validations.
+  Long-tail recursion and autocomplete breadth are boosted; Opportunity Score weights,
+  thresholds, gates, and classifications never change.
 - `--profile custom`: use explicit exploration arguments.
 
 Profiles never change Opportunity Score weights, thresholds, gates, or classifications.
@@ -336,3 +412,4 @@ unavailable channel panels are neutral.
 docker build -t aurora .
 docker run --rm -v "$PWD:/app/state" aurora report
 ```
+

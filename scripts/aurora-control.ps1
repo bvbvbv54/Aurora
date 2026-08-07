@@ -1,13 +1,15 @@
 param(
     [ValidateSet(
         "help", "start", "status", "watch", "tail", "pause", "resume",
-        "restart", "stop", "update", "report"
+        "restart", "stop", "update", "report", "browsers"
     )]
     [string]$Action = "status",
     [string]$StorageRoot = "D:\Aurora-data",
     [string]$Model = "google/gemini-2.5-flash-lite",
     [string]$VisionModel = "google/gemini-2.5-flash-lite",
-    [int]$MaxVideoMinutes = 5
+    [int]$MaxVideoMinutes = 5,
+    [string]$Workers = "auto",
+    [switch]$Headless
 )
 
 $ErrorActionPreference = "Stop"
@@ -58,8 +60,10 @@ function Start-Aurora {
         "-StorageRoot", "`"$StorageRoot`"",
         "-Model", "`"$Model`"",
         "-VisionModel", "`"$VisionModel`"",
-        "-MaxVideoMinutes", $MaxVideoMinutes
+        "-MaxVideoMinutes", $MaxVideoMinutes,
+        "-Workers", "`"$Workers`""
     )
+    if ($Headless) { $arguments += "-Headless" }
     $process = Start-Process powershell.exe -ArgumentList $arguments `
         -WindowStyle Hidden -PassThru -WorkingDirectory $project
     Set-Content -LiteralPath $pidPath -Value $process.Id
@@ -67,6 +71,7 @@ function Start-Aurora {
     Write-Host "Text model:   $Model"
     Write-Host "Vision model: $VisionModel"
     Write-Host "Maximum video duration: $MaxVideoMinutes minutes"
+    Write-Host "Parallel workers: $Workers $(if ($Headless) { '(headless)' })"
     Write-Host "Monitor: .\scripts\aurora-control.ps1 watch" -ForegroundColor Cyan
 }
 
@@ -119,12 +124,15 @@ AURORA terminal control
   .\scripts\aurora-control.ps1 stop       Immediate process-tree stop
   .\scripts\aurora-control.ps1 update     Pull, test, and restart if previously running
   .\scripts\aurora-control.ps1 report     Write full JSON/CSV/Markdown report
+  .\scripts\aurora-control.ps1 browsers   Live status of parallel Chrome workers
 
 Options:
   -StorageRoot D:\Aurora-data
   -Model google/gemini-2.5-flash-lite
   -VisionModel google/gemini-2.5-flash-lite
   -MaxVideoMinutes 5
+  -Workers auto          Parallel Chrome workers (auto = resource-tuned)
+  -Headless              Run browsers headless
 
 Research continues through transient AI/API failures. It checkpoints only when
 OpenRouter reports exhausted credits, or when pause/stop is explicitly requested.
@@ -184,5 +192,10 @@ OpenRouter reports exhausted credits, or when pause/stop is explicitly requested
     "report" {
         & python -m aurora.cli --config config.demo.yaml `
             --storage-root $StorageRoot report --full
+    }
+    "browsers" {
+        Show-Status
+        & python -m aurora.cli --config config.demo.yaml `
+            --storage-root $StorageRoot browsers
     }
 }

@@ -108,26 +108,30 @@ def harden_youtube_page(sb) -> int:
 
 
 @contextmanager
-def browser_session(settings):
-    """Launch the configured SeleniumBase CDP session with declared locale/timezone."""
+def browser_session(settings, *, headless: bool | None = None):
+    """Launch the configured SeleniumBase CDP session with declared locale/timezone.
+
+    ``headless`` overrides the config ``browser.headed``/``browser.headless``
+    value; screenshots still work headless because every capture goes through CDP.
+    """
     try:
         from seleniumbase import SB
     except ImportError as exc:
         raise RuntimeError("Install the browser extra: pip install -e .[browser]") from exc
 
     browser = settings.section("browser")
-    headed = bool(browser.get("headed", True))
+    if headless is None:
+        headless = not bool(browser.get("headed", True))
     kwargs = {
         "uc": True,
         "locale": str(browser.get("locale", "en-US")),
         "incognito": True,
         "ad_block_on": True,
     }
-    if headed:
-        kwargs["headed"] = True
-    else:
-        # `headed=False` does not force SeleniumBase into headless mode.
+    if headless:
         kwargs["headless"] = True
+    else:
+        kwargs["headed"] = True
     extensions = browser.get("extension_dirs") or []
     if extensions:
         resolved = []

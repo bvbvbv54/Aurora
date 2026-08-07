@@ -135,6 +135,48 @@ def suggestion_anchor_tokens(query: str) -> set[str]:
     }
 
 
+_RESEARCH_FILLER_TOKENS = {
+    "a", "an", "the", "and", "or", "of", "to", "for", "on", "in", "at", "with",
+    "by", "from", "it", "its", "use", "using", "how", "do", "does", "did", "is",
+    "fix", "solved", "solve", "getting", "get", "has", "have", "having", "makes",
+    "video", "videos", "guide", "guides", "tutorial", "tutorials", "properly",
+    "app", "apps", "phone", "online", "laptop", "computer", "console", "ota",
+    "pc", "desktop", "mobile", "device", "user", "users", "screen",
+    "step", "steps", "stepbystep", "keeps", "my", "your", "that", "this",
+    "follow", "2024", "2025", "2026", "300", "100", "1000", "11", "10",
+}
+
+
+def research_context_key(query: str) -> str:
+    """Canonical research-context key so device/platform/intent filler is ignored.
+
+    Two keywords share one context when their keys are equal even if phrasing differs
+    ("fix discord crashing on pc" vs "how to fix discord crashing using a phone").
+    Core symptoms stay in the key so genuinely different problems remain distinct.
+    """
+    tokens: list[str] = []
+    for token in re.findall(r"[a-zA-Z0-9]+", query.lower()):
+        if token in _RESEARCH_FILLER_TOKENS or len(token) <= 2:
+            continue
+        if token.isdigit() and len(token) <= 3:
+            continue
+        tokens.append(_research_stem(token))
+    return " ".join(sorted(dict.fromkeys(tokens)))
+
+
+def _research_stem(token: str) -> str:
+    """Collapse common verb inflections so different phrasings of one problem
+    normalize to the same context key ("crashes" and "crashing" both map to
+    "crash"). Guard words like "not" and "this" are never over-trimmed."""
+    if token.endswith("ing") and len(token) > 5:
+        return token[:-3]
+    if token.endswith("es") and len(token) > 4:
+        return token[:-2]
+    if token.endswith("s") and len(token) > 4:
+        return token[:-1]
+    return token
+
+
 def recursive_suggestions(
     suggestions: tuple[str, ...] | list[str], limit: int = 6
 ) -> list[str]:

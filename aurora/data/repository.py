@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import json
+import logging
 from collections.abc import Iterable
 
-from sqlalchemy import case, create_engine, delete, func, inspect, select, text, update
+from sqlalchemy import create_engine, delete, func, inspect, select, text, update
 from sqlalchemy.orm import sessionmaker
 
 from aurora.data.models import (
@@ -17,12 +18,43 @@ from aurora.data.models import (
     SerpResult,
     VideoInspectionRecord,
 )
+from aurora.methods.app_catalog import query_eligible
+from aurora.methods.strategies import research_context_key
+
+#: Status for pending seeds that reference forbidden software (heavy/banned apps
+#: or non-VALORANT games). They are never scheduled; a cleanup pass can mark them.
+CATALOG_REJECTED = "catalog_rejected"
+
+#: Statuses that mean a research context is already covered: the keyword was
+#: researched to completion, or the user deliberately deferred/discarded it.
+#: The scheduler and seed adder never re-queue those contexts.
+COVERED_STATUSES = frozenset(
+        {
+            "analyzed",
+            "goldmine",
+            "deferred",
+            "deferred_redundant_order",
+            "deferred_secondary_intent",
+            "deferred_topic_focus",
+            "discarded_ai_batch",
+            CATALOG_REJECTED,
+        }
+    )
+
+#: New status written by the `topics --dedupe` cleanup for pending seeds that
+#: duplicate an already-covered research context.
+DEFERRED_REDUNDANT_CONTEXT = "deferred_redundant_context"
 
 
 class Repository:
     def __init__(self, url: str):
-        self.engine = create_engine(url)
+        self.engine = create_engine(
+            url,
+            connect_args={"timeout": 60},
+            pool_pre_ping=True,
+        )
         self.sessions = sessionmaker(self.engine, expire_on_commit=False)
+        self._enable_wal()
 
     @property
     def db_path(self) -> str:
@@ -31,6 +63,19 @@ class Repository:
         if not database:
             raise ValueError("Repository database URL has no filesystem path")
         return database
+
+    def _enable_wal(self) -> None:
+        """Allow concurrent readers across worker processes (SQLite WAL)."""
+        try:
+            with self.engine.begin() as connection:
+                connection.execute(text("PRAGMA journal_mode=WAL"))
+                connection.execute(text("PRAGMA busy_timeout=60000"))
+                connection.execute(text("PRAGMA synchronous=NORMAL"))
+        except Exception:
+            # Memory or read-only databases may not support WAL; keep going.
+            logging.getLogger(__name__).debug(
+                "WAL not enabled (memory or read-only database)", exc_info=True
+            )
 
     def initialize(self) -> None:
         Base.metadata.create_all(self.engine)
@@ -105,26 +150,62 @@ class Repository:
         pain_point: str | None = None,
         mobile_action: str | None = None,
         llm_prompt_version: str = "v2",
+        filter_catalog: bool = True,
     ) -> list[SeedKeyword]:
         cleaned = list(dict.fromkeys(k.strip() for k in keywords if k.strip()))
+        if filter_catalog:
+            cleaned = [
+                keyword for keyword in cleaned if query_eligible(keyword)
+            ]
+        if not cleaned:
+            return []
         with self.sessions.begin() as session:
             existing = set(
                 session.scalars(select(SeedKeyword.keyword).where(SeedKeyword.keyword.in_(cleaned)))
             )
-            rows = [
-                SeedKeyword(
-                    keyword=k,
-                    source_method=method,
-                    category=category,
-                    pain_point=pain_point or None,
-                    mobile_action=mobile_action or None,
-                    llm_prompt_version=llm_prompt_version,
+            covered_contexts = self._covered_contexts(session)
+            rows = []
+            seen_contexts: set[str] = set()
+            for k in cleaned:
+                if k in existing:
+                    continue
+                context = research_context_key(k)
+                if context in covered_contexts:
+                    existing.add(k)
+                    continue
+                if context in seen_contexts:
+                    existing.add(k)
+                    continue
+                seen_contexts.add(context)
+                existing.add(k)
+                rows.append(
+                    SeedKeyword(
+                        keyword=k,
+                        source_method=method,
+                        category=category,
+                        pain_point=pain_point or None,
+                        mobile_action=mobile_action or None,
+                        llm_prompt_version=llm_prompt_version,
+                    )
                 )
-                for k in cleaned
-                if k not in existing
-            ]
             session.add_all(rows)
         return rows
+
+    @staticmethod
+    def _covered_contexts(session) -> set[str]:
+        """Context keys for seeds that are already researched or deliberately
+        deferred, plus any seed already queued for research (pending) so the same
+        concept is never enqueued twice in a different wording."""
+        rows = session.execute(
+            select(SeedKeyword.keyword, SeedKeyword.status).where(
+                SeedKeyword.status.in_(COVERED_STATUSES | {"pending", "processing"})
+            )
+        )
+        return {
+            research_context_key(keyword)
+            for keyword, _ in rows
+            if keyword.strip()
+        }
 
     def add_recursive_seeds(
         self,
@@ -170,14 +251,38 @@ class Repository:
 
     def next_pending(self, limit: int = 1) -> list[SeedKeyword]:
         with self.sessions() as session:
-            return list(
-                session.scalars(
-                    select(SeedKeyword)
-                    .where(SeedKeyword.status == "pending")
-                    .order_by(SeedKeyword.id)
-                    .limit(limit)
-                )
-            )
+            covered = self._terminal_covered_contexts(session)
+            seen: set[str] = set()
+            candidates = []
+            for row in session.scalars(
+                select(SeedKeyword)
+                .where(SeedKeyword.status == "pending")
+                .order_by(SeedKeyword.id)
+            ):
+                if not query_eligible(row.keyword):
+                    continue
+                context = research_context_key(row.keyword)
+                if context in covered or context in seen:
+                    continue
+                seen.add(context)
+                candidates.append(row)
+                if len(candidates) >= limit:
+                    break
+            return candidates
+
+    @staticmethod
+    def _terminal_covered_contexts(session) -> set[str]:
+        """Context keys covered by seeds that were researched to completion or
+        deliberately deferred. Pending seeds are excluded so the scheduler can
+        still pick one pending seed per context."""
+        rows = session.execute(
+            select(SeedKeyword.keyword).where(SeedKeyword.status.in_(COVERED_STATUSES))
+        )
+        return {
+            research_context_key(keyword)
+            for (keyword,) in rows
+            if keyword.strip()
+        }
 
     def next_pending_balanced(
         self,
@@ -192,20 +297,193 @@ class Repository:
         want_low = cycle_index % 5 < low_slots
         preferred = ("method1", "method2") if want_low else ("method3",)
         with self.sessions() as session:
-            order = case((SeedKeyword.source_method.in_(preferred), 0), else_=1)
-            row = session.scalar(
+            covered = self._terminal_covered_contexts(session)
+            seen: set[str] = set()
+            candidates: list[SeedKeyword] = []
+            for row in session.scalars(
                 select(SeedKeyword)
                 .where(SeedKeyword.status == "pending")
-                .order_by(order, SeedKeyword.id)
-                .limit(1)
+                .order_by(SeedKeyword.id)
+            ):
+                if not query_eligible(row.keyword):
+                    continue
+                context = research_context_key(row.keyword)
+                if context in covered or context in seen:
+                    continue
+                seen.add(context)
+                candidates.append(row)
+            if not candidates:
+                return []
+            candidates.sort(
+                key=lambda seed: (
+                    0 if seed.source_method in preferred else 1,
+                    seed.id,
+                )
             )
-            return [row] if row else []
+            return [candidates[0]]
+
+    def claim_next_pending_balanced(
+        self,
+        low_share: int = 60,
+        high_share: int = 40,
+        cycle_index: int | None = None,
+    ) -> SeedKeyword | None:
+        """Atomically claim one pending seed for a worker process.
+
+        The UPDATE is guarded by ``status == 'pending'`` so two parallel workers
+        can never research the same seed: SQLite serializes the write and only
+        one of them gets a matching rowcount. Returns the claimed seed with
+        status already set to ``processing``, or None when the queue is empty.
+        """
+        total = max(1, low_share + high_share)
+        low_slots = max(1, round(5 * low_share / total))
+        if cycle_index is None:
+            cycle_index = self.metrics()["analyzed"] + self.metrics()["goldmine_seeds"]
+        want_low = cycle_index % 5 < low_slots
+        preferred = ("method1", "method2") if want_low else ("method3",)
+        with self.sessions.begin() as session:
+            covered = self._terminal_covered_contexts(session)
+            seen: set[str] = set()
+            candidates: list[SeedKeyword] = []
+            for row in session.scalars(
+                select(SeedKeyword)
+                .where(SeedKeyword.status == "pending")
+                .order_by(SeedKeyword.id)
+            ):
+                if not query_eligible(row.keyword):
+                    continue
+                context = research_context_key(row.keyword)
+                if context in covered or context in seen:
+                    continue
+                seen.add(context)
+                candidates.append(row)
+            candidates.sort(
+                key=lambda seed: (
+                    0 if seed.source_method in preferred else 1,
+                    seed.id,
+                )
+            )
+            for candidate in candidates:
+                claimed = session.execute(
+                    update(SeedKeyword)
+                    .where(
+                        SeedKeyword.id == candidate.id,
+                        SeedKeyword.status == "pending",
+                    )
+                    .values(status="processing")
+                )
+                if claimed.rowcount:
+                    return session.get(SeedKeyword, candidate.id)
+            return None
 
     def set_seed_status(self, seed_id: int, status: str) -> None:
         with self.sessions.begin() as session:
             row = session.get(SeedKeyword, seed_id)
             if row:
                 row.status = status
+
+    def pending_context_groups(self, limit: int = 50) -> list[dict]:
+        """Group pending seeds by canonical research context for review.
+
+        A context is the normalized keyword family (device/intent filler ignored),
+        so "how to fix discord crashing on pc" and "Fix Discord Crashing Step-By
+        Step using a phone" land in one group. Each group reports how many pending
+        seeds share the context, whether that context is already covered by a
+        researched/deferred seed, and the representative keywords.
+        """
+        with self.sessions() as session:
+            covered = self._terminal_covered_contexts(session)
+            groups: dict[str, dict] = {}
+            for row in session.scalars(
+                select(SeedKeyword)
+                .where(SeedKeyword.status == "pending")
+                .order_by(SeedKeyword.id)
+            ):
+                context = research_context_key(row.keyword)
+                group = groups.setdefault(
+                    context,
+                    {
+                        "context": context,
+                        "pending_count": 0,
+                        "covered": context in covered,
+                        "methods": set(),
+                        "keywords": [],
+                    },
+                )
+                group["pending_count"] += 1
+                group["methods"].add(row.source_method)
+                if len(group["keywords"]) < 6:
+                    group["keywords"].append(
+                        {"id": row.id, "keyword": row.keyword, "method": row.source_method}
+                    )
+            result = [
+                {
+                    "context": group["context"],
+                    "pending_count": group["pending_count"],
+                    "covered": group["covered"],
+                    "methods": sorted(group["methods"]),
+                    "keywords": group["keywords"],
+                }
+                for group in groups.values()
+            ]
+            result.sort(
+                key=lambda group: (
+                    group["pending_count"] > 1 or group["covered"],
+                    -group["pending_count"],
+                    group["context"],
+                )
+            )
+            return result[:limit]
+
+    def defer_redundant_pending(self) -> dict[str, int]:
+        """Mark pending seeds that duplicate an already-covered context or another
+        pending seed of the same context as deferred_redundant_context, keeping the
+        lowest-id representative per context. Returns counts of what was deferred.
+        """
+        deferred = 0
+        covered_deferred = 0
+        with self.sessions.begin() as session:
+            covered = self._terminal_covered_contexts(session)
+            kept_contexts: set[str] = set()
+            rows = list(
+                session.scalars(
+                    select(SeedKeyword)
+                    .where(SeedKeyword.status == "pending")
+                    .order_by(SeedKeyword.id)
+                )
+            )
+            for row in rows:
+                context = research_context_key(row.keyword)
+                if context in covered:
+                    row.status = DEFERRED_REDUNDANT_CONTEXT
+                    covered_deferred += 1
+                    deferred += 1
+                elif context in kept_contexts:
+                    row.status = DEFERRED_REDUNDANT_CONTEXT
+                    deferred += 1
+                else:
+                    kept_contexts.add(context)
+        return {
+            "deferred_total": deferred,
+            "deferred_covered_context": covered_deferred,
+            "kept_pending": len(kept_contexts),
+        }
+
+    def reject_catalog_ineligible(self) -> dict[str, int]:
+        """Mark pending seeds that reference forbidden software or disallowed
+        games as catalog_rejected so they never reach the scheduler."""
+        with self.sessions.begin() as session:
+            rejected = 0
+            rows = list(
+                session.scalars(
+                    select(SeedKeyword).where(SeedKeyword.status == "pending")
+                )
+            )
+            for row in rows:
+                if not query_eligible(row.keyword):
+                    row.status = CATALOG_REJECTED
+                    rejected += 1
+        return {"catalog_rejected": rejected}
 
     def recover_processing(self) -> int:
         """Return interrupted work to the pending queue when a process restarts."""

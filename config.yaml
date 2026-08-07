@@ -13,7 +13,8 @@ llm:
   temperature: 0.4
   max_tokens: 3000
 browser:
-  headed: true
+  headed: false
+  headless: true
   locale: "en-US"
   timezone: "America/New_York"
   extension_dirs: ["./extensions/vidiq"]
@@ -35,6 +36,21 @@ research:
   cooldown_minutes: 5
   cooldown_max_minutes: 15
   max_recursion_depth: 3
+  workers: auto          # parallel Chrome workers: auto (resource-tuned) or a number
+  workers_headless: true
+  # Fraction of total RAM permanently reserved for your other applications.
+  # The fleet is sized only from the RAM left after this headroom (0.0-0.95,
+  # default 0.40 = keep at least 40% of RAM free). Raise it when you run many
+  # heavy apps alongside research; lower it to let more workers run.
+  workers_ram_headroom: 0.40
+  apps:
+    # Extra apps allowed beyond the built-in catalog. Aurora only researches
+    # lightweight Windows apps (~3GB), AI tools, VALORANT game fixes, or already
+    # installed/trivially downloadable software — add any extra names here.
+    include: []
+    # Extra software to never research (in addition to the built-in blocklist:
+    # GTA, Adobe, Rocket League, Vegas, Fortnite, ...).
+    exclude: []
 scoring:
   goldmine_threshold_low_rpm: 60
   goldmine_threshold_high_rpm: 50

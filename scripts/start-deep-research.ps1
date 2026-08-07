@@ -6,7 +6,9 @@ param(
     [string]$Regions = "US,CA",
     [string]$StorageRoot = "D:\Aurora-data",
     [string]$VisionModel = "google/gemini-2.5-flash-lite",
-    [int]$MaxVideoMinutes = 5
+    [int]$MaxVideoMinutes = 5,
+    [string]$Workers = "auto",
+    [switch]$Headless
 )
 
 $ErrorActionPreference = "Stop"
@@ -90,7 +92,10 @@ try {
         --ai-every $AiEvery `
         --ai-provider openrouter `
         --ai-model $Model `
-        --vision-model $VisionModel 2>&1 | Tee-Object -FilePath $logPath -Append
+        --vision-model $VisionModel `
+        --workers $Workers `
+        --fleet `
+        $(if ($Headless) { "--headless" } else { "--headed" }) 2>&1 | Tee-Object -FilePath $logPath -Append
     exit $LASTEXITCODE
 }
 finally {

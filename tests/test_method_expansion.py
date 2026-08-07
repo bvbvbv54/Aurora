@@ -2,6 +2,7 @@ from aurora.methods.strategies import (
     expand_method_one_seed,
     pain_point_followups,
     recursive_suggestions,
+    research_context_key,
     specific_mobile_followups,
     starting_search_query,
 )
@@ -93,4 +94,35 @@ def test_starting_query_is_intent_plus_product_not_full_problem():
     assert (
         starting_search_query("how to download proof from NEXT Insurance app")
         == "how to NEXT Insurance"
+    )
+
+
+def test_research_context_key_collapses_template_duplicates():
+    family = [
+        "how to fix discord crashing on phone",
+        "fix discord crashing mobile",
+        "fix Discord crashing",
+        "how to fix discord crashing on pc",
+        "Fix Discord Crashing Step-By Step on mobile",
+    ]
+    keys = {research_context_key(query) for query in family}
+    assert len(keys) == 1
+    assert "discord" in next(iter(keys)) and "crash" in next(iter(keys))
+
+
+def test_research_context_key_keeps_distinct_problems_and_platforms():
+    assert research_context_key("discord not working") != research_context_key("fix discord crashing")
+    assert (
+        research_context_key("how to discord on ps5")
+        != research_context_key("how to discord on xbox")
+    )
+    assert (
+        research_context_key("how to fix spotify crashing")
+        == research_context_key("Spotify crashes on desktop")
+    )
+
+
+def test_research_context_key_ignores_year_filler():
+    assert research_context_key("fix capcut network error on pc 2025") == research_context_key(
+        "capcut network error fix"
     )

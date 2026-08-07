@@ -56,6 +56,13 @@ from aurora.llm.providers import (
     is_credit_exhaustion,
 )
 from aurora.llm.vision_classifier import classify_image
+from aurora.methods.app_catalog import (
+    app_allowed,
+    catalog_prompt_hint,
+    filter_queries,
+    resolve_blocked,
+    resolve_include,
+)
 from aurora.methods.strategies import (
     METHODS,
     expand_method_one_seed,
@@ -97,6 +104,11 @@ class RunnerOptions:
     ai_base_url: str | None = None
     stop_on_ai_error: bool = False
     vision_model: str = "google/gemini-2.5-flash-lite"
+    apps_config: dict[str, object] = None  # research.apps override section
+    worker_id: int = 0
+    worker_count: int = 1
+    headless: bool | None = None
+    status_dir: str | None = None  # fleet-level directory holding worker-*.json status
 
 
 class ResearchRunner:
@@ -114,16 +126,15 @@ class ResearchRunner:
     def run_once(self) -> list[dict]:
         self.last_processed_seed_id = None
         self.metric_incomplete = False
-        seeds = self.repository.next_pending_balanced(
+        seed = self.repository.claim_next_pending_balanced(
             self.options.low_rpm_share,
             self.options.high_rpm_share,
             cycle_index=self.session_processed,
         )
-        if not seeds:
+        if seed is None:
             return []
-        seed = seeds[0]
         self.last_processed_seed_id = seed.id
-        self.repository.set_seed_status(seed.id, "processing")
+        self._write_worker_status("claimed", seed.keyword)
         try:
             opportunities = self._research(seed)
             status = (
@@ -133,18 +144,42 @@ class ResearchRunner:
             )
             self.repository.set_seed_status(seed.id, status)
             self.session_processed += 1
+            self._write_worker_status(status, seed.keyword)
             return opportunities
         except ProtectionEncountered as exc:
             log.warning("%s; progress retained and session stopped", exc)
             self.repository.set_seed_status(seed.id, "pending")
+            self._write_worker_status("paused", seed.keyword)
             return []
         except AICreditExhausted:
             self.ai_credit_exhausted = True
             self.repository.set_seed_status(seed.id, "pending")
+            self._write_worker_status("credit_exhausted", seed.keyword)
             return []
         except Exception:
             self.repository.set_seed_status(seed.id, "pending")
             raise
+
+    def _write_worker_status(self, stage: str, keyword: str = "") -> None:
+        """Persist a small JSON status file so the fleet CLI can monitor workers."""
+        if not self.options.status_dir:
+            return
+        try:
+            path = (
+                Path(self.options.status_dir) / f"worker-{self.options.worker_id}.json"
+            )
+            path.parent.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "worker_id": self.options.worker_id,
+                "worker_count": self.options.worker_count,
+                "stage": stage,
+                "keyword": keyword,
+                "updated_at": time.time(),
+                "headless": self.options.headless,
+            }
+            path.write_text(json.dumps(payload), encoding="utf-8")
+        except Exception:
+            log.debug("worker status write failed", exc_info=True)
 
     def run_loop(self) -> list[dict]:
         opportunities: list[dict] = []
@@ -176,11 +211,13 @@ class ResearchRunner:
                 log.warning("research stopped because OpenRouter credits are exhausted")
                 break
             if self.last_processed_seed_id is None:
+                self._write_worker_status("idle")
                 break
             opportunities.extend(batch)
             completed += 1
             if (
                 self.options.ai_guided
+                and self.options.worker_id == 0
                 and self.options.ai_every > 0
                 and completed % self.options.ai_every == 0
             ):
@@ -190,18 +227,24 @@ class ResearchRunner:
                         "transient AI recall failure; research continues until "
                         "credits are exhausted"
                     )
+        self._write_worker_status("stopped")
         return opportunities
 
     def _ai_expand(self, completed: int) -> bool:
         cycle_position = ((completed // self.options.ai_every) - 1) % 5
         method = "method1" if cycle_position < 3 else "method3"
         evaluations, _ = self.repository.report_rows()
+        config = self.options.apps_config or {}
+        include = resolve_include(config)
+        blocked = resolve_blocked(config)
         prompt = build_prompt(
             method,
             self.options.ai_subject,
             regions=self.options.regions,
             mobile_only=self.options.mobile_only,
             findings=json.dumps(evaluations[-12:], indent=2),
+            include=catalog_prompt_hint(method, include=include, blocked=blocked),
+            exclude="",
         )
         try:
             output = generate_text(
@@ -228,7 +271,10 @@ class ResearchRunner:
         if method == "method1":
             added_count = 0
             for candidate in candidates:
-                assert isinstance(candidate, dict)
+                if not isinstance(candidate, dict) or not app_allowed(
+                    candidate.get("name", ""), include=include
+                ):
+                    continue
                 values = expand_method_one_seed(
                     candidate["name"],
                     pain_point=candidate.get("pain_point", ""),
@@ -245,8 +291,16 @@ class ResearchRunner:
                     )
                 )
         else:
-            values = [str(candidate) for candidate in candidates]
-            added_count = len(self.repository.add_seeds(values, method, "high_rpm"))
+            values = [
+                str(candidate)
+                for candidate in candidates
+                if isinstance(candidate, str)
+            ]
+            added_count = len(
+                self.repository.add_seeds(
+                    filter_queries(values, blocked=blocked), method, "high_rpm"
+                )
+            )
         log.info("AI-guided %s expansion queued %s seed(s)", method, added_count)
         return True
 
@@ -255,7 +309,7 @@ class ResearchRunner:
         base_url = youtube.get("base_url", "https://www.youtube.com")
         max_results = int(youtube.get("max_results_per_serp", 20))
         method = METHODS.get(seed.source_method, METHODS["method1"])
-        with browser_session(self.settings) as sb:
+        with browser_session(self.settings, headless=self.options.headless) as sb:
             timezone = self.settings.section("browser").get("timezone", "America/New_York")
             sb.activate_cdp_mode(base_url, tzone=timezone)
             harden_youtube_page(sb)
@@ -279,8 +333,13 @@ class ResearchRunner:
                 selection.selected_query,
             )
             depth = self.repository.seed_depth(seed.id)
-            branches = recursive_suggestions(
-                selection.suggestions, self.options.max_suggestions
+            config = self.options.apps_config or {}
+            blocked = resolve_blocked(config)
+            branches = filter_queries(
+                recursive_suggestions(
+                    selection.suggestions, self.options.max_suggestions
+                ),
+                blocked=blocked,
             )
             if depth < self.options.max_depth:
                 added = self.repository.add_recursive_seeds(

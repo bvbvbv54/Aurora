@@ -5,10 +5,17 @@ import json
 import logging
 from pathlib import Path
 
-from aurora.config import apply_storage_root, load_settings
+from aurora.config import apply_storage_root, load_settings, with_browser_profile
 from aurora.data.repository import Repository
 from aurora.llm.prompt_engine import build_prompt, parse_ai_candidates
 from aurora.llm.providers import AIProviderConfig, generate_text
+from aurora.methods.app_catalog import (
+    app_allowed,
+    catalog_prompt_hint,
+    filter_queries,
+    resolve_blocked,
+    resolve_include,
+)
 from aurora.methods.strategies import expand_method_one_seed
 from aurora.orchestrator import ResearchRunner, RunnerOptions
 from aurora.phases.analysis import analyze_database
@@ -40,10 +47,10 @@ PROFILE_PRESETS = {
     },
     "deep": {
         "max_keywords": 100,
-        "max_suggestions": 10,
-        "max_depth": 5,
-        "search_breadth": 8,
-        "validation_depth": 5,
+        "max_suggestions": 14,
+        "max_depth": 6,
+        "search_breadth": 10,
+        "validation_depth": 6,
         "ai_every": 3,
         "regions": "US,CA",
     },
@@ -83,6 +90,22 @@ def parser() -> argparse.ArgumentParser:
     generate.add_argument("--api-key-env")
     generate.add_argument("--base-url")
     commands.add_parser("run-once")
+    topics = commands.add_parser(
+        "topics",
+        help="Review current pending research topics grouped by normalized context",
+    )
+    topics.add_argument("--limit", type=int, default=50)
+    topics.add_argument("--json", action="store_true")
+    topics.add_argument(
+        "--dedupe",
+        action="store_true",
+        help="Defer pending seeds that duplicate an already-covered research context",
+    )
+    topics.add_argument(
+        "--reject-catalog",
+        action="store_true",
+        help="Mark pending seeds that reference forbidden software as catalog_rejected",
+    )
     research = commands.add_parser("research")
     research.add_argument(
         "--profile", choices=("quick", "normal", "deep", "custom"), default="normal"
@@ -121,6 +144,40 @@ def parser() -> argparse.ArgumentParser:
         default="google/gemini-2.5-flash-lite",
         help="Low-cost OpenRouter vision model for thumbnails and VidIQ graphs",
     )
+    research.add_argument(
+        "--workers",
+        default="auto",
+        help="Parallel Chrome workers: auto (resource-tuned) or a number",
+    )
+    research.add_argument(
+        "--worker-id",
+        type=int,
+        default=0,
+        help="Internal worker index; 0 = fleet supervisor when --workers > 1",
+    )
+    research.add_argument(
+        "--fleet",
+        action="store_true",
+        help="Supervise parallel workers (internal: set by the fleet launcher)",
+    )
+    research.add_argument(
+        "--headless", dest="headless", action="store_true", default=None,
+        help="Run browsers headless (default: config browser.headed)",
+    )
+    research.add_argument(
+        "--headed", dest="headless", action="store_false",
+        help="Run browsers with visible windows",
+    )
+    research.add_argument(
+        "--status-dir",
+        default=None,
+        help="Directory where workers write worker-*.json status files",
+    )
+    browsers = commands.add_parser(
+        "browsers",
+        help="Show live status of parallel research workers",
+    )
+    browsers.add_argument("--status-dir", default=None)
     report = commands.add_parser("report")
     report.add_argument("--full", action="store_true")
     pause = commands.add_parser("pause")
@@ -155,7 +212,7 @@ def parser() -> argparse.ArgumentParser:
     return root
 
 
-def runner_options(args, *, max_keywords: int = 1) -> RunnerOptions:
+def runner_options(args, *, max_keywords: int = 1, apps_config: dict | None = None) -> RunnerOptions:
     profile = getattr(args, "profile", "custom")
     preset = PROFILE_PRESETS.get(profile, {})
 
@@ -163,7 +220,7 @@ def runner_options(args, *, max_keywords: int = 1) -> RunnerOptions:
         value = getattr(args, name, None)
         return value if value is not None else preset.get(name, fallback)
 
-    return RunnerOptions(
+    options = RunnerOptions(
         low_rpm_share=getattr(args, "low_rpm_share", 60),
         high_rpm_share=getattr(args, "high_rpm_share", 40),
         max_keywords=option("max_keywords", max_keywords),
@@ -191,7 +248,21 @@ def runner_options(args, *, max_keywords: int = 1) -> RunnerOptions:
         vision_model=getattr(
             args, "vision_model", "google/gemini-2.5-flash-lite"
         ),
+        apps_config=apps_config,
+        worker_id=getattr(args, "worker_id", 0),
+        worker_count=_parse_workers(getattr(args, "workers", "auto")),
+        headless=getattr(args, "headless", None),
+        status_dir=getattr(args, "status_dir", None),
     )
+    return options
+
+
+def _parse_workers(value) -> int:
+    """Normalize --workers auto|N to an int (1 when unknown)."""
+    try:
+        return max(1, int(value))
+    except (TypeError, ValueError):
+        return 1
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -215,13 +286,17 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "generate":
         evaluations, _ = repository.report_rows()
         findings = json.dumps(evaluations[-10:], indent=2)
+        apps_config = settings.research_apps
+        include = resolve_include(apps_config)
+        blocked = resolve_blocked(apps_config)
+        catalog_hint = catalog_prompt_hint(args.method, include=include, blocked=blocked)
         prompt = build_prompt(
             args.method,
             args.subject,
             regions=args.regions,
             mobile_only=not args.allow_desktop,
             findings=findings,
-            include=args.include,
+            include=args.include or catalog_hint,
             exclude=args.exclude,
         )
         llm = settings.section("llm")
@@ -263,7 +338,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.method == "method1":
             keywords: list[str] = []
             for candidate in candidates:
-                assert isinstance(candidate, dict)
+                if not isinstance(candidate, dict) or not app_allowed(
+                    candidate.get("name", ""), include=include
+                ):
+                    continue
                 seeds = expand_method_one_seed(
                     candidate["name"],
                     pain_point=candidate.get("pain_point", ""),
@@ -279,7 +357,12 @@ def main(argv: list[str] | None = None) -> int:
                     llm_prompt_version="v2",
                 )
         else:
-            keywords = [str(candidate) for candidate in candidates]
+            keywords = [
+                str(candidate)
+                for candidate in candidates
+                if isinstance(candidate, str)
+            ]
+            keywords = filter_queries(keywords, blocked=blocked)
             categories = {"method2": "fix", "method3": "high_rpm"}
             repository.add_seeds(keywords, args.method, categories[args.method])
         print(json.dumps(keywords, indent=2))
@@ -288,19 +371,94 @@ def main(argv: list[str] | None = None) -> int:
         if recovered:
             log.info("recovered %s interrupted seed(s)", recovered)
         for item in ResearchRunner(
-            settings, repository, runner_options(args)
+            settings, repository, runner_options(args, apps_config=settings.research_apps)
         ).run_once():
             print(goldmine_alert(item), "\n")
+    elif args.command == "topics":
+        if args.reject_catalog:
+            result = repository.reject_catalog_ineligible()
+            print(json.dumps(result, indent=2))
+            return 0
+        if args.dedupe:
+            result = repository.defer_redundant_pending()
+            print(json.dumps(result, indent=2))
+            return 0
+        groups = repository.pending_context_groups(limit=args.limit)
+        if args.json:
+            print(json.dumps(groups, indent=2))
+            return 0
+        for group in groups:
+            marker = "COVERED " if group["covered"] else "PENDING "
+            dup = f" x{group['pending_count']}" if group["pending_count"] > 1 else ""
+            print(f"{marker}[{','.join(group['methods'])}]{dup} {group['context']}")
+            for item in group["keywords"]:
+                print(f"     #{item['id']}  {item['keyword']}")
+        print(
+            f"\n{len(groups)} unique pending context(s) shown; "
+            f"use --json for full detail or --dedupe to defer redundant pendings"
+        )
     elif args.command == "research":
         recovered = repository.recover_processing()
         if recovered:
             log.info("recovered %s interrupted seed(s)", recovered)
-        runner = ResearchRunner(settings, repository, runner_options(args))
+        workers = args.workers
+        worker_id = args.worker_id
+        if args.fleet:
+            from aurora.fleet import run_fleet
+
+            extra_args: list[str] = []
+            extra_args += ["--profile", args.profile]
+            if args.ai_guided:
+                extra_args += ["--ai-guided", "--ai-every", str(args.ai_every or 5)]
+                extra_args += [
+                    "--ai-provider", args.ai_provider,
+                    "--ai-subject", args.ai_subject or "",
+                ]
+                if args.ai_model:
+                    extra_args += ["--ai-model", args.ai_model]
+                if args.ai_api_key_env:
+                    extra_args += ["--ai-api-key-env", args.ai_api_key_env]
+                if args.ai_base_url:
+                    extra_args += ["--ai-base-url", args.ai_base_url]
+            if getattr(args, "vision_model", None):
+                extra_args += ["--vision-model", args.vision_model]
+
+            return run_fleet(
+                settings,
+                runner_options(args, apps_config=settings.research_apps),
+                requested=workers,
+                extra_args=extra_args,
+            )
+        if worker_id > 0:
+            profile = Path(
+                settings.section("storage").get("root", settings.report_dir)
+            ) / "browser-profiles" / f"worker-{worker_id}"
+            settings = with_browser_profile(settings, profile)
+        runner = ResearchRunner(settings, repository, runner_options(args, apps_config=settings.research_apps))
         try:
             for item in runner.run_loop():
                 print(goldmine_alert(item), "\n")
         except KeyboardInterrupt:
             print("\nStopped immediately. Run `aurora resume`, then `aurora research` to continue.")
+    elif args.command == "browsers":
+        from aurora.fleet import worker_statuses
+
+        status_dir = args.status_dir or (
+            Path(settings.section("storage").get("root", settings.report_dir)) / "workers"
+        )
+        statuses = worker_statuses(Path(status_dir))
+        if not statuses:
+            print(f"no worker status found in {status_dir}")
+            return 0
+        for status in statuses:
+            age = status.get("age_seconds", 0)
+            print(
+                f"worker {status['worker_id']}/{status['worker_count']} "
+                f"{status.get('stage','?'):<16} age={age:>6.1f}s "
+                f"headless={status.get('headless')} "
+                f"keyword={status.get('keyword','')[:60]}"
+            )
+        return 0
     elif args.command == "report":
         if args.full:
             evaluations, goldmines = repository.report_rows()
