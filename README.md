@@ -4,6 +4,7 @@
 
 [![Tests](https://github.com/bvbvbv54/Aurora/actions/workflows/aurora.yml/badge.svg)](https://github.com/bvbvbv54/Aurora/actions/workflows/aurora.yml)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+![Version](https://img.shields.io/badge/version-v1.0.2-38f9d7)
 [![YouTube Research](https://img.shields.io/badge/YouTube-keyword%20research-FF0000?logo=youtube)](https://github.com/bvbvbv54/Aurora)
 [![VidIQ Evidence](https://img.shields.io/badge/VidIQ-All--history%20evidence-2563EB)](https://github.com/bvbvbv54/Aurora)
 [![GitHub stars](https://img.shields.io/github/stars/bvbvbv54/Aurora?style=flat&logo=github)](https://github.com/bvbvbv54/Aurora/stargazers)
@@ -104,7 +105,18 @@ invisible while screenshots still work (they are captured over CDP).
 
 ## One-command control and monitoring
 
+For the easiest Windows startup, double-click `AURORA-v1.02.bat`. It runs the doctor checks first, opens the live terminal dashboard, shows the current OpenRouter/API cap state instead of crashing to a text file, and keeps the window open with elapsed time, all-time estimate, keyword stack, pending count, and worker activity.
+
 ```powershell
+# One-click equivalent from a terminal
+.\AURORA-v1.02.bat
+
+# Check Python, config, database, key, and last runtime/API error
+.\scripts\aurora-control.ps1 doctor
+
+# Live GUI terminal dashboard only
+.\scripts\aurora-control.ps1 dashboard
+
 # Start in the background
 .\scripts\aurora-control.ps1 start
 
@@ -138,7 +150,7 @@ project does not insert sample opportunities or synthetic engagement numbers.
 
 `resume` reports recent log activity when the process is healthy and automatically
 restarts a PID whose log has been silent for ten minutes. Transient AI/API errors do
-not end deep research; exhausted OpenRouter credits create a checkpoint and stop it.
+not end deep research; exhausted OpenRouter credits, quota, usage caps, or rate caps create a checkpoint, write `runtime-status.json` / `reports\startup-error.txt`, and show `WAITING_FOR_CREDITS` in the dashboard.
 
 ## Parallel research fleet
 

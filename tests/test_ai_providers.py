@@ -25,6 +25,8 @@ def test_provider_error_type_is_runtime_error():
 
 def test_only_credit_or_quota_errors_trigger_credit_stop():
     assert is_credit_exhaustion("HTTP 402 Payment Required")
+    assert is_credit_exhaustion("HTTP 429 rate limit")
+    assert is_credit_exhaustion("OpenRouter usage cap reached")
     assert is_credit_exhaustion("insufficient credits")
     assert is_credit_exhaustion("quota exceeded")
     assert not is_credit_exhaustion("HTTP 503 temporary upstream error")

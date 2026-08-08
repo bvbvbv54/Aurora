@@ -13,27 +13,36 @@
     <filter id="glow">
       <feGaussianBlur stdDeviation="10"/>
     </filter>
+    <clipPath id="cardClip">
+      <rect width="1200" height="360" rx="26"/>
+    </clipPath>
   </defs>
   <rect width="1200" height="360" rx="26" fill="url(#bg)"/>
-  <path d="M0 95 C190 10 350 185 560 72 C770 -40 940 140 1200 35"
-        fill="none" stroke="url(#aurora)" stroke-width="38" opacity=".22" filter="url(#glow)"/>
-  <path d="M0 108 C190 23 350 198 560 85 C770 -27 940 153 1200 48"
-        fill="none" stroke="url(#aurora)" stroke-width="5" opacity=".8"/>
-  <text x="74" y="176" fill="white" font-family="Segoe UI,Arial,sans-serif"
-        font-size="78" font-weight="800" letter-spacing="9">AURORA</text>
-  <text x="78" y="226" fill="#b9d8f5" font-family="Segoe UI,Arial,sans-serif"
-        font-size="26">Evidence-first YouTube opportunity research</text>
-  <g font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="600">
-    <rect x="78" y="263" width="195" height="44" rx="22" fill="#133b4e" stroke="#38f9d7"/>
-    <text x="104" y="291" fill="#7fffe8">AUTOCOMPLETE</text>
-    <rect x="292" y="263" width="195" height="44" rx="22" fill="#163454" stroke="#4facfe"/>
-    <text x="324" y="291" fill="#8acbff">VIDIQ CURVES</text>
-    <rect x="506" y="263" width="205" height="44" rx="22" fill="#2c2758" stroke="#9a7cff"/>
-    <text x="536" y="291" fill="#c6b8ff">GEMINI VISION</text>
-    <rect x="730" y="263" width="310" height="44" rx="22" fill="#41244f" stroke="#c471ed"/>
-    <text x="756" y="291" fill="#e7b2fb">GOLDMINE • GEMMINE • DIAMOND</text>
+  <g clip-path="url(#cardClip)">
+    <path d="M0 95 C190 10 350 185 560 72 C770 -40 940 140 1200 35"
+          fill="none" stroke="url(#aurora)" stroke-width="38" opacity=".22" filter="url(#glow)"/>
+    <path d="M0 108 C190 23 350 198 560 85 C770 -27 940 153 1200 48"
+          fill="none" stroke="url(#aurora)" stroke-width="5" opacity=".8"/>
+    <text x="74" y="176" fill="white" font-family="Segoe UI,Arial,sans-serif"
+          font-size="78" font-weight="800" letter-spacing="9">AURORA</text>
+    <text x="78" y="226" fill="#b9d8f5" font-family="Segoe UI,Arial,sans-serif"
+          font-size="26">Evidence-first YouTube opportunity research</text>
+    <g font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="600">
+      <rect x="78" y="263" width="195" height="44" rx="22" fill="#133b4e" stroke="#38f9d7"/>
+      <text x="104" y="291" fill="#7fffe8">AUTOCOMPLETE</text>
+      <rect x="292" y="263" width="195" height="44" rx="22" fill="#163454" stroke="#4facfe"/>
+      <text x="324" y="291" fill="#8acbff">VIDIQ CURVES</text>
+      <rect x="506" y="263" width="205" height="44" rx="22" fill="#2c2758" stroke="#9a7cff"/>
+      <text x="536" y="291" fill="#c6b8ff">GEMINI VISION</text>
+      <rect x="712" y="263" width="325" height="44" rx="22" fill="#41244f" stroke="#c471ed"/>
+      <text x="736" y="291" fill="#e7b2fb" font-size="16">GOLDMINE ? GEMMINE ? DIAMOND</text>
+    </g>
+    <circle cx="1082" cy="181" r="68" fill="none" stroke="url(#aurora)" stroke-width="8"/>
+    <path d="M1048 185 l23 23 47-56" fill="none" stroke="#fff" stroke-width="12"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <g font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="700">
+      <rect x="1038" y="276" width="98" height="36" rx="18" fill="#101c3a" stroke="#38f9d7" opacity=".95"/>
+      <text x="1061" y="300" fill="#7fffe8">v1.02</text>
+    </g>
   </g>
-  <circle cx="1090" cy="181" r="72" fill="none" stroke="url(#aurora)" stroke-width="8"/>
-  <path d="M1054 185 l24 24 49-58" fill="none" stroke="#fff" stroke-width="12"
-        stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

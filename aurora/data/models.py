@@ -21,6 +21,10 @@ class SeedKeyword(Base):
     pain_point: Mapped[str | None] = mapped_column(String, nullable=True)
     mobile_action: Mapped[str | None] = mapped_column(String, nullable=True)
     status: Mapped[str] = mapped_column(String(20), default="pending", index=True)
+    #: When a worker atomically claimed this seed (for stale-claim recovery).
+    claimed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    #: Worker id that claimed the seed; orphaned claims are recovered on restart.
+    claimed_by: Mapped[str | None] = mapped_column(String(16), nullable=True)
 
 
 class SerpResult(Base):

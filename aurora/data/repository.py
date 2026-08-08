@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Iterable
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import create_engine, delete, func, inspect, select, text, update
 from sqlalchemy.orm import sessionmaker
@@ -83,6 +84,8 @@ class Repository:
             "seed_keywords": {
                 "pain_point": "TEXT NULL",
                 "mobile_action": "TEXT NULL",
+                "claimed_at": "DATETIME NULL",
+                "claimed_by": "VARCHAR(16) NULL",
             },
             "serp_results": {
                 "duration_seconds": "INTEGER NULL",
@@ -322,58 +325,84 @@ class Repository:
             )
             return [candidates[0]]
 
+    def _balanced_cycle_index(self, session) -> int:
+        """Return completed seed count without building the full metrics dict."""
+        analyzed = session.scalar(
+            select(func.count(SeedKeyword.id)).where(
+                SeedKeyword.status == "analyzed"
+            )
+        ) or 0
+        goldmine_seeds = session.scalar(
+            select(func.count(SeedKeyword.id)).where(
+                SeedKeyword.status == "goldmine"
+            )
+        ) or 0
+        return int(analyzed + goldmine_seeds)
+
+    def _pending_seed_rows(self, session):
+        """Yield pending seed rows using lightweight columns instead of ORM objects."""
+        return session.execute(
+            select(SeedKeyword.id, SeedKeyword.keyword, SeedKeyword.source_method)
+            .where(SeedKeyword.status == "pending")
+            .order_by(SeedKeyword.id)
+        )
+
     def claim_next_pending_balanced(
         self,
         low_share: int = 60,
         high_share: int = 40,
         cycle_index: int | None = None,
+        worker_id: int = 0,
     ) -> SeedKeyword | None:
         """Atomically claim one pending seed for a worker process.
 
         The UPDATE is guarded by ``status == 'pending'`` so two parallel workers
         can never research the same seed: SQLite serializes the write and only
-        one of them gets a matching rowcount. Returns the claimed seed with
-        status already set to ``processing``, or None when the queue is empty.
+        one of them gets a matching rowcount. The claim is stamped with
+        ``claimed_at``/``claimed_by`` so a later session can tell the difference
+        between a live claim and a crashed worker's orphaned claim. Returns the
+        claimed seed with status already set to ``processing``, or None when the
+        queue is empty.
         """
         total = max(1, low_share + high_share)
         low_slots = max(1, round(5 * low_share / total))
-        if cycle_index is None:
-            cycle_index = self.metrics()["analyzed"] + self.metrics()["goldmine_seeds"]
-        want_low = cycle_index % 5 < low_slots
-        preferred = ("method1", "method2") if want_low else ("method3",)
         with self.sessions.begin() as session:
+            if cycle_index is None:
+                cycle_index = self._balanced_cycle_index(session)
+            want_low = cycle_index % 5 < low_slots
+            preferred = ("method1", "method2") if want_low else ("method3",)
             covered = self._terminal_covered_contexts(session)
             seen: set[str] = set()
-            candidates: list[SeedKeyword] = []
-            for row in session.scalars(
-                select(SeedKeyword)
-                .where(SeedKeyword.status == "pending")
-                .order_by(SeedKeyword.id)
-            ):
-                if not query_eligible(row.keyword):
+            candidates: list[tuple[int, str]] = []
+            for candidate_id, keyword, method in self._pending_seed_rows(session):
+                if not query_eligible(keyword):
                     continue
-                context = research_context_key(row.keyword)
+                context = research_context_key(keyword)
                 if context in covered or context in seen:
                     continue
                 seen.add(context)
-                candidates.append(row)
+                candidates.append((candidate_id, method))
             candidates.sort(
                 key=lambda seed: (
-                    0 if seed.source_method in preferred else 1,
-                    seed.id,
+                    0 if seed[1] in preferred else 1,
+                    seed[0],
                 )
             )
-            for candidate in candidates:
+            for candidate_id, _method in candidates:
                 claimed = session.execute(
                     update(SeedKeyword)
                     .where(
-                        SeedKeyword.id == candidate.id,
+                        SeedKeyword.id == candidate_id,
                         SeedKeyword.status == "pending",
                     )
-                    .values(status="processing")
+                    .values(
+                        status="processing",
+                        claimed_at=datetime.now(UTC),
+                        claimed_by=str(worker_id),
+                    )
                 )
                 if claimed.rowcount:
-                    return session.get(SeedKeyword, candidate.id)
+                    return session.get(SeedKeyword, candidate_id)
             return None
 
     def set_seed_status(self, seed_id: int, status: str) -> None:
@@ -381,6 +410,9 @@ class Repository:
             row = session.get(SeedKeyword, seed_id)
             if row:
                 row.status = status
+                if status != "processing":
+                    row.claimed_at = None
+                    row.claimed_by = None
 
     def pending_context_groups(self, limit: int = 50) -> list[dict]:
         """Group pending seeds by canonical research context for review.
@@ -485,11 +517,37 @@ class Repository:
                     rejected += 1
         return {"catalog_rejected": rejected}
 
-    def recover_processing(self) -> int:
-        """Return interrupted work to the pending queue when a process restarts."""
+    #: A claim older than this is considered orphaned (crashed/killed worker).
+    STALE_CLAIM_SECONDS = 60 * 20
+
+    def recover_processing(self, worker_id: int | None = None) -> int:
+        """Return interrupted work to the pending queue when a process restarts.
+
+        Safe in a parallel fleet:
+        - With ``worker_id``: only that worker's own stale claims are recovered,
+          so workers never steal a live peer's in-flight seed.
+        - Without ``worker_id`` (single-process startup): every stale claim is
+          recovered; fresh claims (recent ``claimed_at``) are left alone.
+        """
+        stale_before = datetime.now(UTC) - timedelta(
+            seconds=self.STALE_CLAIM_SECONDS
+        )
         with self.sessions.begin() as session:
+            where = [SeedKeyword.status == "processing"]
+            if worker_id is not None:
+                where.append(SeedKeyword.claimed_by == str(worker_id))
+            where.append(
+                (SeedKeyword.claimed_at < stale_before)
+                | (SeedKeyword.claimed_at.is_(None))
+            )
             result = session.execute(
-                update(SeedKeyword).where(SeedKeyword.status == "processing").values(status="pending")
+                update(SeedKeyword)
+                .where(*where)
+                .values(
+                    status="pending",
+                    claimed_at=None,
+                    claimed_by=None,
+                )
             )
             return result.rowcount
 
@@ -535,6 +593,43 @@ class Repository:
             for item in existing:
                 session.delete(item)
             session.add(row)
+
+    def recent_mines(self, limit: int = 12) -> list[dict]:
+        """Recently discovered mines, newest first, each with its tier label.
+
+        Classification comes from the invariant Opportunity Scoring Engine
+        (Diamond / GEMmine / Goldmine); certified records without a score still
+        appear as Goldmine.
+        """
+        with self.sessions() as session:
+            rows = (
+                session.execute(
+                    select(
+                        GoldmineKeyword.certified_keyword,
+                        GoldmineKeyword.score,
+                        GoldmineKeyword.rpm_category,
+                        GoldmineKeyword.discovered_at,
+                        OpportunityScoreRecord.classification,
+                    )
+                    .outerjoin(
+                        OpportunityScoreRecord,
+                        OpportunityScoreRecord.seed_keyword_id
+                        == GoldmineKeyword.seed_keyword_id,
+                    )
+                    .order_by(GoldmineKeyword.discovered_at.desc())
+                    .limit(limit)
+                )
+            ).all()
+        return [
+            {
+                "keyword": keyword,
+                "score": score,
+                "rpm_category": rpm_category,
+                "discovered_at": discovered_at,
+                "classification": classification or "Goldmine",
+            }
+            for keyword, score, rpm_category, discovered_at, classification in rows
+        ]
 
     def save_evaluation(self, row: KeywordEvaluation) -> None:
         with self.sessions.begin() as session:
@@ -873,6 +968,12 @@ class Repository:
                 "keywords": session.scalar(select(func.count(SeedKeyword.id))) or 0,
                 "analyzed": analyzed,
                 "completed_seeds": analyzed + goldmine_seeds,
+                "pending": session.scalar(
+                    select(func.count(SeedKeyword.id)).where(
+                        SeedKeyword.status == "pending"
+                    )
+                )
+                or 0,
                 "goldmines": session.scalar(
                     select(func.count(GoldmineKeyword.id))
                 )

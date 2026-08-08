@@ -20,11 +20,20 @@ def is_credit_exhaustion(error: Exception | str) -> bool:
         marker in text
         for marker in (
             "402",
+            "429",
+            "cap reached",
+            "hit cap",
+            "rate cap",
+            "usage cap",
             "credit",
+            "credits",
+            "rate limit",
             "insufficient balance",
             "insufficient quota",
             "payment required",
             "quota exceeded",
+            "usage limit",
+            "account limit",
         )
     )
 
