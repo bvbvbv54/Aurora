@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import atexit
 import json
 import logging
 import random
+import signal
 import time
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -120,6 +122,9 @@ class ResearchRunner:
         self.session_processed = 0
         self.metric_incomplete = False
         self.ai_credit_exhausted = False
+        self._shutdown_handlers_installed = False
+        self._shutdown_requested = False
+        self._seed_completed = False
         self._topic_graph = TopicGraph(db_path=self.repository.db_path)
         self._opp_scorer = OpportunityScorer()
 
@@ -130,10 +135,12 @@ class ResearchRunner:
             self.options.low_rpm_share,
             self.options.high_rpm_share,
             cycle_index=self.session_processed,
+            worker_id=self.options.worker_id,
         )
         if seed is None:
             return []
         self.last_processed_seed_id = seed.id
+        self._seed_completed = False
         self._write_worker_status("claimed", seed.keyword)
         try:
             opportunities = self._research(seed)
@@ -143,21 +150,25 @@ class ResearchRunner:
                 else "goldmine" if opportunities else "analyzed"
             )
             self.repository.set_seed_status(seed.id, status)
+            self._seed_completed = True
             self.session_processed += 1
             self._write_worker_status(status, seed.keyword)
             return opportunities
         except ProtectionEncountered as exc:
             log.warning("%s; progress retained and session stopped", exc)
             self.repository.set_seed_status(seed.id, "pending")
+            self._seed_completed = True
             self._write_worker_status("paused", seed.keyword)
             return []
         except AICreditExhausted:
             self.ai_credit_exhausted = True
             self.repository.set_seed_status(seed.id, "pending")
+            self._seed_completed = True
             self._write_worker_status("credit_exhausted", seed.keyword)
             return []
         except Exception:
             self.repository.set_seed_status(seed.id, "pending")
+            self._seed_completed = True
             raise
 
     def _write_worker_status(self, stage: str, keyword: str = "") -> None:
@@ -184,6 +195,7 @@ class ResearchRunner:
     def run_loop(self) -> list[dict]:
         opportunities: list[dict] = []
         completed = 0
+        self._install_shutdown_handlers()
         pending_seeds = self.repository.next_pending_balanced(
             self.options.low_rpm_share,
             self.options.high_rpm_share,
@@ -229,6 +241,50 @@ class ResearchRunner:
                     )
         self._write_worker_status("stopped")
         return opportunities
+
+    def _install_shutdown_handlers(self) -> None:
+        """Requeue the in-flight seed when the worker is stopped mid-keyword.
+
+        A graceful stop (Ctrl+C, `aurora pause`, task-kill, headed Chrome being
+        closed) returns the currently-claimed seed to ``pending`` so the next
+        run resumes exactly where the session stopped. Hard kills are covered
+        by stale-claim recovery on the next start.
+        """
+        if self._shutdown_handlers_installed:
+            return
+        self._shutdown_handlers_installed = True
+        for signum in (signal.SIGINT, signal.SIGTERM):
+            try:
+                signal.signal(signum, self._handle_shutdown_signal)
+            except (ValueError, OSError):  # pragma: no cover - non-main thread
+                continue
+        try:
+            signal.signal(signal.SIGBREAK, self._handle_shutdown_signal)
+        except (ValueError, OSError):  # pragma: no cover - non-main thread
+            pass
+        atexit.register(self._requeue_in_flight)
+
+    def _handle_shutdown_signal(self, signum, frame) -> None:
+        self._shutdown_requested = True
+        log.info("shutdown signal %s received; requeueing in-flight seed", signum)
+        self._requeue_in_flight()
+        raise SystemExit(0)
+
+    def _requeue_in_flight(self) -> None:
+        """Return the seed currently being processed back to ``pending``."""
+        if self.last_processed_seed_id is None:
+            return
+        if self._seed_completed:
+            return
+        try:
+            self.repository.set_seed_status(self.last_processed_seed_id, "pending")
+            log.info(
+                "requeued seed %s so the next session resumes it",
+                self.last_processed_seed_id,
+            )
+            self._write_worker_status("stopped")
+        except Exception:
+            log.debug("requeue of in-flight seed failed", exc_info=True)
 
     def _ai_expand(self, completed: int) -> bool:
         cycle_position = ((completed // self.options.ai_every) - 1) % 5

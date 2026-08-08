@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import sys
 from pathlib import Path
 
 from aurora.config import apply_storage_root, load_settings, with_browser_profile
@@ -186,6 +187,35 @@ def parser() -> argparse.ArgumentParser:
     resume.add_argument("--pause-file", default="aurora.pause")
     status = commands.add_parser("status")
     status.add_argument("--pause-file", default="aurora.pause")
+    dashboard = commands.add_parser(
+        "dashboard",
+        help="Ever-updating summary: mines (Diamond/GEM/Gold), research made, "
+        "elapsed time, pending queue, and live worker status",
+    )
+    dashboard.add_argument("--status-dir", default=None)
+    dashboard.add_argument(
+        "--pause-file", default="aurora.pause",
+        help="Pause file used to checkpoint before a Ctrl+C stop",
+    )
+    dashboard.add_argument(
+        "--pid-file",
+        default=None,
+        help="Stop the loop when this PID file disappears (research process died)",
+    )
+    dashboard.add_argument(
+        "--once",
+        action="store_true",
+        help="Print a single frame and exit instead of looping",
+    )
+    dashboard.add_argument(
+        "--glance-seconds", type=float, default=4.0,
+        help="How long to rest between refreshes in live mode",
+    )
+    dashboard.add_argument(
+        "--grace-seconds", type=float, default=120.0,
+        help="On Ctrl+C: how long to wait for a clean checkpoint before "
+        "force-stopping the research tree",
+    )
     commands.add_parser("rescore")
     commands.add_parser("repair-metrics")
     analyze = commands.add_parser("analyze-data")
@@ -398,7 +428,9 @@ def main(argv: list[str] | None = None) -> int:
             f"use --json for full detail or --dedupe to defer redundant pendings"
         )
     elif args.command == "research":
-        recovered = repository.recover_processing()
+        recovered = repository.recover_processing(
+            worker_id=(args.worker_id if getattr(args, "worker_id", 0) > 0 else None)
+        )
         if recovered:
             log.info("recovered %s interrupted seed(s)", recovered)
         workers = args.workers
@@ -490,6 +522,55 @@ def main(argv: list[str] | None = None) -> int:
                 indent=2,
             )
         )
+    elif args.command == "dashboard":
+        from aurora.stats import graceful_stop, live_loop, render_once
+
+        status_dir = args.status_dir or (
+            Path(settings.section("storage").get("root", settings.report_dir)) / "workers"
+        )
+        storage_root = Path(settings.section("storage").get("root") or settings.report_dir)
+        pause_file = Path(args.pause_file).resolve()
+        if args.once:
+            print(
+                "\n".join(
+                    render_once(
+                        repository,
+                        storage_root=storage_root,
+                        status_dir=Path(status_dir),
+                        pause_file=pause_file,
+                    )
+                )
+            )
+            return 0
+        pid_path = Path(args.pid_file).resolve() if args.pid_file else None
+        print("AURORA live dashboard; Ctrl+C stops research gracefully "
+              "(checkpoint, then stop).")
+        try:
+            for frame in live_loop(
+                repository,
+                storage_root=storage_root,
+                status_dir=Path(status_dir),
+                glance_seconds=args.glance_seconds,
+                pid_file=pid_path,
+                pause_file=pause_file,
+            ):
+                sys.stdout.write("\033[H\033[2J")
+                sys.stdout.write("\n".join(frame) + "\n")
+                sys.stdout.flush()
+        except KeyboardInterrupt:
+            if pid_path is not None:
+                print("\nCtrl+C received: checkpointing, then stopping research...")
+                graceful_stop(
+                    pause_file=pause_file,
+                    pid_file=pid_path,
+                    grace_seconds=args.grace_seconds,
+                )
+                print("research stopped; next `start` resumes from the checkpoint")
+            else:
+                print("\ndashboard stopped; workers keep running unless paused")
+            return 0
+        print("\ndashboard closed because the research process stopped")
+        return 0
     elif args.command == "rescore":
         count = rescore_collected_keywords(repository)
         print(f"rescored {count} keyword(s) with the invariant Opportunity Scoring Engine")

@@ -31,6 +31,25 @@ def test_seed_context_and_migration_columns_are_preserved(tmp_path):
     assert loaded.llm_prompt_version == "v2"
 
 
+def test_claim_metadata_clears_when_seed_leaves_processing(tmp_path):
+    repo = Repository(f"sqlite:///{tmp_path / 'claim_meta.db'}")
+    repo.initialize()
+    repo.add_seeds(["fix discord audio"], "method1", "low_rpm")
+    claimed = repo.claim_next_pending_balanced(worker_id=3)
+    assert claimed is not None
+    assert claimed.claimed_by == "3"
+    assert claimed.claimed_at is not None
+
+    repo.set_seed_status(claimed.id, "analyzed")
+    loaded = repo.next_pending(1)
+    assert loaded == []
+    with repo.sessions() as session:
+        row = session.get(type(claimed), claimed.id)
+        assert row.status == "analyzed"
+        assert row.claimed_by is None
+        assert row.claimed_at is None
+
+
 def test_recursive_lineage_balanced_queue_and_evaluation(tmp_path):
     repo = Repository(f"sqlite:///{tmp_path / 'recursive.db'}")
     repo.initialize()
